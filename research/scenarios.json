@@ -470,6 +470,74 @@
       "test": {
         "deposit": 1000
       }
+    },
+    {
+      "id": "X1",
+      "desc": "Putaran 8: W1 dengan deposit $3000 (lot L1 adaptif tidak terkunci 0.01)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "X2",
+      "desc": "Putaran 8: X1 + persentil lebih rapat L2..L5=40/60/75/85, SL P95",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_L2_Percentile": 40,
+        "Sniper_L3_Percentile": 60,
+        "Sniper_L4_Percentile": 75,
+        "Sniper_L5_Percentile": 85,
+        "Sniper_SL_Percentile": 95
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "X3",
+      "desc": "Putaran 8: X1 + belajar 40 hari",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "X4",
+      "desc": "Putaran 8: X1 + SL P95",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_SL_Percentile": 95
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "X5",
+      "desc": "Putaran 8: X1 + target BEP 0.8 (lot layer lebih ringan)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_BEP_Fraction": 0.8
+      },
+      "test": {
+        "deposit": 3000
+      }
     }
   ]
 }

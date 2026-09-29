@@ -192,3 +192,18 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Log: W1 menekan DD 2024 (P3) drastis dari 99% ke 32.4%, dan seluruh skenario W konsisten profit di P2 ($274–$1140) dan P1D ($355–$803) dgn DD < 35%.
 - Hal aneh: Lot L1 dinamis dihitung < 0.01 (0.003–0.006) sehingga broker mengeksekusi lot minimum 0.01, membuat risiko aktual per basket sedikit lebih besar dari target % balance.
 
+
+## Analisis Claude Code atas putaran 6–7
+- **Fitur v81 (U1–U5) DITOLAK.** Semua rugi di 2024 (−51% s/d −99%) dan sebagian besar rugi di P2.
+  Filter D1 memotong profit P1D dari $8,052 ke $2,512. Weekend hold (U2) tidak mengubah P1D dan memperburuk P2/P3.
+- **Adaptive Sniper = kemajuan pertama di 2024.** W1: P3 −21% (DD 32%, sebelumnya akun habis), P2 +38% (DD 27%),
+  P1D +76% (DD 15.6%). **Semua W profit di P2 dan P1D, dan tidak ada yang bangkrut di P3.** W1 paling seimbang.
+  W2 (risiko 20%) profit P2 terbesar, tetapi DD 2024 56%.
+- Harga keamanannya: profit P1D jauh lebih kecil (W1 +76% vs T0 +805%), karena L2 jarang terbentuk
+  (L2 P1D di $24; hanya 3 basket L2) dan L1 dikunci 0.01.
+- **Masalah 1: lot L1 terhitung 0.003–0.006, dipaksa jadi 0.01** di deposit $1000, sehingga lot adaptif
+  belum pernah benar-benar diuji. Putaran 8 memakai deposit $3000.
+- **Masalah 2: SL P98 tidak stabil.** Di 2024, P98 = 9012 pips ($90) padahal P93 = 2755. Dengan ~20 hari data,
+  P98 hanya ditentukan 1–2 swing ekstrem. Diuji SL P95 (X4) dan belajar 40 hari (X3).
+- Putaran 8 (deposit $3000, P3/P2/P1D): X1 = W1, X2 = grid lebih rapat + SL P95, X3 = belajar 40 hari,
+  X4 = SL P95, X5 = lot layer lebih ringan (BEP 0.8).

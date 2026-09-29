@@ -162,8 +162,20 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   (3) stop basket 20% balance mulai L2 (fitur lama Use_Side_Basket_Loss_Guard).
   Diuji di P3, P2, dan P1D, supaya perbaikan untuk 2024 tidak merusak hasil periode lain.
 
+## Putaran 6
+| run_id | net_profit | max_dd_pct | rel_dd_pct | largest_order_loss | losing_baskets | depth_L4plus |
+|---|---|---|---|---|---|---|
+| U1 (P3/P2/P1D) | -512.37 / -422.70 / +2512.07 | 66.97% / 88.79% / 23.20% | 66.97% / 88.79% / 23.20% | -134.09 / -272.72 / -131.33 | 22 / 7 / 1 | 2 / 3 / 0 |
+| U2 (P3/P2/P1D) | -994.86 / -203.72 / +8052.03 | 99.57% / 77.99% / 25.83% | 99.57% / 77.99% / 25.83% | -178.78 / -398.22 / -296.94 | 24 / 7 / 2 | 2 / 4 / 0 |
+| U3 (P3/P2/P1D) | -841.44 / +176.24 / +3507.13 | 89.74% / 58.19% / 29.44% | 89.74% / 58.19% / 29.44% | -83.47 / -147.93 / -383.53 | 50 / 10 / 5 | 0 / 0 / 0 |
+| U4 (P3/P2/P1D) | -599.38 / -585.26 / +2512.07 | 81.17% / 88.79% / 23.20% | 81.17% / 88.79% / 23.20% | -221.94 / -272.72 / -131.33 | 13 / 7 / 1 | 3 / 3 / 0 |
+| U5 (P3/P2/P1D) | -554.83 / -69.29 / +1136.82 | 75.24% / 57.79% / 26.46% | 75.24% / 57.79% / 26.46% | -91.31 / -140.34 / -80.24 | 19 / 9 / 4 | 0 / 0 / 0 |
+- Log: "WEEKEND: tutup basket" terkonfirmasi aktif pada U2/U4/U5 di hari Jumat ketika net basket sedang minus.
+- Spread 20 valid di semua run. Filter D1 (U1/U4/U5) memangkas profit P1D ($2512 vs $8052). U3 satu-satunya profit di P2 (+176.24, DD 58%), dan membatasi depth_L4plus=0 di semua periode.
+
 ## Rencana putaran 7 (EA v82 Adaptive Sniper)
 - v82 = v81 + mode Adaptive Sniper (lihat docs/desain-v82-adaptive-sniper.md): jarak layer = persentil swing H1
   20 hari, lot L2+ menargetkan BEP dalam jarak pantulan biasa, SL basket di P98, lot L1 dari anggaran risiko per basket.
-- Putaran 6 (U1–U5) belum dijalankan; digabung ke putaran 7 memakai EA v82 (fitur v81 identik, Sniper default mati).
+- Putaran 6 (U1–U5) sudah selesai dijalankan oleh Antigravity (lihat hasil di atas).
 - Skenario Sniper W1–W5 (deposit $1000). Prioritas: P3 (2024) → P2 → P1D.
+

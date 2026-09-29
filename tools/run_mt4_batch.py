@@ -175,8 +175,21 @@ def main():
 
                 print(f"[{run_id}] menjalankan backtest ... ({sc.get('desc', '')})", flush=True)
                 import time
-                subprocess.run(["schtasks", "/run", "/tn", "LaunchMT4"], capture_output=True, check=False)
-                time.sleep(5)
+                # Pastikan terminal lama sudah benar-benar mati
+                while True:
+                    res = subprocess.run(["tasklist", "/FI", "IMAGENAME eq terminal.exe"], capture_output=True, text=True)
+                    if "terminal.exe" not in res.stdout:
+                        break
+                    time.sleep(1)
+                time.sleep(2)
+
+                # Jalankan LaunchMT4 dan pastikan terminal.exe mulai berjalan
+                for _ in range(5):
+                    subprocess.run(["schtasks", "/run", "/tn", "LaunchMT4"], capture_output=True, check=False)
+                    time.sleep(3)
+                    res = subprocess.run(["tasklist", "/FI", "IMAGENAME eq terminal.exe"], capture_output=True, text=True)
+                    if "terminal.exe" in res.stdout:
+                        break
 
                 start_t = time.time()
                 report = None

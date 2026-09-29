@@ -13,3 +13,5 @@ Riset EA BioOnePro (MT4, XAUUSD).
 | `tools/run_mt4_batch.py` | Jalankan batch backtest MT4 dari `research/scenarios.json` (di Windows) |
 | `research/` | Skenario uji, hasil (`results.csv`), dan catatan |
 | `ANTIGRAVITY.md` | Brief tugas backtest untuk Antigravity |
+| `prompts/antigravity-putaran-01.md` | Prompt siap-salin untuk Antigravity |
+| `penelitian/README.md` | Struktur folder penelitian di komputer |

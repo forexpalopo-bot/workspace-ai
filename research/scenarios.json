@@ -17,19 +17,28 @@
       "id": "P2",
       "from": "2025.01.02",
       "to": "2025.09.26",
-      "desc": "Periode stres (termasuk volatilitas April 2025)"
+      "desc": "Periode stres (termasuk volatilitas April 2025) | data Demo01 2 digit: spread 20 point = $0.20",
+      "test": {
+        "spread": 20
+      }
     },
     {
       "id": "P3",
       "from": "2024.01.02",
       "to": "2024.12.31",
-      "desc": "Out-of-sample 2024 (tren naik kuat emas)"
+      "desc": "Out-of-sample 2024 (tren naik kuat emas) | data Demo01 2 digit: spread 20 point = $0.20",
+      "test": {
+        "spread": 20
+      }
     },
     {
       "id": "P1D",
       "from": "2025.09.29",
       "to": "2026.09.25",
-      "desc": "Periode P1 dengan data server Demo01 (cek konsistensi sumber data)"
+      "desc": "Periode P1 dengan data server Demo01 (cek konsistensi sumber data) | data Demo01 2 digit: spread 20 point = $0.20",
+      "test": {
+        "spread": 20
+      }
     }
   ],
   "scenarios": [

@@ -140,6 +140,7 @@ def main():
             dest = os.path.join(runs_dir, f"{run_id}.htm")
             test = dict(cfg["test"])
             test.update({"from": period["from"], "to": period["to"]})
+            test.update(period.get("test", {}))  # mis. spread khusus data 2 digit
             test.update(sc.get("test", {}))
 
             if os.path.exists(dest) and os.path.getsize(dest) > 1000:

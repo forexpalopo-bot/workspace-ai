@@ -120,3 +120,15 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Di P1 T0 bisa trade karena FXT lama pre-generated punya floating spread ~20-30 pips di dalam tick data.
 - Solusi agar T0/T6/V1 jalan di P2/P3: set Use_Dynamic_Spread_Filter=false atau Absolute_Max_Spread_Pips>=100.
 - Log: Sesuai instruksi butir 3, proses berhenti karena T0 trade=0. Deposit tester di-restore ke 500.
+
+## Analisis Claude Code atas putaran 5
+- **Diagnosis Antigravity soal T0 sebagian benar, tapi solusinya bukan mematikan filter spread.** Data Demo01
+  berformat **2 digit** (harga 2068.36), sedangkan Live04 3 digit. Di data 2 digit, TestSpread 100 point = **$1.00**
+  (100 pips EA) > batas 45 pips, sehingga semua entry diblokir. Solusinya: pakai spread 20 point (= $0.20, realistis).
+  Periode P2/P3/P1D sekarang memakai "test": {"spread": 20} secara otomatis. Filter spread tetap aktif.
+- **S0 (setting v77 asli, $500) di 2024 bangkrut**: −$497, DD 99.6%, 41 basket rugi, akun habis Juni 2024.
+  Basket terburuk adalah SELL L3 melawan reli emas April 2024 yang ditutup paksa oleh weekend close Jumat 19:00
+  (−$190, −$188) dan cut-loss 50% (−$159). Ini bukti pertama bahwa **hasil P1 tidak otomatis berlaku di periode lain**.
+- Catatan: spread di S0_P3 $0.20, sedangkan S0_P1 hanya $0.02. Sebagian perbedaan hasil mungkin karena biaya.
+  P1D (P1 dengan data Demo01 dan spread $0.20) akan menunjukkan seberapa besar pengaruhnya.
+- Putaran 5b: jalankan T0/T6/V1 di P3 dan P2, dan T0/S0 di P1D.

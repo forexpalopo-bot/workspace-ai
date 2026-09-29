@@ -19,3 +19,17 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   * Skenario terbaik kriteria DD: **S5** (max DD 19.36%, rel DD 43.21%, net $3,929.24, net/DD 5.64).
   * Skenario terbaik mitigasi worst order: **S6** (worst order -$91.41 vs -$1,791.88 baseline).
   * S3 gagal (DD 78.74%, net $502.09) karena pair close L2 memotong recovery terlalu dini.
+
+## Analisis Claude Code atas putaran 1
+- S0 ≈ v77 (net $36,335 vs $36,260, DD 43.48% identik; beda kecil dari data tick). v79 default = v77. ✔
+- **Pair Close (S2/S3/S4/S6) DITOLAK.** Loss order terbesar memang turun (−$1,792 → −$434), tetapi
+  relative DD naik ke 61–79%, basket sampai L4+ (9–12 kali, sebelumnya 0), dan total lot basket naik
+  (2.66 → 7.05). Penyebabnya: setelah layer terbaru ditutup, grid membuka layer itu lagi, sehingga basket
+  berputar dan makin dalam. Fitur tetap ada di kode, tetapi jangan dipakai.
+- Escape Guard L3 (S8): net −17%, DD tetap ~43%. Tidak membantu.
+- **Kandidat terbaik: S5 (Survive_Adverse_Move_Pips=8000)**: max DD 19.36%, loss order terbesar −$145,
+  net/DD 5.64. S7 (Lot_Base 800) mirip, tetapi sedikit lebih buruk.
+- Relative DD 43.21% di S5/S6/S7 terjadi di **basket pertama (30 Sep 2025, balance ~$510)**. Dengan balance
+  $500, lot sudah minimum (0.01), jadi pembatas lot belum bekerja. Dengan Survive $80, lot 0.01 baru sesuai
+  target risiko mulai balance ≈ $800. Putaran 2 menguji ini (R4, deposit $1000).
+- Spread 100 + kunci komisi (S1) menurunkan net ~7% dibanding S0. Wajar.

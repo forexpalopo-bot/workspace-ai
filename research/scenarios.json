@@ -1,32 +1,173 @@
 {
   "ea_source": "ea/BioOnePro_Optimized_v79_Apex_PairClose.mq4",
-  "test": { "symbol": "XAUUSD", "period": "M1", "model": 0, "spread": 100 },
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 100
+  },
   "periods": [
-    { "id": "P1", "from": "2025.09.29", "to": "2026.09.25", "desc": "Periode yang sama dengan backtest v77" },
-    { "id": "P2", "from": "2025.01.02", "to": "2025.09.26", "desc": "Periode stres (termasuk volatilitas April 2025)" }
+    {
+      "id": "P1",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Periode yang sama dengan backtest v77"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.09.26",
+      "desc": "Periode stres (termasuk volatilitas April 2025)"
+    }
   ],
   "scenarios": [
-    { "id": "S0", "desc": "Baseline v79 default, spread 20 (harus sama dengan v77)",
-      "test": { "spread": 20 }, "params": {} },
-    { "id": "S1", "desc": "Biaya realistis: spread 100 + kunci komisi L1",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10 } },
-    { "id": "S2", "desc": "S1 + Pair Close mulai L3",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10,
-                  "Use_Partial_Pair_Close": true, "Pair_Close_Min_Layers": 3, "Pair_Close_Min_Net_Dollar": 1.0 } },
-    { "id": "S3", "desc": "S1 + Pair Close mulai L2",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10,
-                  "Use_Partial_Pair_Close": true, "Pair_Close_Min_Layers": 2, "Pair_Close_Min_Net_Dollar": 1.0 } },
-    { "id": "S4", "desc": "S1 + Pair Close L3 hanya saat DD basket >= 10%",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10,
-                  "Use_Partial_Pair_Close": true, "Pair_Close_Min_Layers": 3, "Pair_Close_Min_Basket_DD_Pct": 10.0 } },
-    { "id": "S5", "desc": "S1 + lot bertahan $80",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Survive_Adverse_Move_Pips": 8000 } },
-    { "id": "S6", "desc": "S1 + lot bertahan $80 + Pair Close L3",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Survive_Adverse_Move_Pips": 8000,
-                  "Use_Partial_Pair_Close": true, "Pair_Close_Min_Layers": 3 } },
-    { "id": "S7", "desc": "S1 + Lot_Base_Balance_Safe 800",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Lot_Base_Balance_Safe": 800 } },
-    { "id": "S8", "desc": "S1 + Escape Guard mulai L3",
-      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Escape_Min_Layers": 3 } }
+    {
+      "id": "S0",
+      "desc": "Baseline v79 default, spread 20 (harus sama dengan v77)",
+      "test": {
+        "spread": 20
+      },
+      "params": {}
+    },
+    {
+      "id": "S1",
+      "desc": "Biaya realistis: spread 100 + kunci komisi L1",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10
+      }
+    },
+    {
+      "id": "S2",
+      "desc": "S1 + Pair Close mulai L3",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Partial_Pair_Close": true,
+        "Pair_Close_Min_Layers": 3,
+        "Pair_Close_Min_Net_Dollar": 1.0
+      }
+    },
+    {
+      "id": "S3",
+      "desc": "S1 + Pair Close mulai L2",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Partial_Pair_Close": true,
+        "Pair_Close_Min_Layers": 2,
+        "Pair_Close_Min_Net_Dollar": 1.0
+      }
+    },
+    {
+      "id": "S4",
+      "desc": "S1 + Pair Close L3 hanya saat DD basket >= 10%",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Partial_Pair_Close": true,
+        "Pair_Close_Min_Layers": 3,
+        "Pair_Close_Min_Basket_DD_Pct": 10.0
+      }
+    },
+    {
+      "id": "S5",
+      "desc": "S1 + lot bertahan $80",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000
+      }
+    },
+    {
+      "id": "S6",
+      "desc": "S1 + lot bertahan $80 + Pair Close L3",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_Partial_Pair_Close": true,
+        "Pair_Close_Min_Layers": 3
+      }
+    },
+    {
+      "id": "S7",
+      "desc": "S1 + Lot_Base_Balance_Safe 800",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Lot_Base_Balance_Safe": 800
+      }
+    },
+    {
+      "id": "S8",
+      "desc": "S1 + Escape Guard mulai L3",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Escape_Min_Layers": 3
+      }
+    },
+    {
+      "id": "R1",
+      "desc": "Putaran 2: lot bertahan $70",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 7000
+      }
+    },
+    {
+      "id": "R2",
+      "desc": "Putaran 2: lot bertahan $90",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 9000
+      }
+    },
+    {
+      "id": "R3",
+      "desc": "Putaran 2: lot bertahan $100",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 10000
+      }
+    },
+    {
+      "id": "R4",
+      "desc": "Putaran 2: S5 (bertahan $80) dengan deposit $1000",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "R5",
+      "desc": "Putaran 2: S5 dengan spread 200 (uji biaya berat)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000
+      },
+      "test": {
+        "spread": 200
+      }
+    },
+    {
+      "id": "R6",
+      "desc": "Putaran 2: bertahan $80 + cut-loss 35%",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Percent_Loss": 35
+      }
+    }
   ]
 }

@@ -65,6 +65,22 @@ def write_set(path, params):
             f.write(f"{k}={to_set_value(v)}\n")
 
 
+def set_deposit(ini_paths, deposit):
+    """Tulis/ubah baris deposit= di file ini tester MT4 tanpa menghapus isi lainnya."""
+    for path in ini_paths:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        if os.path.exists(path):
+            text = open(path, encoding="latin-1").read()
+            if re.search(r"^deposit=", text, re.M):
+                text = re.sub(r"^deposit=.*$", f"deposit={deposit}", text, flags=re.M)
+            else:
+                text = text.replace("<common>\n", f"<common>\ndeposit={deposit}\n", 1)
+        else:
+            text = f"<common>\npositions=2\ndeposit={deposit}\ncurrency=USD\nfitnes=0\ngenetic=1\n</common>\n"
+        with open(path, "w", encoding="latin-1") as f:
+            f.write(text)
+
+
 def write_ini(path, expert, set_name, report_name, test):
     lines = [
         "[Common]",
@@ -112,14 +128,9 @@ def main():
     runs_dir = os.path.join(REPO, "backtests", "runs")
     os.makedirs(runs_dir, exist_ok=True)
 
-    # Pastikan deposit awal $500 terkonfigurasi di tester
+    # Deposit awal tester diatur per run lewat set_deposit() (default $500, bisa di-override "test": {"deposit": ...})
     tester_ini = os.path.join(args.data_dir, "tester", f"{expert}.ini")
-    if not os.path.exists(tester_ini):
-        with open(tester_ini, "w", encoding="latin-1") as f:
-            f.write("<common>\npositions=2\ndeposit=500\ncurrency=USD\nfitnes=0\ngenetic=1\n</common>\n")
     config_ini = os.path.join(args.data_dir, "config", f"{expert}.ini")
-    if not os.path.exists(config_ini):
-        shutil.copyfile(tester_ini, config_ini)
 
     for sc in cfg["scenarios"]:
         if only and sc["id"] not in only:
@@ -140,6 +151,7 @@ def main():
                     print(f"[{run_id}] PERINGATAN: input tidak dikenal di EA: {unknown}")
                 params.update({k: to_set_value(v) for k, v in sc.get("params", {}).items()})
 
+                set_deposit([tester_ini, config_ini], test.get("deposit", 500))
                 set_name = f"{run_id}.set"
                 write_set(os.path.join(args.data_dir, "tester", set_name), params)
                 ini_path = os.path.join(args.data_dir, f"bt_{run_id}.ini")
@@ -195,7 +207,7 @@ def main():
                     shutil.copyfile(gif_src, os.path.join(runs_dir, f"{run_id}.gif"))
 
             row = {"run_id": run_id, "scenario": sc["id"], "period": period["id"],
-                   "spread": test["spread"], "desc": sc.get("desc", "")}
+                   "spread": test["spread"], "deposit": test.get("deposit", 500), "desc": sc.get("desc", "")}
             row.update(analyze(dest))
             new = not os.path.exists(args.results)
             import csv

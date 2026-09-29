@@ -132,3 +132,16 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Catatan: spread di S0_P3 $0.20, sedangkan S0_P1 hanya $0.02. Sebagian perbedaan hasil mungkin karena biaya.
   P1D (P1 dengan data Demo01 dan spread $0.20) akan menunjukkan seberapa besar pengaruhnya.
 - Putaran 5b: jalankan T0/T6/V1 di P3 dan P2, dan T0/S0 di P1D.
+
+## Putaran 5b
+| run_id | deposit | net_profit | max_dd_pct | rel_dd_pct | largest_order_loss | losing_baskets | depth_L3 | depth_L4plus |
+|---|---|---|---|---|---|---|---|---|
+| S0_P3 | 500 | -497.41 | 99.56% | 99.56% | -79.74 | 41 | 6 | 0 |
+| T0/T6_P3 | 1000 | -996.31 | 99.66% | 99.66% | -126.62 | 26 | 9 | 1 |
+| V1_P3 | 1500 | -759.55 | 65.83% | 65.83% | -189.23 | 30 | 16 | 6 |
+| S0_P2 | 500 | 1279.40 | 21.29% | 23.90% | -88.92 | 28 | 4 | 0 |
+| T0_P2 | 1000 | 851.82 | 61.67% | 61.67% | -392.28 | 8 | 7 | 3 |
+| T6/V1_P2 | 1000/1500 | 219.92/111.11 | 55.25%/53.40% | 55.25%/53.40% | -242.43/-405.56 | 7 | 5 | 2 |
+| S0_P1D | 500 | 44702.36 | 46.28% | 49.12% | -2462.36 | 66 | 16 | 0 |
+| T0_P1D | 1000 | 8052.03 | 22.35% | 25.83% | -296.94 | 2 | 16 | 0 |
+- Log: Spread 20 terverifikasi di semua run (MQ 25%). 2024 (P3) bull run bobol semua setting; P1D konsisten dgn Live04.

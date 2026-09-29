@@ -188,3 +188,24 @@ CUT-LOSS 50.0% tercapai bila harga bergerak ~6xxx pips (6x.xx harga) melawan L1.
    Satu tahun data tanpa satu pun basket L4 belum membuktikan ketahanan grid.
 5. Untuk akun live, pertimbangkan `Stop_After_Account_Loss=true`. Dengan begitu EA berhenti setelah cut-loss
    besar dan tidak langsung lanjut dengan lot baru.
+
+---
+
+## 6. v79: Partial Pair Close (fokus pada loss besar)
+
+Ada 78 order rugi di backtest v77 (total −$15,813). **Semuanya berada di dalam basket yang akhirnya profit**,
+dan hampir semuanya adalah L1: −$9,265 di basket L2 dan −$5,622 di basket L3. Tiga yang terbesar
+(−$1,792, −$1,652, −$926) adalah L1 di basket 3 layer. Pola jam entry tidak terlihat jelas, jadi filter
+jam tidak dipakai (rawan overfitting).
+
+Kerugian itu muncul karena L1 terus ditahan sampai seluruh basket profit, dan selama itu drawdown floating membesar.
+`Use_Partial_Pair_Close` memangkasnya secara bertahap:
+
+1. Saat basket punya ≥ `Pair_Close_Min_Layers` layer, layer terbaru sedang profit, dan layer tertua (L1) rugi,
+2. layer terbaru ditutup, lalu sebagian lot L1 ditutup sebanyak yang bisa dibayar profit tadi,
+3. dengan syarat net pasangan tetap ≥ `Pair_Close_Min_Net_Dollar` × skala lot. Jadi setiap penutupan tetap untung.
+4. Opsional: hanya aktif bila rugi basket ≥ `Pair_Close_Min_Basket_DD_Pct` % balance.
+
+Efek yang diharapkan: lot L1 yang paling rugi berkurang tiap kali harga memantul, sehingga drawdown puncak
+dan loss order terbesar menurun. Konsekuensinya, sebagian profit pemulihan basket ikut berkurang.
+**Ini hipotesis yang harus diuji di MT4.** Skenario S2–S4 dan S6 di `research/scenarios.json` dibuat untuk itu.

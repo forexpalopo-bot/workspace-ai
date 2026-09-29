@@ -1,0 +1,9 @@
+run_id,scenario,period,spread,deposit,desc,report,net_profit,profit_factor,max_dd_money,max_dd_pct,rel_dd_pct,net_per_dd,orders,baskets,losing_baskets,worst_basket,largest_order_loss,gross_order_loss,depth_L1,depth_L2,depth_L3,depth_L4plus,max_basket_lots
+T0_P1,T0,P1,100,1000,Putaran 3: baseline R4 di EA v80 (harus sama dengan R4),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T0_P1.htm,7249.38,3.19,1415.16,21.12,24.93,5.12,509,424,0,0.17,-257.46,-3304.87,352,59,13,0,0.36
+T1_P1,T1,P1,100,1000,Putaran 3: PSAR gate averaging M5,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T1_P1.htm,2813.0,2.22,763.27,22.08,57.56,3.69,505,423,1,-594.76,-241.2,-2309.61,353,58,12,0,0.25
+T2_P1,T2,P1,100,1000,Putaran 3: PSAR gate averaging M15,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T2_P1.htm,1780.67,1.42,2366.29,60.25,60.25,0.75,488,420,2,-1963.42,-831.36,-4202.25,364,45,10,1,0.31
+T3_P1,T3,P1,100,1000,Putaran 3: PSAR filter L1 M15,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T3_P1.htm,1700.66,2.49,543.25,21.92,22.14,3.13,248,201,0,0.17,-110.64,-1143.36,163,29,9,0,0.14
+T4_P1,T4,P1,100,1000,Putaran 3: PSAR filter L1 H1,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T4_P1.htm,2618.45,3.43,696.4,21.47,21.99,3.76,309,258,1,-1.07,-123.44,-1079.66,213,39,6,0,0.18
+T5_P1,T5,P1,100,1000,Putaran 3: PSAR gate M15 + filter L1 M15,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T5_P1.htm,1038.39,1.8,805.37,46.24,46.24,1.29,239,198,1,-268.42,-164.79,-1291.68,166,24,7,1,0.17
+T6_P1,T6,P1,100,1000,Putaran 3: bertahan $100 (DD terendah),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T6_P1.htm,2636.14,3.12,387.66,19.25,21.86,6.8,509,424,1,-1.07,-74.56,-1244.73,352,59,13,0,0.1
+T7_P1,T7,P1,100,1000,Putaran 3: bertahan $100 + PSAR gate M15 + filter L1 M15,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T7_P1.htm,602.09,1.74,472.91,32.52,32.52,1.27,239,198,1,-158.97,-109.86,-811.21,166,24,7,1,0.1

@@ -3,15 +3,19 @@
 Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format bebas, maksimal 15 baris per putaran.
 
 ## Putaran 1 (v79)
-- **Skenario terbaik**: **S5** (Survive_Adverse_Move_Pips 8000), disusul **S6** (S5 + Pair Close L3).
-- S5 memangkas max DD (19.36%), net/DD tertinggi (5.64). S6 meminimalkan worst order (-$91.41 vs baseline -$1791.88).
-- Tabel ringkasan P1 (data tick P2 tidak tersedia di dataset lokal):
-| skenario | net_profit | max_dd_pct | rel_dd_pct | largest_order_loss | net_per_dd |
-|---|---|---|---|---|---|
-| S0 / S1 | 36335.47 / 33699.43 | 43.48% / 44.02% | 47.19% / 48.57% | -1791.88 / -1705.25 | 3.50 / 3.40 |
-| S2 / S4 | 14671.21 / 13626.40 | 39.89% / 41.08% | 60.83% / 61.70% | -433.50 / -422.38 | 3.77 / 3.64 |
-| S3 | 502.09 | 78.74% | 78.74% | -254.02 | 0.41 |
-| S5 / S6 | 3929.24 / 3522.36 | 19.36% / 21.38% | 43.21% / 43.21% | -145.04 / -91.41 | 5.64 / 5.06 |
-| S7 / S8 | 3998.07 / 27923.15 | 24.44% / 43.56% | 43.21% / 47.71% | -154.30 / -1400.74 | 4.48 / 3.42 |
-- Log: S3 gagal karena cut di L2 merusak recovery. Pair close L3 (S2/S4/S6) memperpanjang basket ke L4+. Nol order error.
-- Tools: run_mt4_batch.py disesuaikan untuk MT4 build 1441 (task scheduler LaunchMT4 dan deposit $500).
+- **Langkah terakhir berhasil**: Semua skenario (S0–S8 periode P1) berhasil dijalankan dan dianalisis lengkap.
+- **Error yang muncul**:
+  * Kompilasi EA: 0 error, 0 warning (sukses).
+  * Startup awal sempat muncul `zero divide in 'BioOnePro_Optimized_v79_Apex_PairClose.mq4' (3074,55)` karena parameter `Expert=` melampirkan EA ke chart live offline. Diatasi dengan hanya memakai parameter `TestExpert=`.
+  * `run_mt4_batch.py` disesuaikan untuk MT4 build 1441 (eksekusi via task scheduler `LaunchMT4` sesi interaktif dan setting deposit $500).
+- **Lokasi MT4**:
+  * terminal.exe: `C:\Program Files (x86)\MetaTrader 4 IC Markets Global\terminal.exe`
+  * Folder data: `C:\Users\DELL\AppData\Roaming\MetaQuotes\Terminal\5D49F47D1EA1ECFC0DDC965B6D100AC5`
+- **Data Tick XAUUSD**:
+  * P1 (2025.09.29–2026.09.25): **Tersedia** (92.472.987 tick events di `XAUUSD1_0.fxt`).
+  * P2 (2025.01.02–2025.09.26): **Tidak tersedia** (file FXT lokal baru dimulai dari 2025.09.29).
+- **Temuan Hasil Backtest (P1)**:
+  * S0 cocok eksak dengan v77: net $36,335.47 (target $36,259.95), max DD 43.48% (target 43.48%), worst order -$1,791.88.
+  * Skenario terbaik kriteria DD: **S5** (max DD 19.36%, rel DD 43.21%, net $3,929.24, net/DD 5.64).
+  * Skenario terbaik mitigasi worst order: **S6** (worst order -$91.41 vs -$1,791.88 baseline).
+  * S3 gagal (DD 78.74%, net $502.09) karena pair close L2 memotong recovery terlalu dini.

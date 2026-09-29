@@ -145,3 +145,19 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 | S0_P1D | 500 | 44702.36 | 46.28% | 49.12% | -2462.36 | 66 | 16 | 0 |
 | T0_P1D | 1000 | 8052.03 | 22.35% | 25.83% | -296.94 | 2 | 16 | 0 |
 - Log: Spread 20 terverifikasi di semua run (MQ 25%). 2024 (P3) bull run bobol semua setting; P1D konsisten dgn Live04.
+
+## Analisis Claude Code atas putaran 5b
+- **P1D ≈ Live04** (T0: net $8,052, DD 22.4% vs $7,249 / 21.1%). Data Demo01 dan spread $0.20 tidak mengubah
+  kesimpulan untuk P1, jadi hasil P1 bukan sekadar efek spread murah.
+- **2024 (P3): semua setting rugi.** T0 dan T6 −99.7% (hasilnya identik karena di balance $1000 lot sudah minimum
+  0.01), V1 −51% (DD 65.8%), S0 bangkrut.
+  **2025 Jan–Sep (P2):** untung tipis, tetapi DD 53–62% (3 basket BUY L4 Juni 2025 = −$1,200 pada T0).
+- Mekanisme kerugian 2024 (V1_P3): dari −$2,244 total basket rugi, **~−$1,485 (66%) berasal dari weekend close
+  Jumat 19:00** yang merealisasikan basket L2–L4 yang sedang minus. Sisanya basket dalam (L4–L5), mayoritas
+  **SELL melawan reli harian** (−$682 untuk L5 SELL).
+- Kesimpulan: EA ini **bergantung pada kondisi pasar**. Pengaturan lot saja tidak cukup untuk tahun dengan tren kuat.
+  Putaran 6 (EA v81) menguji tiga penangkal:
+  (1) filter tren D1 (EMA50) untuk L1,
+  (2) weekend hold: hanya basket profit yang ditutup Jumat; basket rugi < 20% ditahan dan order baru diblokir,
+  (3) stop basket 20% balance mulai L2 (fitur lama Use_Side_Basket_Loss_Guard).
+  Diuji di P3, P2, dan P1D, supaya perbaikan untuk 2024 tidak merusak hasil periode lain.

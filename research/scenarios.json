@@ -1,5 +1,5 @@
 {
-  "ea_source": "ea/BioOnePro_Optimized_v80_Apex_PSAR.mq4",
+  "ea_source": "ea/BioOnePro_Optimized_v81_Apex_TrendWeekend.mq4",
   "test": {
     "symbol": "XAUUSD",
     "period": "M1",
@@ -312,6 +312,87 @@
       },
       "test": {
         "deposit": 1500
+      }
+    },
+    {
+      "id": "U1",
+      "desc": "Putaran 6: T0 + filter tren D1 EMA50",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_HTF_Trend_Filter": true,
+        "HTF_Timeframe": 1440,
+        "HTF_EMA_Period": 50
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "U2",
+      "desc": "Putaran 6: T0 + weekend hold (tutup bila rugi >= 20%)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Weekend_Close_Only_Profit": true,
+        "Weekend_Hold_Max_Loss_Pct": 20
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "U3",
+      "desc": "Putaran 6: T0 + stop basket 20% balance mulai L2",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_Side_Basket_Loss_Guard": true,
+        "Side_Basket_Max_Loss_Pct": 20,
+        "Side_Basket_Stop_Min_Orders": 2
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "U4",
+      "desc": "Putaran 6: T0 + filter D1 + weekend hold",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_HTF_Trend_Filter": true,
+        "HTF_Timeframe": 1440,
+        "HTF_EMA_Period": 50,
+        "Weekend_Close_Only_Profit": true,
+        "Weekend_Hold_Max_Loss_Pct": 20
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "U5",
+      "desc": "Putaran 6: T0 + filter D1 + weekend hold + stop basket 20%",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_HTF_Trend_Filter": true,
+        "HTF_Timeframe": 1440,
+        "HTF_EMA_Period": 50,
+        "Weekend_Close_Only_Profit": true,
+        "Weekend_Hold_Max_Loss_Pct": 20,
+        "Use_Side_Basket_Loss_Guard": true,
+        "Side_Basket_Max_Loss_Pct": 20,
+        "Side_Basket_Stop_Min_Orders": 2
+      },
+      "test": {
+        "deposit": 1000
       }
     }
   ]

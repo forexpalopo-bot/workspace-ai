@@ -1,0 +1,10 @@
+run_id,scenario,period,spread,desc,report,net_profit,profit_factor,max_dd_money,max_dd_pct,rel_dd_pct,net_per_dd,orders,baskets,losing_baskets,worst_basket,largest_order_loss,gross_order_loss,depth_L1,depth_L2,depth_L3,depth_L4plus,max_basket_lots
+S0_P1,S0,P1,20,"Baseline v79 default, spread 20 (harus sama dengan v77)",C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S0_P1.htm,36335.47,3.3,10388.09,43.48,47.19,3.5,507,426,0,0.01,-1791.88,-15813.19,357,57,12,0,2.66
+S1_P1,S1,P1,100,Biaya realistis: spread 100 + kunci komisi L1,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S1_P1.htm,33699.43,3.17,9922.85,44.02,48.57,3.4,509,424,0,0.17,-1705.25,-15534.28,352,59,13,0,2.54
+S2_P1,S2,P1,100,S1 + Pair Close mulai L3,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S2_P1.htm,14671.21,2.74,3893.2,39.89,60.83,3.77,599,425,2,-1013.19,-433.5,-8419.66,353,59,1,12,7.05
+S3_P1,S3,P1,100,S1 + Pair Close mulai L2,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S3_P1.htm,502.09,1.12,1215.12,78.74,78.74,0.41,642,489,5,-851.97,-254.02,-4304.89,371,100,9,9,0.33
+S4_P1,S4,P1,100,S1 + Pair Close L3 hanya saat DD basket >= 10%,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S4_P1.htm,13626.4,2.66,3739.21,41.08,61.7,3.64,581,424,2,-981.22,-422.38,-8220.82,352,59,4,9,6.18
+S5_P1,S5,P1,100,S1 + lot bertahan $80,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S5_P1.htm,3929.24,3.21,696.4,19.36,43.21,5.64,508,423,1,-1.07,-145.04,-1777.95,351,59,13,0,0.18
+S6_P1,S6,P1,100,S1 + lot bertahan $80 + Pair Close L3,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S6_P1.htm,3522.36,2.82,696.4,21.38,43.21,5.06,530,423,3,-165.0,-91.41,-1935.25,351,59,3,10,0.54
+S7_P1,S7,P1,100,S1 + Lot_Base_Balance_Safe 800,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S7_P1.htm,3998.07,3.16,891.45,24.44,43.21,4.48,508,423,1,-1.07,-154.3,-1847.39,351,59,13,0,0.23
+S8_P1,S8,P1,100,S1 + Escape Guard mulai L3,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S8_P1.htm,27923.15,3.1,8159.49,43.56,47.71,3.42,509,424,5,-170.3,-1400.74,-13281.37,352,59,13,0,2.09

@@ -65,8 +65,11 @@ def write_set(path, params):
             f.write(f"{k}={to_set_value(v)}\n")
 
 
-def write_ini(path, expert, set_name, report_rel, test):
+def write_ini(path, expert, set_name, report_name, test):
     lines = [
+        "[Common]",
+        "Profile=Default",
+        "",
         f"TestExpert={expert}",
         f"TestExpertParameters={set_name}",
         f"TestSymbol={test['symbol']}",
@@ -77,9 +80,10 @@ def write_ini(path, expert, set_name, report_rel, test):
         "TestDateEnable=true",
         f"TestFromDate={test['from']}",
         f"TestToDate={test['to']}",
-        f"TestReport={report_rel}",
+        f"TestReport={report_name}",
         "TestReplaceReport=true",
         "TestShutdownTerminal=true",
+        "TestVisualEnable=false",
     ]
     with open(path, "w", encoding="latin-1", newline="\r\n") as f:
         f.write("\n".join(lines) + "\n")
@@ -108,36 +112,87 @@ def main():
     runs_dir = os.path.join(REPO, "backtests", "runs")
     os.makedirs(runs_dir, exist_ok=True)
 
+    # Pastikan deposit awal $500 terkonfigurasi di tester
+    tester_ini = os.path.join(args.data_dir, "tester", f"{expert}.ini")
+    if not os.path.exists(tester_ini):
+        with open(tester_ini, "w", encoding="latin-1") as f:
+            f.write("<common>\npositions=2\ndeposit=500\ncurrency=USD\nfitnes=0\ngenetic=1\n</common>\n")
+    config_ini = os.path.join(args.data_dir, "config", f"{expert}.ini")
+    if not os.path.exists(config_ini):
+        shutil.copyfile(tester_ini, config_ini)
+
     for sc in cfg["scenarios"]:
         if only and sc["id"] not in only:
             continue
         for period in periods:
             run_id = f"{sc['id']}_{period['id']}"
-            params = dict(defaults)
-            unknown = [k for k in sc.get("params", {}) if k not in defaults]
-            if unknown:
-                print(f"[{run_id}] PERINGATAN: input tidak dikenal di EA: {unknown}")
-            params.update({k: to_set_value(v) for k, v in sc.get("params", {}).items()})
-
+            dest = os.path.join(runs_dir, f"{run_id}.htm")
             test = dict(cfg["test"])
             test.update({"from": period["from"], "to": period["to"]})
             test.update(sc.get("test", {}))
 
-            set_name = f"{run_id}.set"
-            write_set(os.path.join(args.data_dir, "tester", set_name), params)
-            report_rel = os.path.join("reports", run_id)
-            ini_path = os.path.join(args.data_dir, f"bt_{run_id}.ini")
-            write_ini(ini_path, expert, set_name, report_rel, test)
+            if os.path.exists(dest) and os.path.getsize(dest) > 1000:
+                print(f"[{run_id}] laporan sudah ada, membaca hasil yang ada ...", flush=True)
+            else:
+                params = dict(defaults)
+                unknown = [k for k in sc.get("params", {}) if k not in defaults]
+                if unknown:
+                    print(f"[{run_id}] PERINGATAN: input tidak dikenal di EA: {unknown}")
+                params.update({k: to_set_value(v) for k, v in sc.get("params", {}).items()})
 
-            print(f"[{run_id}] menjalankan backtest ... ({sc.get('desc', '')})", flush=True)
-            subprocess.run([args.terminal, f"/config:{ini_path}"], timeout=args.timeout, check=False)
+                set_name = f"{run_id}.set"
+                write_set(os.path.join(args.data_dir, "tester", set_name), params)
+                ini_path = os.path.join(args.data_dir, f"bt_{run_id}.ini")
+                report_name = f"{run_id}.htm"
+                write_ini(ini_path, expert, set_name, report_name, test)
 
-            report = os.path.join(args.data_dir, report_rel + ".htm")
-            if not os.path.exists(report):
-                print(f"[{run_id}] GAGAL: laporan tidak ditemukan di {report}")
-                continue
-            dest = os.path.join(runs_dir, f"{run_id}.htm")
-            shutil.copyfile(report, dest)
+                auto_ini_path = r"C:\Users\DELL\Downloads\EA2026\auto_test.ini"
+                if os.path.exists(os.path.dirname(auto_ini_path)):
+                    write_ini(auto_ini_path, expert, set_name, report_name, test)
+
+                candidates = [
+                    os.path.join(args.data_dir, f"{run_id}.htm"),
+                    os.path.join(args.data_dir, "tester", f"{run_id}.htm"),
+                    os.path.join(args.data_dir, "reports", f"{run_id}.htm"),
+                ]
+                for c in candidates:
+                    if os.path.exists(c):
+                        try: os.remove(c)
+                        except Exception: pass
+
+                print(f"[{run_id}] menjalankan backtest ... ({sc.get('desc', '')})", flush=True)
+                import time
+                subprocess.run(["schtasks", "/run", "/tn", "LaunchMT4"], capture_output=True, check=False)
+                time.sleep(5)
+
+                start_t = time.time()
+                report = None
+                while time.time() - start_t < args.timeout:
+                    found = None
+                    for c in candidates:
+                        if os.path.exists(c) and os.path.getsize(c) > 1000:
+                            found = c
+                            break
+                    res = subprocess.run(["tasklist", "/FI", "IMAGENAME eq terminal.exe"], capture_output=True, text=True)
+                    term_running = "terminal.exe" in res.stdout
+                    if found and not term_running:
+                        report = found
+                        break
+                    if not term_running and (time.time() - start_t > 30):
+                        for c in candidates:
+                            if os.path.exists(c) and os.path.getsize(c) > 1000:
+                                report = c
+                                break
+                        break
+                    time.sleep(5)
+
+                if not report or not os.path.exists(report):
+                    print(f"[{run_id}] GAGAL: laporan tidak ditemukan di {report}")
+                    continue
+                shutil.copyfile(report, dest)
+                gif_src = report.replace(".htm", ".gif")
+                if os.path.exists(gif_src):
+                    shutil.copyfile(gif_src, os.path.join(runs_dir, f"{run_id}.gif"))
 
             row = {"run_id": run_id, "scenario": sc["id"], "period": period["id"],
                    "spread": test["spread"], "desc": sc.get("desc", "")}

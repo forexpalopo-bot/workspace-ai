@@ -179,3 +179,16 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Putaran 6 (U1–U5) sudah selesai dijalankan oleh Antigravity (lihat hasil di atas).
 - Skenario Sniper W1–W5 (deposit $1000). Prioritas: P3 (2024) → P2 → P1D.
 
+## Putaran 7
+| run_id | net_profit (P3 / P2 / P1D) | max_dd_pct | rel_dd_pct | worst_order | losing_bsk | L3 | L4+ |
+|---|---|---|---|---|---|---|---|
+| W1 (5L, 10%) | -211.65 / +380.41 / +757.16 | 32.43% / 27.17% / 15.62% | 32.43% / 27.17% / 15.62% | -78.93 / -61.91 / -107.93 | 48 / 12 / 16 | 9 / 15 / 0 | 1 / 1 / 0 |
+| W2 (5L, 20%) | -496.61 / +1140.59 / +777.92 | 56.16% / 34.05% / 17.90% | 56.16% / 34.05% / 17.90% | -78.93 / -121.34 / -107.93 | 41 / 10 / 15 | 21 / 13 / 3 | 12 / 8 / 1 |
+| W3 (4L, 15%) | -319.23 / +498.18 / +803.42 | 40.89% / 29.31% / 16.81% | 40.89% / 29.31% / 16.81% | -78.93 / -121.34 / -107.93 | 43 / 11 / 16 | 20 / 14 / 2 | 7 / 7 / 0 |
+| W4 (W3+D1+WH)| -416.06 / +274.90 / +468.51 | 46.26% / 34.10% / 18.25% | 46.26% / 34.10% / 18.25% | -78.93 / -118.93 / -286.15 | 21 / 9 / 7 | 14 / 9 / 1 | 4 / 7 / 0 |
+| W5 (W3+Time24)| -407.77 / +340.11 / +355.86 | 53.24% / 28.94% / 15.21% | 53.24% / 28.94% / 15.21% | -67.93 / -117.72 / -98.94 | 64 / 15 / 24 | 17 / 12 / 1 | 4 / 8 / 0 |
+- Swing W1: P3 (984/1263/1592/2755/9012, L2=1263, SL=9012); P2 (1371/1754/2468/3951/5176, L2=1754, SL=5176); P1D (1905/2385/3737/5492/6899, L2=2385, SL=6899).
+- SNIPER SL per run (P3/P2/P1D): W1=10/6/0, W2=9/3/0, W3=9/4/0, W4=9/5/0, W5=5/4/0 (W5 time-stop: 37/7/13).
+- Log: W1 menekan DD 2024 (P3) drastis dari 99% ke 32.4%, dan seluruh skenario W konsisten profit di P2 ($274–$1140) dan P1D ($355–$803) dgn DD < 35%.
+- Hal aneh: Lot L1 dinamis dihitung < 0.01 (0.003–0.006) sehingga broker mengeksekusi lot minimum 0.01, membuat risiko aktual per basket sedikit lebih besar dari target % balance.
+

@@ -1,10 +1,2 @@
 run_id,scenario,period,spread,deposit,desc,report,net_profit,profit_factor,max_dd_money,max_dd_pct,rel_dd_pct,net_per_dd,orders,baskets,losing_baskets,worst_basket,largest_order_loss,gross_order_loss,depth_L1,depth_L2,depth_L3,depth_L4plus,max_basket_lots
 V1_P1,V1,P1,100,1500,"Putaran 4: bertahan $100, deposit $1500",C:\Penelitian_EA\BioOnePro\repo\backtests\runs\V1_P1.htm,3772.97,3.22,543.25,11.81,14.63,6.95,508,423,1,-1.07,-108.03,-1702.52,351,59,13,0,0.14
-S0_P2,S0,P2,20,500,"Baseline v79 default, spread 20 (harus sama dengan v77)",C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S0_P2.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-T0_P2,T0,P2,100,1000,Putaran 3: baseline R4 di EA v80 (harus sama dengan R4),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T0_P2.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-T6_P2,T6,P2,100,1000,Putaran 3: bertahan $100 (DD terendah),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T6_P2.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-V1_P2,V1,P2,100,1500,"Putaran 4: bertahan $100, deposit $1500",C:\Penelitian_EA\BioOnePro\repo\backtests\runs\V1_P2.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-S0_P3,S0,P3,20,500,"Baseline v79 default, spread 20 (harus sama dengan v77)",C:\Penelitian_EA\BioOnePro\repo\backtests\runs\S0_P3.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-T0_P3,T0,P3,100,1000,Putaran 3: baseline R4 di EA v80 (harus sama dengan R4),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T0_P3.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-T6_P3,T6,P3,100,1000,Putaran 3: bertahan $100 (DD terendah),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\T6_P3.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0
-V1_P3,V1,P3,100,1500,"Putaran 4: bertahan $100, deposit $1500",C:\Penelitian_EA\BioOnePro\repo\backtests\runs\V1_P3.htm,0.0,,0.0,0.0,0.0,,0,0,0,0,0,0,0,0,0,0,0

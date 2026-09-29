@@ -24,6 +24,12 @@
       "from": "2024.01.02",
       "to": "2024.12.31",
       "desc": "Out-of-sample 2024 (tren naik kuat emas)"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Periode P1 dengan data server Demo01 (cek konsistensi sumber data)"
     }
   ],
   "scenarios": [

@@ -1,0 +1,51 @@
+# Desain v82 "Adaptive Sniper"
+
+Diaktifkan dengan `Use_Adaptive_Sniper=true`. Semua logika entry L1, exit basket (target net + trailing),
+filter spread, dan fitur v78–v81 tetap sama. Yang berubah adalah **jarak layer, lot layer, SL basket, dan lot L1**.
+
+## 1. Belajar dari pergerakan harga beberapa hari terakhir
+Setiap bar H1 baru, EA memindai `Sniper_Learn_Days` (default 20) hari H1 dan mencari swing high/low
+(`Sniper_Swing_Depth` = 3 bar kiri/kanan). Panjang setiap kaki swing (high↔low, dalam pips EA) dikumpulkan dan
+diurutkan. Dari situ EA mengetahui, misalnya, "50% pergerakan dalam 20 hari terakhir tidak lebih dari $14".
+
+## 2. Jarak averaging adaptif ("sniper")
+Layer ditempatkan pada **jarak dari harga L1** sesuai persentil panjang swing:
+
+| Layer | Default | Makna |
+|---|---|---|
+| L2 | P50 | Separuh swing biasa berbalik sebelum titik ini |
+| L3 | P70 | |
+| L4 | P85 | |
+| L5 | P93 | |
+| SL basket | P98 | Hanya 2% swing yang lebih panjang: kemungkinan besar tren, bukan koreksi |
+
+Saat pasar bergerak lebar (misalnya 2024), semua jarak otomatis melebar. Saat pasar tenang, jaraknya menyempit.
+Jarak minimum antar layer `Sniper_Min_Step_Pips` (default 500 = $5). Rencana ini **dibekukan saat L1 dibuka**,
+supaya satu basket memakai aturan yang konsisten. Waktu masuk layer tetap harus lolos konfirmasi candle dan jeda
+minimum antar layer yang sudah ada.
+
+## 3. Lot L2+ untuk mencapai BEP
+Saat layer baru dibuka, lotnya dihitung supaya **BEP basket berada `target BEP` dari harga sekarang**.
+Target BEP = `Sniper_BEP_Fraction` (0.6) × swing P50 (`Sniper_BEP_Percentile`), yaitu pantulan yang biasa terjadi:
+`lot_baru = total_lot × (gap − target) / target`.
+Lot dibatasi minimal sama dengan layer sebelumnya dan maksimal `Sniper_Max_Lot_Mult` (2×).
+
+## 4. SL L1/basket adaptif + anggaran risiko
+- **SL basket** di jarak P98 dari L1. Kalau harga sampai di sana, seluruh basket ditutup
+  (log: `SNIPER SL`).
+- **Anggaran risiko**: rugi seluruh basket di harga SL ≤ `Sniper_Max_Basket_Risk_Pct` % balance (default 10%).
+  - Lot L1 dihitung dari rencana lengkap agar batas ini terpenuhi.
+  - Lot layer baru dipotong bila akan melampauinya. Kalau sisa anggaran < lot minimum, layer **dilewati**.
+- **Time-stop** opsional (`Sniper_Time_Stop_Hours`): basket yang masih rugi setelah N jam ditutup.
+
+Dengan desain ini, **rugi terburuk per basket terukur**. Grid lama tidak punya batas ini, sehingga di 2024
+kerugian menumpuk sampai akun habis.
+
+## Konsekuensi yang perlu diketahui
+- Win rate akan turun, karena basket yang dulu "diselamatkan" martingale sekarang ditutup di SL.
+  Harapannya, kerugian itu kecil dan terkendali.
+- Pada contoh statistik emas yang realistis, rugi di SL untuk rencana 5 layer ≈ $250–370 per 0.01 lot L1.
+  Dengan risiko 10% per basket, lot 0.01 baru sesuai target mulai balance ≈ **$2,500–3,700**. Di balance
+  lebih kecil, lot L1 terpaksa 0.01 (minimum broker); anggaran risiko lalu memangkas atau melewati layer.
+- Persentil dan parameter default adalah titik awal yang masuk akal, bukan hasil optimasi. Kebenarannya
+  hanya bisa dibuktikan lewat backtest di 2024, 2025, dan P1.

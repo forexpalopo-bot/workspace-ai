@@ -1,5 +1,5 @@
 {
-  "ea_source": "ea/BioOnePro_Optimized_v81_Apex_TrendWeekend.mq4",
+  "ea_source": "ea/BioOnePro_Optimized_v82_Adaptive_Sniper.mq4",
   "test": {
     "symbol": "XAUUSD",
     "period": "M1",
@@ -390,6 +390,82 @@
         "Use_Side_Basket_Loss_Guard": true,
         "Side_Basket_Max_Loss_Pct": 20,
         "Side_Basket_Stop_Min_Orders": 2
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "W1",
+      "desc": "Putaran 7: Sniper default (5 layer, risiko 10%/basket)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "W2",
+      "desc": "Putaran 7: Sniper risiko 20%/basket",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Max_Basket_Risk_Pct": 20
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "W3",
+      "desc": "Putaran 7: Sniper 4 layer, risiko 15%",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Max_Buy_Layers": 4,
+        "Max_Sell_Layers": 4,
+        "Sniper_Max_Basket_Risk_Pct": 15
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "W4",
+      "desc": "Putaran 7: W3 + filter D1 + weekend hold",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Max_Buy_Layers": 4,
+        "Max_Sell_Layers": 4,
+        "Sniper_Max_Basket_Risk_Pct": 15,
+        "Use_HTF_Trend_Filter": true,
+        "HTF_Timeframe": 1440,
+        "HTF_EMA_Period": 50,
+        "Weekend_Close_Only_Profit": true,
+        "Weekend_Hold_Max_Loss_Pct": 20
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "W5",
+      "desc": "Putaran 7: W3 + time stop 24 jam",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Max_Buy_Layers": 4,
+        "Max_Sell_Layers": 4,
+        "Sniper_Max_Basket_Risk_Pct": 15,
+        "Sniper_Time_Stop_Hours": 24
       },
       "test": {
         "deposit": 1000

@@ -161,3 +161,9 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   (2) weekend hold: hanya basket profit yang ditutup Jumat; basket rugi < 20% ditahan dan order baru diblokir,
   (3) stop basket 20% balance mulai L2 (fitur lama Use_Side_Basket_Loss_Guard).
   Diuji di P3, P2, dan P1D, supaya perbaikan untuk 2024 tidak merusak hasil periode lain.
+
+## Rencana putaran 7 (EA v82 Adaptive Sniper)
+- v82 = v81 + mode Adaptive Sniper (lihat docs/desain-v82-adaptive-sniper.md): jarak layer = persentil swing H1
+  20 hari, lot L2+ menargetkan BEP dalam jarak pantulan biasa, SL basket di P98, lot L1 dari anggaran risiko per basket.
+- Putaran 6 (U1–U5) belum dijalankan; digabung ke putaran 7 memakai EA v82 (fitur v81 identik, Sniper default mati).
+- Skenario Sniper W1–W5 (deposit $1000). Prioritas: P3 (2024) → P2 → P1D.

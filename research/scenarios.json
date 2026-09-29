@@ -18,6 +18,12 @@
       "from": "2025.01.02",
       "to": "2025.09.26",
       "desc": "Periode stres (termasuk volatilitas April 2025)"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "Out-of-sample 2024 (tren naik kuat emas)"
     }
   ],
   "scenarios": [
@@ -279,6 +285,18 @@
       },
       "test": {
         "deposit": 1000
+      }
+    },
+    {
+      "id": "V1",
+      "desc": "Putaran 4: bertahan $100, deposit $1500",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 10000
+      },
+      "test": {
+        "deposit": 1500
       }
     }
   ]

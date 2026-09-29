@@ -1,0 +1,4 @@
+*.mq4 -text
+*.mqh -text
+*.set -text
+*.htm -text

@@ -1,0 +1,7 @@
+run_id,scenario,period,spread,deposit,desc,report,net_profit,profit_factor,max_dd_money,max_dd_pct,rel_dd_pct,net_per_dd,orders,baskets,losing_baskets,worst_basket,largest_order_loss,gross_order_loss,depth_L1,depth_L2,depth_L3,depth_L4plus,max_basket_lots
+R1_P1,R1,P1,100,500,Putaran 2: lot bertahan $70,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\R1_P1.htm,7750.67,3.2,1763.36,28.21,43.21,4.4,509,424,1,-1.07,-326.34,-3524.19,352,59,13,0,0.45
+R2_P1,R2,P1,100,500,Putaran 2: lot bertahan $90,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\R2_P1.htm,2721.9,3.12,543.25,20.0,43.21,5.01,509,424,1,-1.07,-92.34,-1282.96,352,59,13,0,0.14
+R3_P1,R3,P1,100,500,Putaran 2: lot bertahan $100,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\R3_P1.htm,2092.51,2.95,348.2,15.43,43.21,6.01,510,425,1,-1.07,-74.56,-1071.04,353,59,13,0,0.09
+R4_P1,R4,P1,100,1000,Putaran 2: S5 (bertahan $80) dengan deposit $1000,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\R4_P1.htm,7249.38,3.19,1415.16,21.12,24.93,5.12,509,424,0,0.17,-257.46,-3304.87,352,59,13,0,0.36
+R5_P1,R5,P1,200,500,Putaran 2: S5 dengan spread 200 (uji biaya berat),C:\Penelitian_EA\BioOnePro\repo\backtests\runs\R5_P1.htm,3865.54,3.18,697.8,19.56,43.34,5.54,505,420,1,-1.37,-145.44,-1771.04,348,59,13,0,0.18
+R6_P1,R6,P1,100,500,Putaran 2: bertahan $80 + cut-loss 35%,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\R6_P1.htm,1980.98,2.62,348.2,16.23,39.72,5.69,510,425,2,-179.63,-74.85,-1219.64,353,59,13,0,0.09

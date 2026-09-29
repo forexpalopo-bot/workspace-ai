@@ -218,6 +218,7 @@ def main():
                 w.writerow(row)
             print(f"[{run_id}] net={row['net_profit']} maxDD%={row['max_dd_pct']} "
                   f"relDD%={row['rel_dd_pct']} worstOrder={row['largest_order_loss']}", flush=True)
+    set_deposit([tester_ini, config_ini], 500)
     return 0
 
 

@@ -33,3 +33,14 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   $500, lot sudah minimum (0.01), jadi pembatas lot belum bekerja. Dengan Survive $80, lot 0.01 baru sesuai
   target risiko mulai balance ≈ $800. Putaran 2 menguji ini (R4, deposit $1000).
 - Spread 100 + kunci komisi (S1) menurunkan net ~7% dibanding S0. Wajar.
+
+## Putaran 2
+| run_id | deposit | net_profit | max_dd_pct | rel_dd_pct | largest_order_loss | net_per_dd |
+|---|---|---|---|---|---|---|
+| R1_P1 | 500 | 7750.67 | 28.21% | 43.21% | -326.34 | 4.40 |
+| R2_P1 | 500 | 2721.90 | 20.00% | 43.21% | -92.34 | 5.01 |
+| R3_P1 | 500 | 2092.51 | 15.43% | 43.21% | -74.56 | 6.01 |
+| R4_P1 | 1000 | 7249.38 | 21.12% | 24.93% | -257.46 | 5.12 |
+| R5_P1 | 500 | 3865.54 | 19.56% | 43.34% | -145.44 | 5.54 |
+| R6_P1 | 500 | 1980.98 | 16.23% | 39.72% | -74.85 | 5.69 |
+- Log: R4 terbukti pangkas rel DD ke 24.93% (deposit $1000). R3 DD terendah (15.43%). P2 dilewati (offline). Nol order error.

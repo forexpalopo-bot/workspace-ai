@@ -44,3 +44,13 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 | R5_P1 | 500 | 3865.54 | 19.56% | 43.34% | -145.44 | 5.54 |
 | R6_P1 | 500 | 1980.98 | 16.23% | 39.72% | -74.85 | 5.69 |
 - Log: R4 terbukti pangkas rel DD ke 24.93% (deposit $1000). R3 DD terendah (15.43%). P2 dilewati (offline). Nol order error.
+
+## Analisis Claude Code atas putaran 2
+- Hipotesis deposit terbukti: R4 (bertahan $80, deposit $1000) → relative DD 43% → **24.9%**, max DD 21%,
+  0 basket rugi, net $7,249 (+725%). **R4 menjadi baseline baru.**
+- Makin besar jarak bertahan, makin kecil DD dan profit: $70 → DD 28%, $80 → 19%, $90 → 20%, $100 → 15%.
+  Net profit tidak turun mulus ($7.7k → $3.9k → $2.7k → $2.1k) karena efek compounding.
+- Spread 200 (R5) hampir tidak berpengaruh dibanding S5 (−2% net). Cut-loss 35% (R6) memotong profit tanpa
+  menurunkan DD lebih jauh dari R3.
+- Putaran 3 (EA v80): uji Parabolic SAR sebagai (a) gate layer averaging, supaya layer dibuka setelah harga
+  berbalik, bukan saat jatuh bebas; dan (b) filter arah L1. Semua di atas baseline R4.

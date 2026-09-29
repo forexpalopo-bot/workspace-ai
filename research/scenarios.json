@@ -1,5 +1,5 @@
 {
-  "ea_source": "ea/BioOnePro_Optimized_v79_Apex_PairClose.mq4",
+  "ea_source": "ea/BioOnePro_Optimized_v80_Apex_PSAR.mq4",
   "test": {
     "symbol": "XAUUSD",
     "period": "M1",
@@ -167,6 +167,118 @@
         "Min_L1_Lock_Pips": 10,
         "Survive_Adverse_Move_Pips": 8000,
         "Percent_Loss": 35
+      }
+    },
+    {
+      "id": "T0",
+      "desc": "Putaran 3: baseline R4 di EA v80 (harus sama dengan R4)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T1",
+      "desc": "Putaran 3: PSAR gate averaging M5",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_PSAR_Averaging_Gate": true,
+        "PSAR_Avg_TF": 5
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T2",
+      "desc": "Putaran 3: PSAR gate averaging M15",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_PSAR_Averaging_Gate": true,
+        "PSAR_Avg_TF": 15
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T3",
+      "desc": "Putaran 3: PSAR filter L1 M15",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_PSAR_L1_Filter": true,
+        "PSAR_L1_TF": 15
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T4",
+      "desc": "Putaran 3: PSAR filter L1 H1",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_PSAR_L1_Filter": true,
+        "PSAR_L1_TF": 60
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T5",
+      "desc": "Putaran 3: PSAR gate M15 + filter L1 M15",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 8000,
+        "Use_PSAR_Averaging_Gate": true,
+        "PSAR_Avg_TF": 15,
+        "Use_PSAR_L1_Filter": true,
+        "PSAR_L1_TF": 15
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T6",
+      "desc": "Putaran 3: bertahan $100 (DD terendah)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 10000
+      },
+      "test": {
+        "deposit": 1000
+      }
+    },
+    {
+      "id": "T7",
+      "desc": "Putaran 3: bertahan $100 + PSAR gate M15 + filter L1 M15",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Survive_Adverse_Move_Pips": 10000,
+        "Use_PSAR_Averaging_Gate": true,
+        "PSAR_Avg_TF": 15,
+        "Use_PSAR_L1_Filter": true,
+        "PSAR_L1_TF": 15
+      },
+      "test": {
+        "deposit": 1000
       }
     }
   ]

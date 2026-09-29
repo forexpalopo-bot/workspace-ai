@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title>Strategy Tester: BioOnePro_Optimized_v80_Apex_PSAR</title>
+    <meta name="version" content="Build 1441">
+    <meta name="server" content="ICMarketsSC-Live04">
+    <style type="text/css" media="screen">
+    <!--
+    td { font: 8pt Tahoma,Arial; }
+    //-->
+    </style>
+    <style type="text/css" media="print">
+    <!--
+    td { font: 7pt Tahoma,Arial; }
+    //-->
+    </style>
+    <style type="text/css">
+    <!--
+    .msdate { mso-number-format:"General Date"; }
+    .mspt   { mso-number-format:\#\,\#\#0\.00;  }
+    //-->
+    </style>
+  </head>
+<body topmargin=1 marginheight=1>
+<div align=center>
+<div style="font: 20pt Times New Roman"><b>Strategy Tester Report</b></div>
+<div style="font: 16pt Times New Roman"><b>BioOnePro_Optimized_v80_Apex_PSAR</b></div>
+<div style="font: 10pt Times New Roman"><b>ICMarketsSC-Live04 (Build 1441)</b></div><br>
+
+<table width=820 cellspacing=1 cellpadding=3 border=0>
+<tr align=left><td colspan=2>Symbol</td><td colspan=4>XAUUSD (Gold vs US Dollar)</td></tr>
+<tr align=left><td colspan=2>Period</td><td colspan=4>1 Minute (M1)  2025.09.29 00:00 - 2026.09.25 20:59    (2025.01.02 - 2025.09.26)</td></tr>
+<tr align=left><td colspan=2>Model</td><td colspan=4>Every tick (the most precise method based on all available least timeframes)</td></tr>
+<tr align=left><td colspan=2>Parameters</td><td colspan=4>System_Setting="-----------------  BioOnePro Institutional v5.22  ------------------"; Trade_Buy=true; 
+Trade_Sell=true; 
+Dual_Mode=true; 
+OFF_EA_Target_Done=false; 
+Auto_Compounding_Lot=true; 
+Lot_Base_Balance_Safe=400; Compound=false; 
+Ketahanan_pip=1000; Lot=0.01; TP=10000; SL=0; Use_TP_InMoney=false; 
+Target_Dollar=10; Use_SL_inPercent=true; 
+Percent_Loss=50; Use_SL_inMoney=false; 
+Loss_inMoney=25; Stop_After_Account_Loss=false; 
+Plihan_System="=================== CONTROL & AVERAGING ==================="; Use_Trend_Directional_Entry=true; 
+Use_Breakeven_Lock=true; 
+Breakeven_Trigger_Pips=1500; Breakeven_Buffer_Pips=300; Avoid_Rollover_Hours=true; 
+Rollover_Start_Hour=23; Rollover_End_Hour=0; Pipstep_Exponent=1.3; Cut_Switch=false; 
+Averaging_New_Candle=false; 
+Use_Martiangle=true; 
+Use_Avg_Indicator_Filter=false; 
+Avg_Filter_TF=5; Avg_RSI_Period=14; Avg_RSI_Oversold=35; Avg_RSI_Overbought=65; UseTrailingStop=true; 
+TrailingStop=400; Step=150; Use_Adaptive_Trailing=false; 
+Adaptive_Trail_TF=1; Adaptive_Trail_Period=14; Adaptive_Trail_ATR_Mult=12; Adaptive_Step_ATR_Mult=5; Use_Stoch_Trailing_L1=true; 
+Use_Stoch_Trailing_Basket=true; 
+Stoch_Trail_TF=5; Stoch_Trail_K=21; Stoch_Trail_D=3; Stoch_Trail_Slowing=3; Stoch_Trail_OB=85; Stoch_Trail_OS=15; Stoch_Basket_Lock_Dollar=1; Averaging_Lot_Multiplier=1.7; Averaging_Lot_Multiplier_L2=1.6; Use_Adaptive_Lot_Multiplier=true; 
+Adaptive_Lot_Target_BEP_Fraction=0.35; Use_Historical_Hour_Filter=false; 
+TP_Averaging=15; Grid_Pipstep=1500; TP_Averaging_L4Plus=10; Basket_Stop_Below_BEP_Pips=0; Use_Net_Basket_Profit_Close=true; 
+Basket_Target_L2_Net=6; Basket_Target_L3_Net=9; Basket_Target_L4Plus_Net=15; Basket_Close_Trigger_Buffer_Dollar=0.25; Use_Cost_Adjusted_Basket_TP=true; 
+Basket_Profit_Debug=false; 
+Use_Trailing_Basket=true; 
+Basket_Trailing_Step_Dollar=0.5; Basket_Close_Safety_Reserve_Dollar=0.5; Basket_Close_Slippage_Reserve_Pips=5; Stop_Modify_Debug=false; 
+Use_Hybrid_Pipstep=false; 
+Use_BB_Adaptive_Pipstep=false; 
+BB_Pipstep_Fraction=0.4; Use_L2Plus_BB_Volume_Filter=false; 
+L2Plus_Volume_Climax_Factor=1.5; Minimum_Pipstep=1200; Pipstep_ADR_Fast_Days=5; Pipstep_ADR_Slow_Days=20; Pipstep_Adaptive_Max_Factor=1.55; Pipstep_Absolute_Max_Factor=1.65; Pipstep_Today_Range_Trigger=0.7; Pipstep_L2_Mult=1; Pipstep_L3_Mult=1.1; Pipstep_L4_Mult=1.3; Pipstep_L5Plus_Mult=1.5; Pipstep_L2_Cap=1500; Pipstep_L3_Cap=2200; Pipstep_L4_Cap=3000; Pipstep_L5Plus_Cap=4000; Pipstep_Global_Max=3000; Min_Hours_Between_L2Plus=0; Min_Hours_L4_to_L5=0; Pipstep_Debug=false; 
+Use_Trend_Regime_Guard=true; 
+Trend_Timeframe=60; Trend_Fast_EMA=50; Trend_Slow_EMA=200; Trend_ATR_Period=14; Trend_Slope_Bars=3; Min_EMA_Spread_ATR=0; L1_Block_Strong_CounterTrend=true; 
+Averaging_Block_Strong_CounterTrend=false; 
+Averaging_Block_From_Existing=4; Min_Minutes_Between_Layers=3; Min_Minutes_Between_L3=3; Min_Minutes_Between_L4Plus=120; Pipstep_H1_ATR_Fraction=0.7; Pipstep_Adverse_Trend_Mult=1.2; Use_Side_Basket_Loss_Guard=false; 
+Side_Basket_Max_Loss_Pct=40; Use_Anomaly_Emergency_Close=false; 
+Anomaly_Emergency_Loss_Pct=15; Use_Time_Decay_Risk_Guard=false; 
+Time_Decay_Start_Hours=6; Time_Decay_End_Hours=18; Time_Decay_Min_Loss_Pct=15; Side_Basket_Stop_Min_Orders=4; Side_Basket_Risk_Trigger_Buffer_Pct=0.5; Use_L4_Hedge_Guard=true; 
+Hedge_Activation_Layer=4; Hedge_Lot_Ratio=1; Hedge_Trailing_Start_Pips=30; Hedge_Trailing_Step_Pips=15; Use_Escape_Guard=true; 
+Escape_Min_Layers=4; Escape_Activation_Dollar=-2; Escape_CutLoss_Dollar=-10; Use_L3Plus_Candle_Confirm=true; 
+L3Plus_Confirm_Min_Layer=1; Use_Dynamic_Basket_Risk_Guard=false; 
+Dynamic_Risk_L2_Pct=10; Dynamic_Risk_L3_Pct=10; Dynamic_Risk_L4Plus_Pct=10; Dynamic_Risk_Adverse_Trend_Mult=1; Dynamic_Risk_Age_Soft_Hours=24; Dynamic_Risk_Age_Hard_Hours=48; Dynamic_Risk_Age_Soft_Mult=1; Dynamic_Risk_Age_Hard_Mult=1; Dynamic_Risk_Min_Pct=8; Dynamic_Risk_Max_Pct=15; Averaging_Freeze_Trigger_Fraction=0.99; Averaging_Freeze_Age_Hours=99; Averaging_Freeze_Aged_Fraction=0.99; Use_Risk_Stop_Cooldown=false; 
+Risk_Stop_Cooldown_Hours=0; Pipstep_Risk_Pressure_Max_Mult=1; Magic=2025; </td></tr>
+<tr align=left><td colspan=2><tr align=left><td>Bars in test</td><td align=right>352520</td><td>Ticks modelled</td><td align=right>92687589</td><td>Modelling quality</td><td align=right>n/a</td></tr>
+<tr align=left><td>Mismatched charts errors</td><td align=right>0</td><td></td><td align=right></td><td></td><td align=right></td></tr>
+<tr height=8><td colspan=6></td></tr>
+<tr align=left><td>Initial deposit</td><td align=right>500.00</td><td></td><td align=right></td><td>Spread</td><td align=right>20</td></tr>
+<tr align=left><td>Total net profit</td><td align=right>0.00</td><td>Gross profit</td><td align=right>0.00</td><td>Gross loss</td><td align=right>-0.00</td></tr>
+<tr align=left><td>Profit factor</td><td align=right></td><td>Expected payoff</td><td align=right>0.00</td><td></td><td align=right></td></tr>
+<tr align=left><td>Absolute drawdown</td><td align=right>0.00</td><td>Maximal drawdown</td><td align=right>0.00 (0.00%)</td><td>Relative drawdown</td><td align=right>0.00% (0.00)</td></tr>
+<tr height=8><td colspan=6></td></tr>
+<tr align=left><td>Total trades</td><td align=right>0</td><td>Short positions (won %)</td><td align=right>0 (0.00%)</td><td>Long positions (won %)</td><td align=right>0 (0.00%)</td></tr>
+<tr align=left><td colspan=2 align=right></td><td>Profit trades (% of total)</td><td align=right>0 (0.00%)</td><td>Loss trades (% of total)</td><td align=right>0 (0.00%)</td></tr>
+<tr align=left><td colspan=2 align=right>Largest</td><td>profit trade</td><td align=right>0.00</td><td>loss trade</td><td align=right>-0.00</td></tr>
+<tr align=left><td colspan=2 align=right>Average</td><td>profit trade</td><td align=right>0.00</td><td>loss trade</td><td align=right>-0.00</td></tr>
+<tr align=left><td colspan=2 align=right>Maximum</td><td>consecutive wins (profit in money)</td><td align=right>0 (0.00)</td><td>consecutive losses (loss in money)</td><td align=right>0 (-0.00)</td></tr>
+<tr align=left><td colspan=2 align=right>Maximal</td><td>consecutive profit (count of wins)</td><td align=right>0.00 (0)</td><td>consecutive loss (count of losses)</td><td align=right>-0.00 (0)</td></tr>
+<tr align=left><td colspan=2 align=right>Average</td><td>consecutive wins</td><td align=right>0</td><td>consecutive losses</td><td align=right>0</td></tr>
+
+</table>
+<img src="S0_P2.gif" width=820 height=200 border=0 alt="Graph"><br>
+<table width=820 cellspacing=1 cellpadding=3 border=0>
+<tr bgcolor="#C0C0C0" align=right><td>#</td><td>Time</td><td>Type</td><td>Order</td><td>Size</td><td>Price</td><td>S / L</td><td>T / P</td><td>Profit</td><td>Balance</td></tr>
+
+</table>
+</div></body></html>

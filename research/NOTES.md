@@ -236,22 +236,17 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   Y5 = 3 layer + SL P95.
 
 ## Putaran 9
-| run_id | net_profit (P3/P2/P1D) | max_dd_pct | rel_dd_pct | worst_order | losing_bsk | L2 | L3 | L4+ | SL_cnt |
-|---|---|---|---|---|---|---|---|---|---|
-| Y1 (5L 40d+0.8)| -10.13 / +645.49 / +454.20 | 19.8% / 21.9% / 10.7% | 19.8% / 21.9% / 10.7% | -102.2 / -122.1 / -161.9 | 40 / 12 / 17 | 40 / 14 / 7 | 24 / 14 / 1 | 22 / 7 / 2 | 5 / 5 / 1 |
-| Y2 (3 Layer)| -495.01 / +1336.47 / +491.13 | 28.3% / 21.7% / 10.8% | 28.3% / 21.7% / 10.8% | -153.4 / -183.2 / -161.9 | 39 / 10 / 17 | 44 / 14 / 7 | 41 / 21 / 3 | 0 / 0 / 0 | 7 / 5 / 1 |
-| Y3 (2 Layer)| -512.40 / +588.99 / +726.62 | 28.9% / 33.0% / 9.3% | 28.9% / 33.0% / 9.3% | -204.5 / -244.2 / -161.9 | 43 / 13 / 17 | 84 / 35 / 11 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 8 / 1 |
-| Y4 (Kontrol 1L)| -784.91 / +228.75 / +1455.46 | 37.1% / 33.2% / 10.5% | 37.1% / 33.2% / 10.5% | -306.7 / -414.3 / -323.8 | 62 / 25 / 17 | 0 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 11 / 11 / 1 |
-| Y5 (3L + P95)| -1403.80 / +901.12 / +1302.69| 51.5% / 35.2% / 6.6% | 51.5% / 35.2% / 8.0% | -144.9 / -209.9 / -107.9 | 45 / 13 / 14 | 39 / 14 / 10 | 47 / 21 / 5 | 0 / 0 / 0 | 18 / 8 / 0 |
-- Averaging terbukti esensial: Y4 (tanpa averaging) rugi terbesar di P3 (-$785) & terburuk di P2 (+$229), sedangkan Y1 hampir impas (-$10) dgn DD 19.8%.
-- Y2 (3 layer) unggul di P2 (+$1,336, DD 21.7%), tetapi Y1 (5 layer) jauh lebih tahan banting pada tren liar 2024 (-$10 vs -$495).
-- Hal aneh: Pada Y4, lot L1 lebih besar (0.04–0.06) karena anggaran risiko basket dialokasikan penuh ke 1 trade tanpa dibagi ke rencana layer averaging.
-
-## Rencana putaran 10 (EA v83)
-- Catatan: Y1–Y5 sudah selesai dijalankan oleh Antigravity (lihat tabel Putaran 9 di atas).
-- Temuan tambahan dari data putaran 8: basket L2+ yang kalah berumur lebih panjang (median 25 jam vs 16 jam
-  untuk yang menang, di 2024). Setelah 24 jam masih terbuka: 14 menang (kecil) vs 11 kalah (besar).
-- v83 menambah SL adaptif (mengetat seiring umur, trend-confirm ADX), jarak averaging "bernapas" (rasio ATR),
-  dan recovery exit di BEP untuk basket tua. Lihat docs/desain-v82-adaptive-sniper.md bagian v83.
-- Skenario Z1–Z6 (fitur v83 di atas Y1). Deposit $3000, periode P3 → P2 → P1D.
-
+| run_id | net_profit (P3/P2/P1D) | max_dd_pct | rel_dd_pct | largest_order_loss | losing_bsk | worst_basket | L4+ | SL / TrendStop / RecExit |
+|---|---|---|---|---|---|---|---|---|
+| Y1 (5L 40d+0.8) | -10 / +645 / +454 | 19.8% / 21.9% / 10.7% | 19.8% / 21.9% / 10.7% | -102 / -122 / -162 | 40 / 12 / 17 | -338 / -328 / -309 | 22 / 7 / 2 | (5/0/0) / (5/0/0) / (1/0/0) |
+| Y2 (3 Layer) | -495 / +1336 / +491 | 28.3% / 21.7% / 10.8% | 28.3% / 21.7% / 10.8% | -153 / -183 / -162 | 39 / 10 / 17 | -310 / -387 / -313 | 0 / 0 / 0 | (7/0/0) / (5/0/0) / (1/0/0) |
+| Y3..Y5 (Layer/P95) | -512 s/d -1404 / +229..+901 | 28.9%..51.5% / 33%..35% | 28.9%..51.5% / 33%..35% | -204..-307 / -210..-414 | 43..62 / 13..25 | -272..-306 / -366..-414 | 0 / 0 / 0 | Y4 SL: 11/11/1, Y5 SL: 18/8/0 |
+| Z1 (ATR ratio) | -248 / +846 / +807 | 15.6% / 18.0% / 7.0% | 15.6% / 18.0% / 7.0% | -102 / -122 / -108 | 35 / 13 / 15 | -338 / -341 / -143 | 23 / 8 / 1 | (6/0/0) / (4/0/0) / (0/0/0) |
+| Z2 (TimeDecay) | -349 / +636 / +564 | 30.5% / 20.6% / 8.4% | 30.5% / 20.6% / 8.4% | -89 / -122 / -125 | 42 / 12 / 17 | -235 / -320 / -198 | 23 / 6 / 1 | (11/0/0) / (6/0/0) / (2/0/0) |
+| Z3 (RecoveryBEP)| -134 / +605 / +447 | 20.4% / 21.9% / 10.7% | 20.4% / 21.9% / 10.7% | -102 / -122 / -162 | 38 / 12 / 17 | -338 / -328 / -309 | 22 / 7 / 2 | (5/0/42) / (5/0/8) / (1/0/4) |
+| Z4 (TrendStop) | -231 / +609 / +492 | 21.7% / 21.6% / 8.6% | 21.7% / 21.6% / 8.6% | -102 / -122 / -139 | 47 / 16 / 18 | -225 / -339 / -238 | 18 / 5 / 1 | (2/19/0) / (4/7/0) / (0/2/0) |
+| Z5 (Z1+Z2+Z3) | -462 / +633 / +699 | 26.2% / 19.8% / 8.6% | 26.2% / 19.8% / 8.6% | -92 / -122 / -125 | 37 / 14 / 16 | -248 / -310 / -203 | 23 / 7 / 1 | (11/0/44) / (6/0/6) / (1/0/5) |
+| Z6 (Z5+TrendStop)| -436 / +736 / +668 | 24.6% / 19.6% / 8.6% | 24.6% / 19.6% / 8.6% | -92 / -122 / -125 | 47 / 14 / 17 | -227 / -310 / -203 | 15 / 6 / 1 | (5/18/37) / (4/4/6) / (1/1/5) |
+- Z1 (jarak bernapas ATR) PEMENANG BESAR: pangkas DD tertipis di semua periode (15.6% P3, 18.0% P2, 7.0% P1D) dgn profit stabil (+$846 P2, +$807 P1D).
+- Z3/Z5/Z6 sukses recovery exit BEP (42x di 2024). Trend stop Z4/Z6 memotong SL drastis (hanya 2 SL di P3, diganti 19 exit protektif saat tren ADX kuat).
+- Hal aneh: Z2 (time-decay) justru menaikkan DD di P3 (30.5%) karena memotong posisi terlalu dini saat koreksi sehat sedang berjalan.

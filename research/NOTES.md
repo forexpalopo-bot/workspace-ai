@@ -220,3 +220,17 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - X3 (belajar 40 hari) paling stabil di 2024 (P3 hampir BEP, hanya -$16.86 dgn 4 SL). X4 menghasilkan profit P2 tertinggi (+$1,672).
 - Hal aneh: Pada P1D, initial lot L1 tetap 0.01 (terhitung 0.011) karena volatilitas H1 20 hari tinggi sehingga kalkulasi risiko SL menuntut lot kecil.
 
+
+## Analisis Claude Code atas putaran 8
+- Deposit $3000 membuat lot L1 adaptif bekerja (0.01–0.03). Semua X profit di P2 dan P1D; DD P1D < 16%.
+- Tiga periode (P3 / P2 / P1D, % dari $3000):
+  X1 −14% / +43% / +28% (DD 22/17/9) · **X3 (40 hari) −0.6% / +19% / +15%** (DD 22/20/11) ·
+  **X5 (BEP 0.8) −7.7% / +42% / +28%** (DD 21/19/9) · X4 (SL P95) −18% / +56% / +27% · X2 ditolak.
+  X5 lebih baik dari X1 di semua periode. X3 paling tahan di 2024.
+- **Temuan kunci (bedah basket X3/X5 di 2024): layer dalam merugikan.** Basket L4+ yang menang total hanya +$36/+$54,
+  sedangkan L4+ yang kalah (SL + weekend) −$1,230/−$1,512. Basket L2–L3 juga net negatif di 2024.
+  Hampir semua profit datang dari **L1 yang menang** (+$1,336/+$1,784). Di P2 polanya sama: L4+ −$413 vs +$19.
+  Artinya, averaging dalam lebih sering berakhir di SL daripada menyelamatkan basket.
+- Putaran 9 (deposit $3000, basis Y1 = X3 + X5): uji jumlah layer maksimal 5/3/2/1.
+  Y4 (tanpa averaging, hanya L1 + SL adaptif) adalah kontrol, untuk mengukur apakah averaging masih menambah nilai.
+  Y5 = 3 layer + SL P95.

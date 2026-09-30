@@ -538,6 +538,85 @@
       "test": {
         "deposit": 3000
       }
+    },
+    {
+      "id": "Y1",
+      "desc": "Putaran 9: belajar 40 hari + BEP 0.8 (gabungan X3+X5), 5 layer",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Y2",
+      "desc": "Putaran 9: Y1 dengan maksimal 3 layer",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Max_Buy_Layers": 3,
+        "Max_Sell_Layers": 3
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Y3",
+      "desc": "Putaran 9: Y1 dengan maksimal 2 layer",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Max_Buy_Layers": 2,
+        "Max_Sell_Layers": 2
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Y4",
+      "desc": "Putaran 9: Y1 tanpa averaging (L1 + SL adaptif saja, kontrol)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Max_Buy_Layers": 1,
+        "Max_Sell_Layers": 1
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Y5",
+      "desc": "Putaran 9: Y2 (3 layer) + SL P95",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Max_Buy_Layers": 3,
+        "Max_Sell_Layers": 3,
+        "Sniper_SL_Percentile": 95
+      },
+      "test": {
+        "deposit": 3000
+      }
     }
   ]
 }

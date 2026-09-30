@@ -250,3 +250,20 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Z1 (jarak bernapas ATR) PEMENANG BESAR: pangkas DD tertipis di semua periode (15.6% P3, 18.0% P2, 7.0% P1D) dgn profit stabil (+$846 P2, +$807 P1D).
 - Z3/Z5/Z6 sukses recovery exit BEP (42x di 2024). Trend stop Z4/Z6 memotong SL drastis (hanya 2 SL di P3, diganti 19 exit protektif saat tren ADX kuat).
 - Hal aneh: Z2 (time-decay) justru menaikkan DD di P3 (30.5%) karena memotong posisi terlalu dini saat koreksi sehat sedang berjalan.
+
+## Analisis Claude Code atas putaran 9
+- Total tiga periode (P3 + P2 + P1D, dari $3000 per periode) dan DD terbesar:
+  **Z1 +$1,405, DD maks 18.0%** · Y2 +$1,332 (DD 28%) · Y1 +$1,089 (DD 22%) · Z6 +$968 · Z3 +$918 · Z4 +$870 ·
+  Z2 +$851 · Y3 +$803 · Y4 +$899 (DD 37%) · Y5 +$800 (DD 51%).
+- **Z1 (jarak bernapas ATR) menang**: DD terendah di ketiga periode (15.6 / 18.0 / 7.0%) dan profit P2/P1D naik
+  dibanding Y1. Rugi 2024 memburuk sedikit (−$248 vs −$10), tetapi DD-nya justru turun.
+- **Jumlah layer**: 5 layer (Y1) tetap terbaik. Mengurangi layer memindahkan anggaran risiko ke lot L1, sehingga rugi
+  2024 dan DD naik (Y2 −$495, Y3 −$512, Y4 tanpa averaging −$785 / DD 37%). Averaging masih dibutuhkan di tahun
+  sulit. Y4 hanya unggul di P1D (+$1,455), yaitu periode tren yang cocok.
+- **SL adaptif (Z2 time-decay, Z3 recovery, Z4 trend stop) tidak menambah nilai di atas Y1** di 2024: net lebih buruk
+  (−$134 s/d −$349). Z4 memang menurunkan worst basket 2024 (−$338 → −$225), tetapi basket rugi bertambah.
+  Z2 memotong koreksi sehat terlalu dini (DD 2024 30%).
+- **Loss besar kini terkendali**: worst basket di semua skenario ~ −$225 s/d −$414 (≈ 8–14% dari $3000), sesuai anggaran
+  risiko 10%. Akun tidak lagi habis, dan tidak ada lagi basket −$1,000 seperti di grid lama.
+- Putaran 10: (a) tuning Z1 (batas rasio ATR, trend stop, risiko 8/12%), (b) **validasi Z1 dan Y1 di 2023 (P4) dan
+  2022 (P5)**, dua tahun yang belum pernah dipakai menyetel parameter.

@@ -39,6 +39,24 @@
       "test": {
         "spread": 20
       }
+    },
+    {
+      "id": "P4",
+      "from": "2023.01.02",
+      "to": "2023.12.29",
+      "desc": "Validasi 2023 (belum pernah dipakai menyetel) | data 2 digit: spread 20 = $0.20",
+      "test": {
+        "spread": 20
+      }
+    },
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "Validasi 2022 (belum pernah dipakai menyetel) | data 2 digit: spread 20 = $0.20",
+      "test": {
+        "spread": 20
+      }
     }
   ],
   "scenarios": [
@@ -727,6 +745,104 @@
         "Sniper_Use_Trend_Stop": true,
         "Sniper_Trend_Stop_Min_Layers": 3,
         "Sniper_Trend_Stop_ADX": 30
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "A1",
+      "desc": "Putaran 10: Z1, rasio ATR maks 1.5",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Vol_Scale_Max": 1.5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "A2",
+      "desc": "Putaran 10: Z1, rasio ATR maks 3.0",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Vol_Scale_Max": 3.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "A3",
+      "desc": "Putaran 10: Z1, hanya melebar (min 1.0)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Vol_Scale_Min": 1.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "A4",
+      "desc": "Putaran 10: Z1 + trend stop",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Use_Trend_Stop": true,
+        "Sniper_Trend_Stop_Min_Layers": 3,
+        "Sniper_Trend_Stop_ADX": 30
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "A5",
+      "desc": "Putaran 10: Z1, risiko 8% per basket",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "A6",
+      "desc": "Putaran 10: Z1, risiko 12% per basket",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 12
       },
       "test": {
         "deposit": 3000

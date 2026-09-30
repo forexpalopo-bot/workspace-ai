@@ -286,3 +286,8 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 
 ## Analisis Claude Code atas putaran 10
 Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,867 di P3/P2/P1D dengan DD maks 16.1%; Z1 di 2022 rugi −$963, DD 37.7%). Putaran 11 memakai research/scenarios_putaran11.json.
+
+## Rencana putaran 12 (EA v84 L1 Scalp)
+- Permintaan pengguna: entry L1 lebih akurat (OB/OS TF kecil), tidak buka BUY dan SELL bersamaan, TP scalping lebih
+  dekat, SL lebih ketat. Semua diuji di atas A5 (kandidat terbaik putaran 10), deposit $3000, periode 2022/2024/2025/P1D.
+- C1 satu arah → C2 + OB/OS M5 → C3 + TP scalp → C4/C5 SL maks $30/$20 → C6 SL P90. File: research/scenarios_putaran12.json.

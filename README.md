@@ -12,6 +12,7 @@ Riset EA BioOnePro (MT4, XAUUSD).
 | `ea/BioOnePro_Optimized_v81_Apex_TrendWeekend.mq4` | v81: v80 + filter tren D1 + weekend hold (default mati) |
 | `ea/BioOnePro_Optimized_v82_Adaptive_Sniper.mq4` | v82: v81 + mode Adaptive Sniper (default mati) |
 | `ea/BioOnePro_Optimized_v83_Adaptive_Sniper_SL.mq4` | v83: v82 + SL adaptif (time-decay, trend stop), jarak bernapas, recovery exit |
+| `ea/BioOnePro_Optimized_v84_Scalp_L1.mq4` | v84: v83 + entry L1 OB/OS TF kecil, TP scalping, batas SL maksimum |
 | `docs/desain-v82-adaptive-sniper.md` | Desain mode Adaptive Sniper |
 | `docs/analisis-v77-dan-perubahan-v78.md` | Analisis cara kerja, hasil backtest, risiko, dan daftar perubahan |
 | `tools/analyze_mt4_report.py` | Ringkas laporan Strategy Tester (.htm) menjadi metrik dan statistik basket |

@@ -67,3 +67,17 @@ tinggal sekitar 50:50, padahal kekalahannya jauh lebih besar. Semua fitur defaul
 
 Anggaran risiko per basket (lot L1 dan batas lot layer) tetap dihitung dari SL awal, sehingga semua fitur
 ini hanya bisa **mengurangi** rugi maksimum, tidak menambahnya.
+
+---
+
+# v84: L1 Scalp (semua default mati)
+
+| Fitur | Parameter | Cara kerja |
+|---|---|---|
+| **Entry L1 di OB/OS TF kecil** | `Use_L1_OBOS_Filter`, `L1_OBOS_TF=5` | Selain syarat lama (tren H1, pullback BB, MACD, dll.), L1 BUY hanya dibuka bila Stochastic(14,3,3) M5 sempat ≤ 20 dalam 3 bar terakhir **dan** %K berbalik naik di atas %D. SELL kebalikannya (≥ 80, lalu turun). Tujuannya masuk dekat titik balik pullback, bukan di tengah pergerakan. |
+| **Tidak buka BUY dan SELL bersamaan** | `Dual_Mode=false` (fitur lama) | L1 baru hanya dibuka bila tidak ada basket terbuka di arah mana pun. |
+| **TP scalping** | `Use_Scalp_TP`, ATR M15 × 1.0, batas $2–$8 | TP L1 dekat dan adaptif terhadap volatilitas, dikunci saat order dibuka. Trailing lama tetap aktif, jadi profit masih bisa dikunci lebih awal. |
+| **SL lebih ketat** | `Sniper_SL_Max_Pips` (mis. 3000 = $30) | Membatasi jarak SL basket dari L1. Layer averaging yang posisinya melewati SL otomatis tidak dipakai, dan lot L1 dihitung ulang dari anggaran risiko dengan SL yang lebih dekat. |
+
+Konsekuensi SL yang lebih dekat: **rugi per kejadian lebih kecil**, tetapi SL tersentuh **lebih sering**.
+Anggaran risiko per basket (8%) tetap sama, jadi lot L1 sedikit lebih besar saat SL lebih dekat.

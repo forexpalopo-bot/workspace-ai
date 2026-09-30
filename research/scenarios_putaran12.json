@@ -1,0 +1,172 @@
+{
+  "ea_source": "ea/BioOnePro_Optimized_v84_Scalp_L1.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.09.26",
+      "desc": "Jan-Sep 2025"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "C1",
+      "desc": "Putaran 12: A5 + satu arah saja (Dual_Mode=false)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "C2",
+      "desc": "Putaran 12: C1 + L1 hanya setelah OB/OS Stochastic M5 berbalik",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "C3",
+      "desc": "Putaran 12: C2 + TP scalping ATR M15 x1.0 ($2-$8)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "C4",
+      "desc": "Putaran 12: C3 + SL maksimum $30",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 3000
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "C5",
+      "desc": "Putaran 12: C3 + SL maksimum $20",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 2000
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "C6",
+      "desc": "Putaran 12: C3 + SL persentil 90",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Percentile": 90
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

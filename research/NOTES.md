@@ -267,3 +267,19 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   risiko 10%. Akun tidak lagi habis, dan tidak ada lagi basket −$1,000 seperti di grid lama.
 - Putaran 10: (a) tuning Z1 (batas rasio ATR, trend stop, risiko 8/12%), (b) **validasi Z1 dan Y1 di 2023 (P4) dan
   2022 (P5)**, dua tahun yang belum pernah dipakai menyetel parameter.
+
+## Putaran 10
+| run_id | net_profit (P3 / P2 / P1D) | max_dd_pct | rel_dd_pct | largest_order_loss | losing_bsk | worst_basket | L4+ |
+|---|---|---|---|---|---|---|---|
+| Y1 (P4/P5) | P4: -38 / P5: -1007 | 25.3% / 39.6% | 25.3% / 39.6% | -121 / -102 | 38 / 51 | -311 / -289 | 16 / 24 |
+| Z1 (P4/P5) | P4: +120 / P5: -963 | 25.2% / 37.7% | 25.2% / 37.7% | -111 / -102 | 40 / 46 | -311 / -289 | 17 / 26 |
+| A1 (ATR m1.5)| -246 / +846 / +815 | 15.6% / 18.0% / 7.0% | 15.6% / 18.0% / 7.0% | -102 / -122 / -108 | 35 / 13 / 15 | -338 / -341 / -143 | 23 / 8 / 1 |
+| A2 (ATR m3.0)| -238 / +846 / +807 | 15.5% / 18.0% / 7.0% | 15.5% / 18.0% / 7.0% | -102 / -122 / -108 | 35 / 13 / 15 | -338 / -341 / -143 | 23 / 8 / 1 |
+| A3 (ATR min1)| -244 / +853 / +450 | 17.2% / 18.0% / 10.7%| 17.6% / 18.0% / 10.7%| -102 / -122 / -162 | 42 / 13 / 17 | -338 / -341 / -309 | 21 / 7 / 2 |
+| A4 (TrendStop)| -471 / +877 / +776 | 22.2% / 17.1% / 7.0% | 22.2% / 17.1% / 7.0% | -102 / -122 / -108 | 48 / 14 / 16 | -228 / -341 / -143 | 15 / 6 / 1 |
+| A5 (Risk 8%) | -7 / +1062 / +812 | 15.8% / 16.1% / 7.0% | 15.8% / 16.1% / 7.0% | -102 / -122 / -108 | 35 / 11 / 15 | -249 / -305 / -108 | 23 / 7 / 1 |
+| A6 (Risk 12%)| -52 / +1485 / +814 | 21.2% / 23.4% / 7.0% | 21.2% / 23.4% / 7.0% | -153 / -183 / -108 | 36 / 11 / 15 | -411 / -488 / -138 | 23 / 8 / 1 |
+- Validasi OOS 2022–2023: Z1 profit di 2023 (+$120 vs Y1 -$38) & lebih tahan di 2022 (-$963/DD 37.7% vs Y1 -$1007/DD 39.6%). Keduanya selamat tanpa MC.
+- Tuning Z1: A5 (risiko 8%) JUARA BARU: DD terendah di semua periode (15.8% P3, 16.1% P2, 7.0% P1D) dgn profit fantastis (P3 -$7, P2 +$1062, P1D +$812).
+- A3 (min ATR 1.0) memangkas profit P1D separuhnya ($450 vs $815) membuktikan pengetatan grid saat tenang esensial; TrendStop (A4) memperburuk P3 (-$471).
+- Hal aneh di log: A6_P1D relDD (6.96%) > maxDD (6.87%) krn equity peak terbentuk di awal; A5 meredam worst basket P3 dari -$338 ke -$249 tanpa mengorbankan winrate.

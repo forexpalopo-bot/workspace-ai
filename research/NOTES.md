@@ -324,3 +324,16 @@ Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,8
   menutup utang; re-entry searah tanpa cooldown; reset utang setelah 3 basket rugi berturut-turut atau utang > 15%.
 - Basis = C4 (A5 + satu arah + OB/OS M5 + TP scalp + SL maks $30). D0 = C4 tanpa recovery, D1–D4 variasi recovery.
   File: research/scenarios_putaran13.json. Periode 2022/2024/2025/P1D.
+
+## Putaran 13
+| run_id | net_profit (P5 / P3 / P2 / P1D) | max_dd / rel_dd | win_rate | losing_bsk | worst_bsk | max_lot | REC / SELESAI / RESET |
+|---|---|---|---|---|---|---|---|
+| D0 (C4 Baseline) | -893 / -832 / +660 / -141 | 32.9% / 32.4% / 18.6% / 33.7% | 76.2% / 78.0% / 88.4% / 87.9% | 26 / 21 / 11 / 21 | -203 / -240 / -297 / -353 | 0.15 / 0.12 / 0.14 / 0.11 | (0/0/0) |
+| D1 (Recovery 2x) | -1004 / -714 / +831 / -82 | 38.0% / 33.4% / 24.5% / 34.8% | 77.3% / 81.2% / 88.6% / 88.3% | 28 / 22 / 12 / 21 | -229 / -237 / -340 / -367 | 0.15 / 0.13 / 0.16 / 0.12 | (27/8/5) / (22/7/5) / (10/4/1) / (21/7/6) |
+| D2 (D1 + Searah) | -1123 / +326 / +682 / -265 | 39.6% / 21.0% / 22.9% / 28.3% | 74.7% / 83.8% / 88.9% / 86.8% | 22 / 14 / 11 / 15 | -232 / -294 / -336 / -306 | 0.15 / 0.14 / 0.16 / 0.10 | (21/7/4) / (14/4/3) / (9/3/1) / (15/3/4) |
+| D3 (Lot 1.5x) | -1094 / -570 / +719 / -82 | 39.3% / 30.9% / 25.0% / 34.8% | 76.1% / 81.2% / 89.1% / 88.3% | 29 / 22 / 12 / 21 | -231 / -256 / -336 / -367 | 0.15 / 0.12 / 0.16 / 0.12 | (27/8/5) / (21/4/5) / (10/4/1) / (21/7/6) |
+| D4 (Target 50%) | -1029 / -725 / +774 / -95 | 38.0% / 33.3% / 24.5% / 34.4% | 77.6% / 80.5% / 88.2% / 88.3% | 28 / 22 / 12 / 21 | -229 / -237 / -340 / -367 | 0.15 / 0.13 / 0.16 / 0.12 | (27/8/5) / (22/7/5) / (10/4/1) / (21/7/6) |
+- D0 paritas 100% dgn C4 di semua periode. D2 (re-entry searah SL) hasilkan terobosan di 2024: balikkan rugi -$832 jd profit +$326 (DD 21.0%).
+- D1 meningkatkan profit P2 (+$831 vs +$660) dan pangkas rugi P1D (-$82 vs -$141), namun di 2022 rugi sedikit membesar (-$1004 vs -$893).
+- Pengaman anti-spiral sukses: RESET terpicu 1–6x per run saat rugi beruntun tercapai, mencegah akumulasi lot berlebih (max_lot selalu <= 0.16).
+- Hal aneh di log: D2 merugi di 2022 (-$1123) krn re-entry searah SL sering terjebak whipsaw pembalikan arah tajam saat siklus kenaikan suku bunga Fed.

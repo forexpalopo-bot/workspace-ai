@@ -234,3 +234,11 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Putaran 9 (deposit $3000, basis Y1 = X3 + X5): uji jumlah layer maksimal 5/3/2/1.
   Y4 (tanpa averaging, hanya L1 + SL adaptif) adalah kontrol, untuk mengukur apakah averaging masih menambah nilai.
   Y5 = 3 layer + SL P95.
+
+## Rencana putaran 9 (gabungan, EA v83)
+- Hasil Y1–Y5 belum ada; digabung ke putaran ini memakai EA v83 (fitur v83 default mati, jadi Y1–Y5 setara v82).
+- Temuan tambahan dari data putaran 8: basket L2+ yang kalah berumur lebih panjang (median 25 jam vs 16 jam
+  untuk yang menang, di 2024). Setelah 24 jam masih terbuka: 14 menang (kecil) vs 11 kalah (besar).
+- v83 menambah SL adaptif (mengetat seiring umur, trend-confirm ADX), jarak averaging "bernapas" (rasio ATR),
+  dan recovery exit di BEP untuk basket tua. Lihat docs/desain-v82-adaptive-sniper.md bagian v83.
+- Skenario: Y1–Y5 (jumlah layer) + Z1–Z6 (fitur v83 di atas Y1). Deposit $3000, periode P3 → P2 → P1D.

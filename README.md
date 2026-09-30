@@ -11,6 +11,7 @@ Riset EA BioOnePro (MT4, XAUUSD).
 | `ea/BioOnePro_Optimized_v80_Apex_PSAR.mq4` | v80: v79 + Parabolic SAR (gate averaging + filter L1, default mati) |
 | `ea/BioOnePro_Optimized_v81_Apex_TrendWeekend.mq4` | v81: v80 + filter tren D1 + weekend hold (default mati) |
 | `ea/BioOnePro_Optimized_v82_Adaptive_Sniper.mq4` | v82: v81 + mode Adaptive Sniper (default mati) |
+| `ea/BioOnePro_Optimized_v83_Adaptive_Sniper_SL.mq4` | v83: v82 + SL adaptif (time-decay, trend stop), jarak bernapas, recovery exit |
 | `docs/desain-v82-adaptive-sniper.md` | Desain mode Adaptive Sniper |
 | `docs/analisis-v77-dan-perubahan-v78.md` | Analisis cara kerja, hasil backtest, risiko, dan daftar perubahan |
 | `tools/analyze_mt4_report.py` | Ringkas laporan Strategy Tester (.htm) menjadi metrik dan statistik basket |

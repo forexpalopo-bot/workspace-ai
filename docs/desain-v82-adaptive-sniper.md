@@ -49,3 +49,21 @@ kerugian menumpuk sampai akun habis.
   lebih kecil, lot L1 terpaksa 0.01 (minimum broker); anggaran risiko lalu memangkas atau melewati layer.
 - Persentil dan parameter default adalah titik awal yang masuk akal, bukan hasil optimasi. Kebenarannya
   hanya bisa dibuktikan lewat backtest di 2024, 2025, dan P1.
+
+---
+
+# v83: SL adaptif dan jarak "bernapas"
+
+Dasarnya temuan putaran 8. Kerugian besar datang dari basket L2+ yang **bertahan lama**:
+median umur basket rugi ~25 jam, sedangkan basket menang ~16 jam. Setelah 24 jam, peluang menang/kalah
+tinggal sekitar 50:50, padahal kekalahannya jauh lebih besar. Semua fitur default mati.
+
+| Fitur | Cara kerja | Masalah yang diserang |
+|---|---|---|
+| **Jarak bernapas** `Sniper_Use_Vol_Scaling` | Jarak layer (dari rencana persentil yang dibekukan) dikali rasio ATR H1(14) / ATR H1 jangka panjang, dibatasi 0.8–2.0×. Dicek ulang setiap tick. | Saat pasar mendadak cepat, layer tidak terkena "jatuh bebas"; saat tenang, averaging lebih rapat. |
+| **SL time-decay** `Sniper_Use_SL_Time_Decay` | Setelah 12 jam, SL basket mengetat linear sampai 60% dari SL awal di jam ke-36. Hanya bisa mengetat, dan tidak pernah lebih dekat dari layer terdalam + jarak minimum. | Basket tua yang kemungkinan besar sedang melawan tren ditutup lebih awal, dengan rugi lebih kecil. |
+| **Trend-confirm stop** `Sniper_Use_Trend_Stop` | Basket ≥ 3 layer ditutup bila close H1 sudah melewati layer terdalam, ADX H1 ≥ 30, dan DI melawan basket. | Keluar sebelum SL penuh ketika tren terkonfirmasi. |
+| **Recovery exit** `Sniper_Use_Recovery_Exit` | Basket ≥ 2 layer yang berumur ≥ 12 jam ditutup begitu net ≥ 0, tanpa menunggu target $6–15. | Mencegah basket tua yang sempat kembali ke BEP jatuh lagi dan berakhir di SL atau weekend close. |
+
+Anggaran risiko per basket (lot L1 dan batas lot layer) tetap dihitung dari SL awal, sehingga semua fitur
+ini hanya bisa **mengurangi** rugi maksimum, tidak menambahnya.

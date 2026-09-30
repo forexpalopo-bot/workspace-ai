@@ -1,5 +1,5 @@
 {
-  "ea_source": "ea/BioOnePro_Optimized_v82_Adaptive_Sniper.mq4",
+  "ea_source": "ea/BioOnePro_Optimized_v83_Adaptive_Sniper_SL.mq4",
   "test": {
     "symbol": "XAUUSD",
     "period": "M1",
@@ -613,6 +613,120 @@
         "Max_Buy_Layers": 3,
         "Max_Sell_Layers": 3,
         "Sniper_SL_Percentile": 95
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Z1",
+      "desc": "Putaran 9: Y1 + jarak bernapas (ATR ratio)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Z2",
+      "desc": "Putaran 9: Y1 + SL time-decay (12→36 jam, 60%)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_SL_Time_Decay": true,
+        "Sniper_SL_Decay_Start_Hours": 12,
+        "Sniper_SL_Decay_End_Hours": 36,
+        "Sniper_SL_Decay_Min_Fraction": 0.6
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Z3",
+      "desc": "Putaran 9: Y1 + recovery exit BEP setelah 12 jam",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Recovery_Exit": true,
+        "Sniper_Recovery_After_Hours": 12,
+        "Sniper_Recovery_Net_Dollar": 0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Z4",
+      "desc": "Putaran 9: Y1 + trend stop (>=3 layer, ADX H1 30)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Trend_Stop": true,
+        "Sniper_Trend_Stop_Min_Layers": 3,
+        "Sniper_Trend_Stop_ADX": 30
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Z5",
+      "desc": "Putaran 9: Y1 + Z1 + Z2 + Z3",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Use_SL_Time_Decay": true,
+        "Sniper_SL_Decay_Start_Hours": 12,
+        "Sniper_SL_Decay_End_Hours": 36,
+        "Sniper_SL_Decay_Min_Fraction": 0.6,
+        "Sniper_Use_Recovery_Exit": true,
+        "Sniper_Recovery_After_Hours": 12,
+        "Sniper_Recovery_Net_Dollar": 0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Z6",
+      "desc": "Putaran 9: Z5 + trend stop",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Use_SL_Time_Decay": true,
+        "Sniper_SL_Decay_Start_Hours": 12,
+        "Sniper_SL_Decay_End_Hours": 36,
+        "Sniper_SL_Decay_Min_Fraction": 0.6,
+        "Sniper_Use_Recovery_Exit": true,
+        "Sniper_Recovery_After_Hours": 12,
+        "Sniper_Recovery_Net_Dollar": 0,
+        "Sniper_Use_Trend_Stop": true,
+        "Sniper_Trend_Stop_Min_Layers": 3,
+        "Sniper_Trend_Stop_ADX": 30
       },
       "test": {
         "deposit": 3000

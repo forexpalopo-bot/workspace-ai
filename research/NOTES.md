@@ -303,6 +303,21 @@ Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,8
   dekat, SL lebih ketat. Semua diuji di atas A5 (kandidat terbaik putaran 10), deposit $3000, periode 2022/2024/2025/P1D.
 - C1 satu arah → C2 + OB/OS M5 → C3 + TP scalp → C4/C5 SL maks $30/$20 → C6 SL P90. File: research/scenarios_putaran12.json.
 
+## Putaran 12
+| run_id | net_profit (P5 / P3 / P2 / P1D) | max_dd_pct | trades | win_rate | losing_bsk | worst_bsk | SNIPER_SL |
+|---|---|---|---|---|---|---|---|
+| C1 (Satu Arah) | -391 / -214 / +1003 / +567 | 22.7% / 20.7% / 16.0% / 8.8% | 583 / 609 / 420 / 381 | 77.9% / 75.7% / 88.8% / 94.2% | 29 / 31 / 9 / 13 | -226 / -248 / -295 / -247 | 6 / 5 / 3 / 1 |
+| C2 (+OB/OS M5) | -544 / -88 / +291 / -57 | 28.7% / 17.8% / 7.7% / 10.1% | 354 / 359 / 211 / 160 | 74.6% / 78.0% / 86.7% / 91.9% | 23 / 12 / 7 / 8 | -206 / -249 / -157 / -242 | 7 / 4 / 2 / 1 |
+| C3 (+TP Scalp) | -574 / +23 / +175 / -49 | 29.4% / 13.5% / 8.5% / 10.1% | 355 / 361 / 213 / 160 | 76.6% / 80.3% / 88.3% / 91.9% | 21 / 10 / 6 / 8 | -206 / -249 / -157 / -242 | 7 / 3 / 2 / 1 |
+| C4 (SL maks $30)| -893 / -832 / +660 / -141 | 32.9% / 32.4% / 18.6% / 33.7%| 344 / 350 / 207 / 174 | 76.2% / 78.0% / 88.4% / 87.9% | 26 / 21 / 11 / 21 | -203 / -240 / -297 / -353 | 13 / 17 / 9 / 18 |
+| C5 (SL maks $20)| -1817 / -515 / +1195 / -864 | 64.1% / 36.1% / 32.0% / 41.0%| 335 / 337 / 193 / 175 | 72.2% / 81.0% / 91.2% / 82.3% | 43 / 31 / 16 / 31 | -242 / -246 / -385 / -345 | 26 / 28 / 16 / 29 |
+| C6 (SL P90) | -748 / -657 / +54 / +248 | 29.5% / 25.1% / 18.8% / 7.7% | 351 / 363 / 212 / 169 | 76.6% / 78.8% / 88.2% / 91.7% | 24 / 14 / 6 / 6 | -201 / -238 / -218 / -113 | 10 / 8 / 4 / 0 |
+- C1 (satu arah) sangat sukses: pangkas rugi 2022 (-$391 vs A5 -$432), DD 22.7%, profit P2 +$1003 & P1D +$567. Terkonfirmasi 100% TIDAK ADA order BUY dan SELL terbuka bersamaan di C1–C6.
+- C3 (TP scalping ATR M15) satu-satunya profit di 2024 (+$22.67) dgn DD terendah (13.5% P3, 8.5% P2), namun profit tren P1D tergerus.
+- SL ketat $20/$30 (C4/C5) GAGAL TOTAL: whipsaw ekstrem (SL tembus hingga 29x/run) membuat rugi membengkak (C5 DD 64% di 2022).
+- Hal aneh di log: Pada C5 (SL $20), grid layer L4+ tidak pernah terbentuk (0 di semua periode) krn basket dipotong paksa sebelum mencapai kedalaman averaging.
+
+
 ## Rencana putaran 13 (EA v85 Loss Recovery)
 - Permintaan pengguna: kerugian SL ditutup oleh order berikutnya, dan EA terus mencari peluang searah posisi yang kena SL.
 - v85: utang = puncak balance − balance; lot L1 dinaikkan (maks 2×, dibatasi anggaran risiko) supaya satu kemenangan

@@ -1,0 +1,187 @@
+{
+  "ea_source": "ea/BioOnePro_Optimized_v85_Loss_Recovery.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.09.26",
+      "desc": "Jan-Sep 2025"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "D0",
+      "desc": "Putaran 13: C4 di EA v85 tanpa recovery (harus sama dengan C4)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 3000
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "D1",
+      "desc": "Putaran 13: C4 + recovery (lot maks 2x, tutup 100% utang, re-entry searah)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 3000,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "D2",
+      "desc": "Putaran 13: D1 + hanya searah basket rugi selama recovery",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 3000,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Recovery_Block_Opposite": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "D3",
+      "desc": "Putaran 13: D1 dengan lot maks 1.5x",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 3000,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 1.5,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "D4",
+      "desc": "Putaran 13: D1 dengan target 50% utang per kemenangan",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Dual_Mode": false,
+        "Use_L1_OBOS_Filter": true,
+        "L1_OBOS_TF": 5,
+        "Use_Scalp_TP": true,
+        "Scalp_TP_ATR_TF": 15,
+        "Scalp_TP_ATR_Mult": 1.0,
+        "Scalp_TP_Min_Pips": 200,
+        "Scalp_TP_Max_Pips": 800,
+        "Sniper_SL_Max_Pips": 3000,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 0.5,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

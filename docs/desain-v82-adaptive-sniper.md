@@ -81,3 +81,37 @@ ini hanya bisa **mengurangi** rugi maksimum, tidak menambahnya.
 
 Konsekuensi SL yang lebih dekat: **rugi per kejadian lebih kecil**, tetapi SL tersentuh **lebih sering**.
 Anggaran risiko per basket (8%) tetap sama, jadi lot L1 sedikit lebih besar saat SL lebih dekat.
+
+---
+
+# v85: Loss Recovery (default mati, `Use_Loss_Recovery`)
+
+Tujuannya: kerugian dari SL ditutup oleh order-order berikutnya, dengan batas yang jelas supaya tidak kembali
+menjadi martingale tanpa batas (penyebab akun habis di v77).
+
+**Utang.** Utang = puncak balance − balance sekarang. Utang otomatis lunas begitu balance melewati puncaknya.
+
+**Lot pemulihan.** Selama ada utang, lot L1 dinaikkan supaya **satu kemenangan normal menutup utang**
+(atau `Recovery_Debt_Share` bagian darinya):
+`lot = utang / (jarak TP scalping × nilai per lot)`.
+Lot ini dibatasi dua hal:
+- maksimal `Recovery_Max_Lot_Mult` × lot normal (default 2×),
+- rugi L1 sendiri di SL Sniper tidak boleh melebihi anggaran risiko basket (8%). Layer averaging tetap dipotong
+  oleh anggaran yang sama, jadi risiko total per basket tidak naik.
+
+**Re-entry searah.** Setelah basket rugi, arah yang sama boleh masuk lagi **tanpa cooldown 2 jam**. Sinyal entry,
+filter tren H1, dan OB/OS tetap wajib, jadi EA hanya kembali searah bila tren masih mendukung.
+Opsi `Recovery_Block_Opposite` memblokir arah berlawanan selama recovery, sesuai permintaan "terus mencari peluang
+searah dengan posisi SL".
+
+**Averaging setelah SL.** Basket baru hasil re-entry punya averaging sendiri (grid adaptif penuh). Basket lama
+tetap ditutup di SL, karena menahan basket melewati SL adalah penyebab kerugian besar di grid lama.
+
+**Pengaman anti-spiral**
+- Setelah `Recovery_Max_Attempts` (3) basket rugi berturut-turut, utang di-reset: kerugian diterima dan lot kembali normal.
+- Bila utang > `Recovery_Max_Debt_Pct` (15%) balance, utang juga di-reset.
+- Lot tidak naik bertingkat setiap kali kalah. Pengali dihitung dari besar utang dan dibatasi 2×.
+
+**Risiko yang perlu disadari:** recovery menaikkan lot justru saat strategi sedang tidak cocok dengan pasar.
+Pada tahun seperti 2022, fitur ini bisa memperbesar kerugian sebelum pengaman reset bekerja. Karena itu fitur ini
+wajib diuji di 2022 dan 2024, bukan hanya di periode yang bagus.

@@ -291,3 +291,10 @@ Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,8
 - Permintaan pengguna: entry L1 lebih akurat (OB/OS TF kecil), tidak buka BUY dan SELL bersamaan, TP scalping lebih
   dekat, SL lebih ketat. Semua diuji di atas A5 (kandidat terbaik putaran 10), deposit $3000, periode 2022/2024/2025/P1D.
 - C1 satu arah → C2 + OB/OS M5 → C3 + TP scalp → C4/C5 SL maks $30/$20 → C6 SL P90. File: research/scenarios_putaran12.json.
+
+## Rencana putaran 13 (EA v85 Loss Recovery)
+- Permintaan pengguna: kerugian SL ditutup oleh order berikutnya, dan EA terus mencari peluang searah posisi yang kena SL.
+- v85: utang = puncak balance − balance; lot L1 dinaikkan (maks 2×, dibatasi anggaran risiko) supaya satu kemenangan
+  menutup utang; re-entry searah tanpa cooldown; reset utang setelah 3 basket rugi berturut-turut atau utang > 15%.
+- Basis = C4 (A5 + satu arah + OB/OS M5 + TP scalp + SL maks $30). D0 = C4 tanpa recovery, D1–D4 variasi recovery.
+  File: research/scenarios_putaran13.json. Periode 2022/2024/2025/P1D.

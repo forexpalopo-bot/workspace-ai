@@ -1,0 +1,22 @@
+{
+  "ea_source": "ea/BioOnePro_Optimized_v83_Adaptive_Sniper_SL.mq4",
+  "test": { "symbol": "XAUUSD", "period": "M1", "model": 0, "spread": 20 },
+  "periods": [
+    { "id": "P3", "from": "2024.01.02", "to": "2024.12.31", "desc": "2024" },
+    { "id": "P2", "from": "2025.01.02", "to": "2025.09.26", "desc": "Jan-Sep 2025" },
+    { "id": "P1D", "from": "2025.09.29", "to": "2026.09.25", "desc": "Sep 2025 - Sep 2026" },
+    { "id": "P4", "from": "2023.01.02", "to": "2023.12.29", "desc": "2023" },
+    { "id": "P5", "from": "2022.01.03", "to": "2022.12.30", "desc": "2022" }
+  ],
+  "scenarios": [
+    { "id": "A5", "desc": "Putaran 11: Z1 risiko 8% (validasi 2022/2023)",
+      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Use_Adaptive_Sniper": true, "Sniper_Learn_Days": 40, "Sniper_BEP_Fraction": 0.8, "Sniper_Use_Vol_Scaling": true, "Sniper_Max_Basket_Risk_Pct": 8 },
+      "test": { "deposit": 3000 } },
+    { "id": "B1", "desc": "Putaran 11: Z1 risiko 6%",
+      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Use_Adaptive_Sniper": true, "Sniper_Learn_Days": 40, "Sniper_BEP_Fraction": 0.8, "Sniper_Use_Vol_Scaling": true, "Sniper_Max_Basket_Risk_Pct": 6 },
+      "test": { "deposit": 3000 } },
+    { "id": "B2", "desc": "Putaran 11: A5 + belajar 60 hari",
+      "params": { "Commission_Per_Lot_RoundTurn": 7.0, "Min_L1_Lock_Pips": 10, "Use_Adaptive_Sniper": true, "Sniper_Learn_Days": 60, "Sniper_BEP_Fraction": 0.8, "Sniper_Use_Vol_Scaling": true, "Sniper_Max_Basket_Risk_Pct": 8 },
+      "test": { "deposit": 3000 } }
+  ]
+}

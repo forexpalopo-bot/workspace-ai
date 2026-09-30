@@ -235,10 +235,23 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   Y4 (tanpa averaging, hanya L1 + SL adaptif) adalah kontrol, untuk mengukur apakah averaging masih menambah nilai.
   Y5 = 3 layer + SL P95.
 
-## Rencana putaran 9 (gabungan, EA v83)
-- Hasil Y1–Y5 belum ada; digabung ke putaran ini memakai EA v83 (fitur v83 default mati, jadi Y1–Y5 setara v82).
+## Putaran 9
+| run_id | net_profit (P3/P2/P1D) | max_dd_pct | rel_dd_pct | worst_order | losing_bsk | L2 | L3 | L4+ | SL_cnt |
+|---|---|---|---|---|---|---|---|---|---|
+| Y1 (5L 40d+0.8)| -10.13 / +645.49 / +454.20 | 19.8% / 21.9% / 10.7% | 19.8% / 21.9% / 10.7% | -102.2 / -122.1 / -161.9 | 40 / 12 / 17 | 40 / 14 / 7 | 24 / 14 / 1 | 22 / 7 / 2 | 5 / 5 / 1 |
+| Y2 (3 Layer)| -495.01 / +1336.47 / +491.13 | 28.3% / 21.7% / 10.8% | 28.3% / 21.7% / 10.8% | -153.4 / -183.2 / -161.9 | 39 / 10 / 17 | 44 / 14 / 7 | 41 / 21 / 3 | 0 / 0 / 0 | 7 / 5 / 1 |
+| Y3 (2 Layer)| -512.40 / +588.99 / +726.62 | 28.9% / 33.0% / 9.3% | 28.9% / 33.0% / 9.3% | -204.5 / -244.2 / -161.9 | 43 / 13 / 17 | 84 / 35 / 11 | 0 / 0 / 0 | 0 / 0 / 0 | 8 / 8 / 1 |
+| Y4 (Kontrol 1L)| -784.91 / +228.75 / +1455.46 | 37.1% / 33.2% / 10.5% | 37.1% / 33.2% / 10.5% | -306.7 / -414.3 / -323.8 | 62 / 25 / 17 | 0 / 0 / 0 | 0 / 0 / 0 | 0 / 0 / 0 | 11 / 11 / 1 |
+| Y5 (3L + P95)| -1403.80 / +901.12 / +1302.69| 51.5% / 35.2% / 6.6% | 51.5% / 35.2% / 8.0% | -144.9 / -209.9 / -107.9 | 45 / 13 / 14 | 39 / 14 / 10 | 47 / 21 / 5 | 0 / 0 / 0 | 18 / 8 / 0 |
+- Averaging terbukti esensial: Y4 (tanpa averaging) rugi terbesar di P3 (-$785) & terburuk di P2 (+$229), sedangkan Y1 hampir impas (-$10) dgn DD 19.8%.
+- Y2 (3 layer) unggul di P2 (+$1,336, DD 21.7%), tetapi Y1 (5 layer) jauh lebih tahan banting pada tren liar 2024 (-$10 vs -$495).
+- Hal aneh: Pada Y4, lot L1 lebih besar (0.04–0.06) karena anggaran risiko basket dialokasikan penuh ke 1 trade tanpa dibagi ke rencana layer averaging.
+
+## Rencana putaran 10 (EA v83)
+- Catatan: Y1–Y5 sudah selesai dijalankan oleh Antigravity (lihat tabel Putaran 9 di atas).
 - Temuan tambahan dari data putaran 8: basket L2+ yang kalah berumur lebih panjang (median 25 jam vs 16 jam
   untuk yang menang, di 2024). Setelah 24 jam masih terbuka: 14 menang (kecil) vs 11 kalah (besar).
 - v83 menambah SL adaptif (mengetat seiring umur, trend-confirm ADX), jarak averaging "bernapas" (rasio ATR),
   dan recovery exit di BEP untuk basket tua. Lihat docs/desain-v82-adaptive-sniper.md bagian v83.
-- Skenario: Y1–Y5 (jumlah layer) + Z1–Z6 (fitur v83 di atas Y1). Deposit $3000, periode P3 → P2 → P1D.
+- Skenario Z1–Z6 (fitur v83 di atas Y1). Deposit $3000, periode P3 → P2 → P1D.
+

@@ -287,6 +287,17 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 ## Analisis Claude Code atas putaran 10
 Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,867 di P3/P2/P1D dengan DD maks 16.1%; Z1 di 2022 rugi −$963, DD 37.7%). Putaran 11 memakai research/scenarios_putaran11.json.
 
+## Putaran 11
+| run_id | net_profit (P5 / P4 / P3 / P2 / P1D) | max_dd_pct | rel_dd_pct | losing_bsk | worst_basket | L4+ |
+|---|---|---|---|---|---|---|
+| A5 (Risk 8%, 40d) | -432 / +139 / -7 / +1062 / +812 | 25.6% / 21.1% / 15.8% / 16.1% / 7.0% | 25.6% / 21.1% / 15.8% / 16.1% / 7.0% | 41 / 41 / 35 / 11 / 15 | -223 / -235 / -249 / -305 / -108 | 26 / 17 / 23 / 7 / 1 |
+| B1 (Risk 6%, 40d) | -280 / +125 / -271 / +564 / +582 | 22.9% / 15.6% / 17.7% / 9.7% / 7.4% | 22.9% / 15.6% / 17.7% / 9.7% / 7.4% | 43 / 37 / 33 / 14 / 16 | -176 / -189 / -179 / -170 / -187 | 26 / 15 / 13 / 8 / 1 |
+| B2 (A5 + 60d) | -290 / -300 / -246 / +528 / +820 | 25.7% / 24.4% / 20.5% / 15.0% / 7.0% | 25.7% / 24.4% / 20.5% / 15.0% / 7.0% | 41 / 42 / 30 / 9 / 15 | -236 / -249 / -249 / -279 / -108 | 24 / 19 / 22 / 7 / 1 |
+- Total 5 Tahun: A5 JUARA MUTLAK (+$1,574 kumulatif dari $3k, DD maks 25.6% di 2022). B1 (+$719, DD 22.9%) terpotong profitnya; B2 (+$511) gagal di 2023/2024.
+- A5 di 2022 memangkas kerugian >55% vs v83 basis (-$432 vs Z1 -$963, Y1 -$1007) dan DD turun drastis ke 25.6% (vs 37.7% / 39.6%).
+- Di 2023 (P4), A5 profit +$139 dengan DD 21.05%, dan di 2024 (P3) hampir BEP (-$7.45) dengan DD hanya 15.81%.
+- Hal aneh di log: B2 (60d) merugi di 2023 (-$300) krn window swing terlalu panjang shg lambat mendeteksi volatilitas emas pasca-krisis perbankan Maret 2023.
+
 ## Rencana putaran 12 (EA v84 L1 Scalp)
 - Permintaan pengguna: entry L1 lebih akurat (OB/OS TF kecil), tidak buka BUY dan SELL bersamaan, TP scalping lebih
   dekat, SL lebih ketat. Semua diuji di atas A5 (kandidat terbaik putaran 10), deposit $3000, periode 2022/2024/2025/P1D.

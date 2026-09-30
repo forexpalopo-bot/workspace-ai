@@ -283,3 +283,6 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
 - Tuning Z1: A5 (risiko 8%) JUARA BARU: DD terendah di semua periode (15.8% P3, 16.1% P2, 7.0% P1D) dgn profit fantastis (P3 -$7, P2 +$1062, P1D +$812).
 - A3 (min ATR 1.0) memangkas profit P1D separuhnya ($450 vs $815) membuktikan pengetatan grid saat tenang esensial; TrendStop (A4) memperburuk P3 (-$471).
 - Hal aneh di log: A6_P1D relDD (6.96%) > maxDD (6.87%) krn equity peak terbentuk di awal; A5 meredam worst basket P3 dari -$338 ke -$249 tanpa mengorbankan winrate.
+
+## Analisis Claude Code atas putaran 10
+Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,867 di P3/P2/P1D dengan DD maks 16.1%; Z1 di 2022 rugi −$963, DD 37.7%). Putaran 11 memakai research/scenarios_putaran11.json.

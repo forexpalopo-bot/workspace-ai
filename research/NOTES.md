@@ -207,3 +207,16 @@ Diisi oleh Antigravity setelah menjalankan `research/scenarios.json`. Format beb
   P98 hanya ditentukan 1–2 swing ekstrem. Diuji SL P95 (X4) dan belajar 40 hari (X3).
 - Putaran 8 (deposit $3000, P3/P2/P1D): X1 = W1, X2 = grid lebih rapat + SL P95, X3 = belajar 40 hari,
   X4 = SL P95, X5 = lot layer lebih ringan (BEP 0.8).
+
+## Putaran 8
+| run_id | net_profit (P3/P2/P1D) | max_dd_pct | rel_dd_pct | worst_order | losing_bsk | L2 | L3 | L4+ | SL_cnt |
+|---|---|---|---|---|---|---|---|---|---|
+| X1 (W1 $3k) | -429.92 / +1301.35 / +831.88 | 22.5% / 17.0% / 8.8% | 22.5% / 17.0% / 8.8% | -98.6 / -121.3 / -107.9 | 40 / 10 / 15 | 40 / 13 / 10 | 22 / 13 / 3 | 20 / 8 / 1 | 7 / 3 / 0 |
+| X2 (Rapat+P95)| -603.84 / +279.23 / +493.91 | 28.1% / 32.7% / 10.0% | 28.1% / 32.7% / 10.5% | -128.5 / -113.8 / -157.1 | 38 / 14 / 17 | 51 / 17 / 11 | 28 / 11 / 3 | 20 / 11 / 4 | 10 / 8 / 2 |
+| X3 (40 Hari)| -16.86 / +562.46 / +441.54 | 21.8% / 20.4% / 10.6% | 21.8% / 20.4% / 10.6% | -101.9 / -122.1 / -161.9 | 37 / 10 / 18 | 40 / 14 / 7 | 24 / 14 / 1 | 22 / 7 / 2 | 4 / 4 / 1 |
+| X4 (SL P95) | -529.05 / +1672.69 / +800.05 | 30.8% / 20.4% / 15.4% | 30.8% / 20.4% / 15.4% | -125.0 / -164.0 / -213.9 | 41 / 10 / 14 | 39 / 13 / 11 | 24 / 14 / 5 | 18 / 7 / 0 | 11 / 4 / 1 |
+| X5 (BEP 0.8) | -230.24 / +1259.54 / +832.35 | 21.0% / 19.3% / 8.8% | 21.0% / 19.3% / 8.8% | -147.9 / -178.4 / -107.9 | 40 / 12 / 15 | 40 / 13 / 10 | 23 / 13 / 3 | 19 / 8 / 1 | 7 / 3 / 0 |
+- Deposit $3000 mengaktifkan lot adaptif L1 (0.01–0.03 aktual terbuka). Semua skenario untung di P2 & P1D dengan DD < 33% (P1D DD < 11%).
+- X3 (belajar 40 hari) paling stabil di 2024 (P3 hampir BEP, hanya -$16.86 dgn 4 SL). X4 menghasilkan profit P2 tertinggi (+$1,672).
+- Hal aneh: Pada P1D, initial lot L1 tetap 0.01 (terhitung 0.011) karena volatilitas H1 20 hari tinggi sehingga kalkulasi risiko SL menuntut lot kecil.
+

@@ -115,3 +115,17 @@ tetap ditutup di SL, karena menahan basket melewati SL adalah penyebab kerugian 
 **Risiko yang perlu disadari:** recovery menaikkan lot justru saat strategi sedang tidak cocok dengan pasar.
 Pada tahun seperti 2022, fitur ini bisa memperbesar kerugian sebelum pengaman reset bekerja. Karena itu fitur ini
 wajib diuji di 2022 dan 2024, bukan hanya di periode yang bagus.
+
+---
+
+# v86: Signal Guard (semua default mati)
+
+| Fitur | Parameter | Cara kerja |
+|---|---|---|
+| **Volume klimaks** | `Use_L1_VolClimax_Filter`, TF M5 | L1 hanya dibuka bila salah satu dari 3 candle M5 terakhir bervolume ≥ 1.8× rata-rata 20 candle sebelumnya. Lonjakan volume di ujung pullback sering menandakan habisnya tekanan jual/beli. |
+| **Pola pembalikan candle** | `Use_L1_Reversal_Candle`, TF M5 | BUY butuh **bullish engulfing** atau **hammer/pin bar** (ekor bawah ≥ 2× badan, close di 40% teratas). SELL butuh bearish engulfing atau shooting star. |
+| **Cut loss sinyal berlawanan** | `Use_Opposite_Signal_Cut` | Basket BUY ditutup saat sinyal L1 SELL muncul (dan sebaliknya). Sinyal L1 sudah memuat filter tren H1, jadi ini berarti tren berbalik. Default hanya saat basket rugi, dan wajib ada pola pembalikan berlawanan, supaya tidak memotong basket yang sedang pulih. Bila sinyal berlawanan valid, L1 arah baru bisa langsung dibuka (stop and reverse). |
+| **Equity guard** | `Use_Equity_Guard` | Membuat kurva lebih stabil. Saat balance turun ≥ 10% dari puncak, lot dipotong 50% sampai puncak tercapai lagi. Setelah 3 basket rugi berturut-turut, entry L1 dijeda 24 jam. |
+
+Catatan: equity guard (mengurangi lot saat rugi) dan Loss Recovery v85 (menaikkan lot saat rugi) bekerja berlawanan.
+Jangan diaktifkan bersamaan.

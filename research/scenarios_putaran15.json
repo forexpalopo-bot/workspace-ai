@@ -1,0 +1,165 @@
+{
+  "ea_source": "ea/BioOnePro_Optimized_v86_Signal_Guard.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P4",
+      "from": "2023.01.02",
+      "to": "2023.12.29",
+      "desc": "2023"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.09.26",
+      "desc": "Jan-Sep 2025"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "F1",
+      "desc": "Putaran 15: A5 + filter volume klimaks M5",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_L1_VolClimax_Filter": true,
+        "L1_Pattern_TF": 5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "F2",
+      "desc": "Putaran 15: A5 + filter pola pembalikan candle M5",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_L1_Reversal_Candle": true,
+        "L1_Pattern_TF": 5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "F3",
+      "desc": "Putaran 15: A5 + volume klimaks + pola pembalikan",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_L1_VolClimax_Filter": true,
+        "L1_Pattern_TF": 5,
+        "Use_L1_Reversal_Candle": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "F4",
+      "desc": "Putaran 15: A5 + cut loss sinyal berlawanan (saat rugi, wajib pola pembalikan)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Opposite_Signal_Cut": true,
+        "OppCut_Only_When_Loss": true,
+        "OppCut_Require_Reversal_Candle": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "F5",
+      "desc": "Putaran 15: A5 + equity guard (DD 10% -> lot 0.5x, jeda 24 jam setelah 3 rugi)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Equity_Guard": true,
+        "EqGuard_DD_Pct": 10,
+        "EqGuard_Lot_Factor": 0.5,
+        "EqGuard_Max_Consec_Losses": 3,
+        "EqGuard_Pause_Hours": 24
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "F6",
+      "desc": "Putaran 15: A5 + F3 + F4 + F5",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_L1_VolClimax_Filter": true,
+        "L1_Pattern_TF": 5,
+        "Use_L1_Reversal_Candle": true,
+        "Use_Opposite_Signal_Cut": true,
+        "OppCut_Only_When_Loss": true,
+        "OppCut_Require_Reversal_Candle": true,
+        "Use_Equity_Guard": true,
+        "EqGuard_DD_Pct": 10,
+        "EqGuard_Lot_Factor": 0.5,
+        "EqGuard_Max_Consec_Losses": 3,
+        "EqGuard_Pause_Hours": 24
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

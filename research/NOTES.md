@@ -361,3 +361,9 @@ Total 4 periode yang sama (2022 + 2024 + Jan–Sep 2025 + P1D, deposit $3000 per
 - **Recovery menambah nilai** dibanding basisnya (D2 +$826 vs D0, D1 +$237), tetapi sejauh ini hanya diuji di atas
   basis yang buruk (C4), dan memperbesar rugi 2022. Putaran 14 mengujinya di atas A5 dan C1, di 5 periode.
 - Preset kandidat untuk forward test demo: research/presets/BioOnePro_v85_A5_Kandidat.set (EA v85, setara A5).
+
+## Rencana putaran 15 (EA v86 Signal Guard)
+- Permintaan pengguna: L1 lebih akurat dengan volume klimaks + pola pembalikan candle, grafik lebih konsisten naik,
+  dan cut loss saat sinyal berlawanan muncul. Semua di atas A5 (terbaik saat ini), deposit $3000, 5 periode 2022–2026.
+- F1 volume klimaks M5, F2 pola pembalikan M5, F3 keduanya, F4 cut sinyal berlawanan, F5 equity guard, F6 gabungan.
+  File: research/scenarios_putaran15.json. Putaran 14 (recovery di atas A5/C1) tetap dijalankan lebih dulu bila belum.

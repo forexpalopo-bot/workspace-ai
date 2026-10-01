@@ -1,0 +1,91 @@
+{
+  "ea_source": "ea/BioOnePro_v89_FullAvg_L20.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "K0",
+      "desc": "Putaran 19 cepat: E2 baseline (laporan lama dipakai ulang, TIDAK dijalankan lagi)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "L0",
+      "desc": "v89 Full Averaging L20 default: kedalaman 5xATR D1, step x1.10, lot x1.0-1.10, risiko 40%",
+      "params": {},
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "L1",
+      "desc": "v89 L20 grid flat: lot sama semua layer (FA_Max_Lot_Mult 1.0), kedalaman 4xATR D1",
+      "params": {
+        "FA_Max_Lot_Mult": 1.0,
+        "FA_Depth_ATR_Mult": 4.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "L2",
+      "desc": "v89 L20 defensif: kedalaman 7xATR D1 + jeda layer saat ADX H1>35 melawan basket",
+      "params": {
+        "FA_Depth_ATR_Mult": 7.0,
+        "FA_Trend_Pause": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "L3",
+      "desc": "v89 L20 default dengan deposit $10,000 (cek skala lot dan risiko)",
+      "params": {},
+      "test": {
+        "deposit": 10000
+      }
+    }
+  ]
+}

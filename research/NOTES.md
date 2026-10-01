@@ -495,3 +495,19 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
   DD maks 24.2%, rugi hanya di 2022 (−$392 = −13%). Tidak ada kandidat yang mengalahkannya secara konsisten.
 - Versi final: **ea/BioOnePro_E2_Final.mq4**. Kode sama dengan v86, dan input default = setting E2 (sudah dicek identik
   dengan research/presets/BioOnePro_v86_E2_Kandidat.set). Tahap berikutnya: **forward test di akun demo**, bukan backtest lagi.
+
+## Putaran 19 — v89 Full Averaging L20 (permintaan user: averaging penuh, "profit konsisten atau MC")
+- EA baru: **ea/BioOnePro_v89_FullAvg_L20.mq4** (kode E2_Final + modul Full Averaging; Sniper, hedge L4, recovery dimatikan).
+- Jarak adaptif: kedalaman L1→L20 = FA_Depth_ATR_Mult × ATR D1 (20 hari), jarak antar layer membesar ×FA_Step_Growth,
+  L2 minimal persentil swing H1 P30, semua jarak × skala volatilitas H1 saat ini (Sniper_Use_Vol_Scaling).
+  Contoh ATR D1 $25 → L2 $3, L5 $14, L10 $41, L20 $153; ATR D1 $60 → L2 $6, L10 $80, L20 $300.
+- Lot: target BEP dekat, pengali dibatasi 1.0–1.10. Simulasi: pengali 1.35 → total 854× L1, 1.2 → 156× L1, 1.0 → 20× L1.
+  Lot L1 dari anggaran: rugi grid penuh di titik survive (kedalaman ×1.1) = 40% balance. Tanpa SL basket;
+  batas akhir = Percent_Loss 50% (Use_SL_inPercent=false → mode MC murni).
+- **Peringatan matematika**: dengan lot minimum 0.01, grid L20 flat sudah rugi ±$2,260 (ATR $25) sampai ±$4,400 (ATR $60)
+  di titik survive. Dengan deposit $3000, lot L1 hampir selalu dipaksa ke 0.01 dan risiko grid penuh > anggaran 40%.
+  Satu tren searah sedalam L20 kira-kira = cut-loss 50% akun. Karena itu L3 diuji di deposit $10,000.
+- Skenario (research/scenarios_putaran19.json): K0 E2 baseline (dipakai ulang) · L0 default · L1 grid flat 4×ATR ·
+  L2 defensif 7×ATR + jeda layer ADX>35 · L3 default deposit $10,000.
+- Diterima hanya bila total 3 periode > K0 (+$798) DAN tidak ada cut-loss akun / MC. Bila L3 bagus tetapi L0 gagal,
+  artinya strategi butuh modal ≥ $10k (atau akun cent) untuk L20.

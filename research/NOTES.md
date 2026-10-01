@@ -476,3 +476,12 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
   M1 = L1 runner (trailing ATR lebar, trailing ketat Stochastic dimatikan, fitur lama),
   M2 = trend pyramid (posisi tambahan searah saat L1 sudah profit 1× ATR, SL di BEP L1, trailing ATR),
   M3 = M1 + M2 + risiko 10%.
+
+## Putaran 18 (Mode Cepat)
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | win_rate | TREND PYRAMID | Keputusan |
+|---|---|---|---|---|---|---|
+| K0 (E2 Baseline) | -334 / +249 / +883 | +$798 | 25.8% | 78.5% / 77.6% / 94.7% | 0 | BASELINE |
+| M1 (L1 Runner) | -536 / +125 / +699 | +$288 | 29.9% | 61.9% / 59.2% / 80.3% | 0 | DITOLAK |
+| M2 (Trend Pyramid) | -846 / +498 / +864 | +$516 | 40.1% | 66.0% / 69.4% / 88.8% | 599 | DITOLAK |
+| M3 (M1+M2+Risk 10%) | -1822 / -272 / +2041 | -$54 | 63.6% | 57.1% / 57.3% / 67.3% | 2170 | DITOLAK |
+- Aturan Mode Cepat: Semua DITOLAK. M2 gandakan profit 2024 (+498 vs +249) tapi hancur di 2022 (-$846, DD 40.1%). M1 kurangi win rate. E2 tetap juara.

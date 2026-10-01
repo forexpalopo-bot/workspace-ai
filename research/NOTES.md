@@ -429,3 +429,15 @@ Total 5 tahun (2022–2026, $3000 per tahun), DD maks, dan jumlah tahun rugi:
 | G6 (E2 Sp 35) | 0 / 0 / 0 / +3 / +308 | 0.0% / 0.0% / 0.0% / 0.5% / 6.6% | 0.0% / 0.0% / 0.0% / 100.0% / 97.1% | 0 / 0 / 0 / 0 / 5 | 0 / 0 / 0 / 0 / -108 | 0 / 0 / 0 / 0.01 / 0.01 | 4 / 2 / 0 / 0 / 0 |
 - G0/G2 paritas sempurna E2 (+$2,790, DD 24.2%). OppCut (G1) pangkas DD 2022 sedikit (22.9%) tapi memotong drastis profit 2023/2024 (+$1,833 vs +$2,790).
 - Hal aneh di log: G6 (spread 35) 0 trade di 2022-2024 krn terblokir filter Base_Max_Spread_Pips=25; baru aktif di P1D saat ATR melonjak (+$308, DD 6.6%).
+
+## Analisis Claude Code atas putaran 16
+- **Tidak ada variasi yang mengalahkan E2** (G0 = E2: +$2,791 / 5 th, DD 24.2%, rugi hanya 2022).
+  G4 reset 2× +$2,072 · G5 cut + jeda +$2,065 · G3 lot 1.5× +$1,942 · G1 cut sinyal berlawanan +$1,834.
+  Cut sinyal berlawanan menurunkan DD 2022 sedikit (22.9%), tetapi memotong profit 2023/2024 jauh lebih besar. **Ditolak untuk E2.**
+- G2 (jeda setelah 3 rugi) identik dengan E2: di E2 tidak pernah terjadi 3 basket rugi berturut-turut (0 event). Tidak berbahaya,
+  tapi juga tidak berguna untuk E2.
+- **G6 (spread $0.35) tidak valid**: 0 trade di 2022–2024 karena filter spread EA (Base_Max_Spread_Pips 25 ≈ $0.25) memblokir semua
+  entry. Ini juga pesan penting untuk live: **bila spread broker > ~$0.25–0.30, EA berhenti membuka L1**. Ulang di putaran 17
+  dengan batas filter dilonggarkan (H7 $0.35, H8 $0.50).
+- Putaran 17 = uji ketahanan E2: apakah hasilnya stabil bila parameter digeser sedikit (risiko 7/9%, belajar 30/50 hari,
+  BEP 0.7/0.9)? Setting yang bagus seharusnya berada di "dataran", bukan puncak sempit. Plus uji biaya spread $0.35/$0.50.

@@ -1,0 +1,111 @@
+{
+  "ea_source": "ea/BioOnePro_v90_FullAvg_L1v238.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "K0",
+      "desc": "Putaran 20: E2 baseline (laporan lama dipakai ulang, TIDAK dijalankan lagi)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "L0",
+      "desc": "Putaran 20: v89 L20 putaran 19 (laporan lama dipakai ulang, TIDAK dijalankan lagi)",
+      "params": {},
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "N0",
+      "desc": "v90 L20 + tahan basket rugi saat weekend + lot naik 1 step tiap 4 layer",
+      "params": {
+        "FA_Lot_Add_Every_Layers": 4
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "N1",
+      "desc": "N0 + filter L1 v238Z (Smart RSI/ADX/ATR + Direction Governor H1/M15 + Reversal Timing)",
+      "params": {
+        "FA_Lot_Add_Every_Layers": 4,
+        "Use_V238_L1_Filters": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "N2",
+      "desc": "N0 + entry L1 penuh v238Z (sinyal Stochastic ganda M5 + semua filter v238Z)",
+      "params": {
+        "FA_Lot_Add_Every_Layers": 4,
+        "Use_V238_L1_Signal": true,
+        "Use_V238_L1_Filters": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "N3",
+      "desc": "E2 (Sniper L5 + recovery) + filter L1 v238Z",
+      "params": {
+        "Use_Full_Averaging": false,
+        "Weekend_Close_Only_Profit": false,
+        "Max_Buy_Layers": 7,
+        "Max_Sell_Layers": 7,
+        "Use_Adaptive_Sniper": true,
+        "Use_Loss_Recovery": true,
+        "Use_L4_Hedge_Guard": true,
+        "Use_V238_L1_Filters": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

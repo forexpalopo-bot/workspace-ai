@@ -521,3 +521,19 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
 | L2 (v89 L20 Defensif) | -848 / -498 / +1233 | -$113 | 32.5% | 75.6% / 76.9% / 91.7% | 8 | Tidak | DITOLAK |
 | L3 (v89 L20 $10k) | -931 / -23 / +1202 | +$248 | 10.6% | 74.8% / 77.3% / 91.5% | 8 | Tidak | DITOLAK |
 - Evaluasi Mode Cepat: Semua DITOLAK (Total < +$798). Log: 0 warning, max layer 8 (2022), tanpa cut-loss/MC. Tanpa Sniper SL, tren 2022 rugi 3x lipat (-$931 vs -$334). Min lot 0.01 membatasi fleksibilitas ($3k maupun $10k L1=0.01). E2 tetap optimum.
+
+## Analisis Claude Code atas putaran 19 + rencana putaran 20
+- v89 L20 ditolak: total 3 periode +$248 (L0) vs E2 +$798. Di P1D v89 justru lebih baik (+$1,202 vs +$883),
+  tetapi 2022 −$931 (E2 −$334) dan 2024 −$23 (E2 +$249).
+- **Sumber rugi**: 6 basket rugi terbesar L0 di 2022 dan 2024 SEMUA ditutup **Jumat 19:00** (penutupan weekend paksa),
+  contoh SELL 7 layer −$401 (2022.11.11) dan −$515 (2024.11.22). Jadi grid tanpa SL tidak kalah oleh kedalaman,
+  tetapi oleh close weekend yang merealisasikan rugi floating basket dalam.
+- L0 = L1 = L3 identik: lot selalu 0.01 (pengali 1.10 dibulatkan kembali ke 0.01, max_basket_lots 0.08), dan jarak L2
+  ditentukan lantai persentil swing H1 P30, sehingga FA_Depth_ATR_Mult tidak berpengaruh. Layer maks yang tercapai = 8.
+- v90 (ea/BioOnePro_v90_FullAvg_L1v238.mq4): Weekend_Close_Only_Profit=true (basket rugi ditahan, kecuali rugi ≥ 20%),
+  FA_Lot_Add_Every_Layers (lot +1 step tiap N layer), dan entry L1 dari EA referensi user v238Z FIX10:
+  Stochastic ganda M5 OB/OS, Smart L1 (RSI zona + ADX + reversal + ATR impulse), First Direction Governor H1+M15,
+  Reversal Timing (L1 melawan gerakan ≥ 1.25 ATR M15 wajib skor ≥ 7).
+- Putaran 20 (research/scenarios_putaran20.json): K0 & L0 dipakai ulang · N0 v90 L20 + weekend hold + lot+1/4 layer ·
+  N1 N0 + filter v238Z · N2 N0 + entry penuh v238Z · N3 E2 + filter v238Z (kode lain identik dengan E2).
+- Diterima bila total 3 periode > +$798 dan DD maks tidak lebih buruk dari E2 + 3 poin.

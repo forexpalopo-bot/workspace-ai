@@ -17,6 +17,7 @@ Riset EA BioOnePro (MT4, XAUUSD).
 | `ea/BioOnePro_Optimized_v86_Signal_Guard.mq4` | v86: v85 + filter volume klimaks, pola candle, cut loss sinyal berlawanan, equity guard |
 | `ea/BioOnePro_E2_Final.mq4` | Versi final hasil riset (v86 + setting E2 sebagai default) |
 | `ea/BioOnePro_v89_FullAvg_L20.mq4` | v89: averaging penuh sampai L20, jarak adaptif ATR D1 + volatilitas H1, tanpa SL basket (uji putaran 19) |
+| `ea/BioOnePro_v90_FullAvg_L1v238.mq4` | v90: v89 + tahan basket rugi saat weekend, lot bertahap per N layer, entry L1 gaya v238Z (uji putaran 20) |
 | `docs/desain-v82-adaptive-sniper.md` | Desain mode Adaptive Sniper |
 | `docs/analisis-v77-dan-perubahan-v78.md` | Analisis cara kerja, hasil backtest, risiko, dan daftar perubahan |
 | `tools/analyze_mt4_report.py` | Ringkas laporan Strategy Tester (.htm) menjadi metrik dan statistik basket |

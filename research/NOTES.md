@@ -362,6 +362,19 @@ Total 4 periode yang sama (2022 + 2024 + Jan–Sep 2025 + P1D, deposit $3000 per
   basis yang buruk (C4), dan memperbesar rugi 2022. Putaran 14 mengujinya di atas A5 dan C1, di 5 periode.
 - Preset kandidat untuk forward test demo: research/presets/BioOnePro_v85_A5_Kandidat.set (EA v85, setara A5).
 
+## Putaran 14
+| run_id | net_profit (P5 / P4 / P3 / P2 / P1D) | max_dd_pct | win_rate | losing_bsk | worst_bsk | max_lot | REC / SELESAI / RESET |
+|---|---|---|---|---|---|---|---|
+| E0 (A5 Basis) | -432 / +60 / -4 / +1064 / +814 | 25.6% / 21.0% / 15.8% / 16.1% / 7.0% | 78.0% / 80.2% / 76.7% / 88.7% / 94.6% | 41 / 41 / 34 / 10 / 15 | -223 / -248 / -249 / -305 / -108 | 0.15 / 0.12 / 0.10 / 0.11 / 0.04 | (0/0/0) |
+| E1 (A5 + Rec Searah) | -596 / +452 / +992 / +371 / +935 | 25.2% / 22.6% / 8.8% / 21.4% / 4.8% | 76.1% / 83.8% / 79.1% / 87.8% / 94.8% | 34 / 26 / 27 / 13 / 12 | -240 / -237 / -248 / -283 / -108 | 0.10 / 0.15 / 0.10 / 0.11 / 0.04 | (29/12/4) / (24/12/3) / (26/15/1) / (14/9/1) / (10/6/0) |
+| E2 (A5 + Rec 2 Arah) | -392 / +771 / +281 / +1281 / +849 | 25.2% / 11.6% / 15.7% / 15.3% / 7.0% | 78.3% / 80.7% / 77.3% / 89.6% / 94.7% | 44 / 38 / 34 / 10 / 15 | -242 / -307 / -285 / -313 / -108 | 0.10 / 0.18 / 0.10 / 0.11 / 0.04 | (39/19/5) / (33/19/2) / (35/16/4) / (10/6/1) / (13/7/1) |
+| E3 (C1 + Rec Searah) | -617 / +1116 / +893 / +426 / +307 | 25.2% / 13.4% / 8.8% / 21.3% / 14.5% | 76.4% / 85.1% / 79.9% / 88.0% / 94.3% | 28 / 21 / 24 / 11 / 12 | -240 / -294 / -248 / -291 / -247 | 0.10 / 0.18 / 0.10 / 0.11 / 0.04 | (27/11/4) / (20/14/0) / (24/15/1) / (11/8/1) / (12/5/1) |
+| E4 (C1 + Rec 2 Arah) | -152 / +940 / -308 / +1211 / +334 | 17.9% / 11.7% / 22.9% / 15.7% / 14.7% | 78.3% / 83.1% / 76.1% / 89.7% / 94.3% | 31 / 30 / 33 / 9 / 14 | -254 / -294 / -252 / -313 / -247 | 0.12 / 0.18 / 0.10 / 0.11 / 0.04 | (30/10/4) / (29/19/1) / (33/12/5) / (9/5/1) / (14/4/2) |
+- E0 paritas 100% dgn A5 di 2022 (-$431.76 / DD 25.62%). E2 (A5 + Recovery 2 Arah) JUARA BARU: profit 5 tahun tembus +$2,790 (vs E0 +$1,501) dgn DD maks 25.24% di 2022 dan <= 15.7% di 2023–2026.
+- E1 (Recovery Searah) luar biasa di 2024 (+$992, DD 8.8%) dan P1D (+$935, DD 4.8%), profit total +$2,154 (DD 25.2%).
+- E4 rekor pertahanan 2022 (-$152, DD 17.9%), namun tertekan di tren 2024 (-$308).
+- Hal aneh di log: Recovery berhasil lunasi utang (SELESAI hingga 19x/tahun), anti-spiral sukses batasi max_lot tetap aman <= 0.18.
+
 ## Rencana putaran 15 (EA v86 Signal Guard)
 - Permintaan pengguna: L1 lebih akurat dengan volume klimaks + pola pembalikan candle, grafik lebih konsisten naik,
   dan cut loss saat sinyal berlawanan muncul. Semua di atas A5 (terbaik saat ini), deposit $3000, 5 periode 2022–2026.

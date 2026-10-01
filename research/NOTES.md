@@ -380,3 +380,18 @@ Total 4 periode yang sama (2022 + 2024 + Jan–Sep 2025 + P1D, deposit $3000 per
   dan cut loss saat sinyal berlawanan muncul. Semua di atas A5 (terbaik saat ini), deposit $3000, 5 periode 2022–2026.
 - F1 volume klimaks M5, F2 pola pembalikan M5, F3 keduanya, F4 cut sinyal berlawanan, F5 equity guard, F6 gabungan.
   File: research/scenarios_putaran15.json. Putaran 14 (recovery di atas A5/C1) tetap dijalankan lebih dulu bila belum.
+
+## Putaran 15
+| run_id | net_profit (P5 / P4 / P3 / P2 / P1D) | max_dd_pct | win_rate | trades | OppCut / EqGuard |
+|---|---|---|---|---|---|
+| F1 (Vol Climax M5) | -12 / -1 / +213 / -84 / +113 | 9.2% / 13.3% / 2.8% / 10.0% / 1.6% | 78.0% / 87.7% / 81.6% / 76.9% / 100.0% | 127 / 138 / 114 / 78 / 23 | (0/0) / (0/0) / (0/0) / (0/0) / (0/0) |
+| F2 (Pola Rev M5) | -98 / -34 / -67 / -36 / +116 | 8.0% / 12.5% / 7.1% / 4.5% / 4.0% | 75.6% / 81.0% / 76.5% / 87.9% / 94.7% | 82 / 79 / 85 / 33 / 38 | (0/0) / (0/0) / (0/0) / (0/0) / (0/0) |
+| F3 (Vol + Rev M5) | +8 / +29 / +20 / -100 / +8 | 0.9% / 5.1% / 0.7% / 3.3% / 0.3% | 83.3% / 82.3% / 71.4% / 0.0% / 100.0% | 6 / 17 / 7 / 2 / 3 | (0/0) / (0/0) / (0/0) / (0/0) / (0/0) |
+| F4 (Opp Signal Cut) | -465 / -8 / -29 / +1010 / +749 | 21.8% / 22.9% / 17.4% / 16.0% / 6.8% | 77.2% / 79.2% / 75.9% / 88.8% / 93.6% | 721 / 694 / 734 / 448 / 419 | (22/0) / (12/0) / (17/0) / (3/0) / (9/0) |
+| F5 (Equity Guard) | -356 / -32 / -4 / +892 / +814 | 20.7% / 21.9% / 15.8% / 14.5% / 7.0% | 77.8% / 80.1% / 76.7% / 88.4% / 94.6% | 724 / 695 / 743 / 450 / 423 | (0/0) / (0/0) / (0/0) / (0/0) / (0/0) |
+| F6 (Gabungan) | +8 / +23 / +20 / -100 / +8 | 0.9% / 5.1% / 0.7% / 3.3% / 0.3% | 83.3% / 76.5% / 71.4% / 0.0% / 100.0% | 6 / 17 / 7 / 2 / 3 | (0/0) / (1/0) / (0/0) / (0/0) / (0/0) |
+- F5 (Equity Guard) paling konsisten memangkas DD: DD 2022 turun jadi 20.7% (vs A5 25.6%), total profit 5 th +$1,314 dgn DD <= 21.9%.
+- F4 (Opp Signal Cut) aktif 63x cut loss sinyal berlawanan, kurangi DD 2022 ke 21.8%, total profit 5 th +$1,257.
+- F1 kurangi frekuensi trade (~80%), DD terjaga ketat <= 13.3%, total profit +$229 (stabil tapi profit terbatas).
+- F3 & F6 over-filtering (hanya 2-17 trade/th, 35 trade dlm 5 th); filter candle M5 terlalu ketat utk EA M1.
+

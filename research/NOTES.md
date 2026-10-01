@@ -457,3 +457,12 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
 - K1: perlindungan rezim (blokir L1 saat ATR H1 ≥ 1.8× normal + batas rugi harian 4%), menyerang kerugian 2022.
 - K2: partial TP L1 (tutup 50% di 1× ATR M15, sisa SL ke BEP), untuk kurva lebih halus.
 - K3: K1 + K2 + sesi London–NY saja.
+
+## Putaran 17 (Mode Cepat)
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | win_rate | Event (DLL / PTP) | Keputusan |
+|---|---|---|---|---|---|---|
+| K0 (E2 Baseline) | -334 / +249 / +883 | +$798 | 25.8% | 78.5% / 77.6% / 94.7% | 0 / 0 | BASELINE |
+| K1 (Perlindungan Rezim) | -468 / +109 / +372 | +$13 | 25.6% | 78.0% / 77.5% / 94.7% | 50 / 0 | DITOLAK |
+| K2 (Partial TP L1) | -440 / +142 / +878 | +$581 | 24.1% | 84.4% / 83.8% / 94.7% | 0 / 469 | DITOLAK |
+| K3 (K1+K2+Jam London-NY) | -362 / -121 / +508 | +$24 | 24.2% | 81.3% / 82.5% / 95.0% | 41 / 231 | DITOLAK |
+- Aturan Mode Cepat: Semua paket DITOLAK. K1-K3 memotong profit (-27% s/d -98%) tanpa perbaikan DD signifikan. Hal aneh: DLL (50x) & filter jam justru menghambat recovery basket.

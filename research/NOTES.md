@@ -485,3 +485,13 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
 | M2 (Trend Pyramid) | -846 / +498 / +864 | +$516 | 40.1% | 66.0% / 69.4% / 88.8% | 599 | DITOLAK |
 | M3 (M1+M2+Risk 10%) | -1822 / -272 / +2041 | -$54 | 63.6% | 57.1% / 57.3% / 67.3% | 2170 | DITOLAK |
 - Aturan Mode Cepat: Semua DITOLAK. M2 gandakan profit 2024 (+498 vs +249) tapi hancur di 2022 (-$846, DD 40.1%). M1 kurangi win rate. E2 tetap juara.
+
+## Analisis Claude Code atas putaran 18 & KESIMPULAN RISET
+- Total 3 periode: K0 E2 +$798 · M2 pyramid +$516 (2024 naik dua kali lipat, tetapi 2022 −$846, DD 40%) ·
+  M1 runner +$288 (win rate turun 78% → 60%) · M3 agresif −$54 (DD 64%). **Semua ditolak.**
+- Pyramid dan runner memperbesar kemenangan di tahun tren (2024 / P1D), tetapi menghancurkan tahun choppy (2022).
+  Ini kebalikan dari filter: keduanya hanya memindahkan hasil antar tahun, bukan menaikkan total.
+- **Setelah 18 putaran, E2 adalah optimum desain ini**: +$2,790 / 5 tahun dari $3000 (rata-rata ~+18%/tahun),
+  DD maks 24.2%, rugi hanya di 2022 (−$392 = −13%). Tidak ada kandidat yang mengalahkannya secara konsisten.
+- Versi final: **ea/BioOnePro_E2_Final.mq4**. Kode sama dengan v86, dan input default = setting E2 (sudah dicek identik
+  dengan research/presets/BioOnePro_v86_E2_Kandidat.set). Tahap berikutnya: **forward test di akun demo**, bukan backtest lagi.

@@ -1,0 +1,214 @@
+{
+  "ea_source": "ea/BioOnePro_Optimized_v86_Signal_Guard.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P4",
+      "from": "2023.01.02",
+      "to": "2023.12.29",
+      "desc": "2023"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.09.26",
+      "desc": "Jan-Sep 2025"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "G0",
+      "desc": "Putaran 16: E2 di EA v86 (harus sama dengan E2)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "G1",
+      "desc": "Putaran 16: E2 + cut loss sinyal berlawanan",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Opposite_Signal_Cut": true,
+        "OppCut_Only_When_Loss": true,
+        "OppCut_Require_Reversal_Candle": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "G2",
+      "desc": "Putaran 16: E2 + jeda 24 jam setelah 3 basket rugi (tanpa potong lot)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Equity_Guard": true,
+        "EqGuard_DD_Pct": 100,
+        "EqGuard_Lot_Factor": 1.0,
+        "EqGuard_Max_Consec_Losses": 3,
+        "EqGuard_Pause_Hours": 24
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "G3",
+      "desc": "Putaran 16: E2 dengan lot recovery maks 1.5x",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 1.5,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "G4",
+      "desc": "Putaran 16: E2 dengan reset setelah 2 percobaan",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 2,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "G5",
+      "desc": "Putaran 16: E2 + cut sinyal berlawanan + jeda",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Opposite_Signal_Cut": true,
+        "OppCut_Only_When_Loss": true,
+        "OppCut_Require_Reversal_Candle": true,
+        "Use_Equity_Guard": true,
+        "EqGuard_DD_Pct": 100,
+        "EqGuard_Lot_Factor": 1.0,
+        "EqGuard_Max_Consec_Losses": 3,
+        "EqGuard_Pause_Hours": 24
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "G6",
+      "desc": "Putaran 16: E2 uji biaya: spread $0.35",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000,
+        "spread": 35
+      }
+    }
+  ]
+}

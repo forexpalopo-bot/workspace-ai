@@ -395,3 +395,24 @@ Total 4 periode yang sama (2022 + 2024 + Jan–Sep 2025 + P1D, deposit $3000 per
 - F1 kurangi frekuensi trade (~80%), DD terjaga ketat <= 13.3%, total profit +$229 (stabil tapi profit terbatas).
 - F3 & F6 over-filtering (hanya 2-17 trade/th, 35 trade dlm 5 th); filter candle M5 terlalu ketat utk EA M1.
 
+
+## Analisis Claude Code atas putaran 14–15
+Total 5 tahun (2022–2026, $3000 per tahun), DD maks, dan jumlah tahun rugi:
+
+| Skenario | Total 5 th | DD maks | Tahun rugi | Catatan |
+|---|---|---|---|---|
+| **E2 A5 + recovery 2 arah** | **+$2,790** | 24.2% | 1/5 (2022 −$392) | **Terbaik baru**: 2023–2026 untung semua, DD ≤ 15.7% |
+| E1 A5 + recovery searah | +$2,154 | 25.2% | 1/5 | 2024 +$992 (DD 8.8%) terbaik, 2025 lebih lemah |
+| E3 C1 + recovery searah | +$2,125 | 25.2% | 1/5 | |
+| E4 C1 + recovery 2 arah | +$2,024 | 22.9% | 2/5 | 2022 terbaik (−$152, DD 17.9%) |
+| E0 A5 (pembanding) | +$1,502 | 25.6% | 2/5 | Paritas dengan A5 ✔ |
+| F5 equity guard | +$1,313 | 21.9% | 3/5 | DD turun, profit turun |
+| F4 cut sinyal berlawanan | +$1,258 | 22.9% | 3/5 | 63 cut; DD 2022 21.8% |
+| F1 volume klimaks M5 | +$229 | 13.3% | 3/5 | Trade −84% |
+| F2 / F3 / F6 pola candle M5 | −$36 s/d −$118 | ≤ 12.5% | — | Over-filter: F3/F6 hanya 35 trade dalam 5 tahun. **Ditolak** |
+
+- **Loss Recovery bekerja di atas basis yang benar**: E2 +86% vs A5, DD tidak naik (max lot tetap ≤ 0.18 berkat pengaman reset).
+- **Filter volume klimaks & pola candle M5 tidak cocok** untuk EA ini: trade turun 80–99% tanpa kenaikan profit.
+- Cut sinyal berlawanan (F4) dan equity guard (F5) menurunkan DD 2022 sedikit, tetapi mengurangi total profit di atas A5.
+  Putaran 16 menguji keduanya di atas E2, plus variasi recovery dan uji biaya spread $0.35.
+- Preset kandidat terbaru: research/presets/BioOnePro_v86_E2_Kandidat.set.

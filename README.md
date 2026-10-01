@@ -18,7 +18,7 @@ Riset EA BioOnePro (MT4, XAUUSD).
 | `docs/analisis-v77-dan-perubahan-v78.md` | Analisis cara kerja, hasil backtest, risiko, dan daftar perubahan |
 | `tools/analyze_mt4_report.py` | Ringkas laporan Strategy Tester (.htm) menjadi metrik dan statistik basket |
 | `tools/run_mt4_batch.py` | Jalankan batch backtest MT4 dari `research/scenarios.json` (di Windows) |
-| `research/` | Skenario uji, hasil (`results.csv`), dan catatan |
+| `research/` | Skenario uji, hasil (`results*.csv`), catatan, dan preset `.set` (kandidat terbaru: `presets/BioOnePro_v85_A5_Kandidat.set`) |
 | `ANTIGRAVITY.md` | Brief tugas backtest untuk Antigravity |
 | `prompts/antigravity-putaran-01.md` | Prompt siap-salin untuk Antigravity |
 | `penelitian/README.md` | Struktur folder penelitian di komputer |

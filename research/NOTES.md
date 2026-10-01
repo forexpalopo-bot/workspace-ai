@@ -337,3 +337,27 @@ Lihat research/analisis_putaran10.md (ringkas: A5 risiko 8% terbaik, total +$1,8
 - D1 meningkatkan profit P2 (+$831 vs +$660) dan pangkas rugi P1D (-$82 vs -$141), namun di 2022 rugi sedikit membesar (-$1004 vs -$893).
 - Pengaman anti-spiral sukses: RESET terpicu 1–6x per run saat rugi beruntun tercapai, mencegah akumulasi lot berlebih (max_lot selalu <= 0.16).
 - Hal aneh di log: D2 merugi di 2022 (-$1123) krn re-entry searah SL sering terjebak whipsaw pembalikan arah tajam saat siklus kenaikan suku bunga Fed.
+
+## Analisis Claude Code atas putaran 11–13
+Total 4 periode yang sama (2022 + 2024 + Jan–Sep 2025 + P1D, deposit $3000 per periode) dan DD terbesar:
+
+| Skenario | Total | DD maks | Kesimpulan |
+|---|---|---|---|
+| **A5 (risiko 8%)** | **+$1,435** (+$1,574 dengan 2023) | 25.6% | **Tetap terbaik.** Satu-satunya yang untung di 4 dari 5 tahun |
+| C1 satu arah | +$965 | 22.7% | DD sedikit lebih rendah, profit 2025/P1D turun |
+| B2 belajar 60 hari | +$811 | 25.7% | Rugi di 2023 (−$300): terlalu lambat beradaptasi |
+| B1 risiko 6% | +$594 | 22.9% | Lebih aman, profit terpotong |
+| C2 OB/OS M5 | −$397 | 28.7% | Trade turun ~40%, win rate tidak naik. **Ditolak** |
+| C3 + TP scalping | −$425 | 29.4% | Hanya membantu 2024; profit tren hilang. **Ditolak** |
+| C6 SL P90 | −$1,103 | 29.5% | **Ditolak** |
+| C4 SL maks $30 | −$1,207 | 33.7% | SL kena 9–18× per periode (whipsaw). **Ditolak** |
+| C5 SL maks $20 | −$2,001 | 64.1% | **Ditolak** |
+| D0–D4 recovery di atas C4 | −$379 s/d −$1,074 | 38–40% | Basis C4 buruk. D2 (searah) +$826 vs D0 |
+
+- **SL ketat terbukti merugikan untuk XAUUSD.** Emas sering menembus $20–30 lalu berbalik, jadi SL dekat lebih sering kena
+  tanpa mengurangi kerugian total. SL adaptif P98 dari swing 40 hari (A5) tetap yang terbaik.
+- **Filter OB/OS M5 tidak meningkatkan akurasi.** Win rate C2 (74.6–91.9%) setara atau lebih rendah dari C1
+  (77.9–94.2%), sedangkan jumlah trade turun 40%.
+- **Recovery menambah nilai** dibanding basisnya (D2 +$826 vs D0, D1 +$237), tetapi sejauh ini hanya diuji di atas
+  basis yang buruk (C4), dan memperbesar rugi 2022. Putaran 14 mengujinya di atas A5 dan C1, di 5 periode.
+- Preset kandidat untuk forward test demo: research/presets/BioOnePro_v85_A5_Kandidat.set (EA v85, setara A5).

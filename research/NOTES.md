@@ -511,3 +511,13 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
   L2 defensif 7×ATR + jeda layer ADX>35 · L3 default deposit $10,000.
 - Diterima hanya bila total 3 periode > K0 (+$798) DAN tidak ada cut-loss akun / MC. Bila L3 bagus tetapi L0 gagal,
   artinya strategi butuh modal ≥ $10k (atau akun cent) untuk L20.
+
+## Putaran 19 (v89 Full Averaging L20)
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | win_rate | layer_maks | cut_loss/MC | Keputusan |
+|---|---|---|---|---|---|---|---|
+| K0 (E2 Baseline) | -334 / +249 / +883 | +$798 | 25.8% | 78.5% / 77.6% / 94.7% | 5 | Tidak | BASELINE |
+| L0 (v89 L20 Default) | -931 / -23 / +1202 | +$248 | 34.8% | 74.8% / 77.3% / 91.5% | 8 | Tidak | DITOLAK |
+| L1 (v89 L20 Flat) | -931 / -23 / +1202 | +$248 | 34.8% | 74.8% / 77.3% / 91.5% | 8 | Tidak | DITOLAK |
+| L2 (v89 L20 Defensif) | -848 / -498 / +1233 | -$113 | 32.5% | 75.6% / 76.9% / 91.7% | 8 | Tidak | DITOLAK |
+| L3 (v89 L20 $10k) | -931 / -23 / +1202 | +$248 | 10.6% | 74.8% / 77.3% / 91.5% | 8 | Tidak | DITOLAK |
+- Evaluasi Mode Cepat: Semua DITOLAK (Total < +$798). Log: 0 warning, max layer 8 (2022), tanpa cut-loss/MC. Tanpa Sniper SL, tren 2022 rugi 3x lipat (-$931 vs -$334). Min lot 0.01 membatasi fleksibilitas ($3k maupun $10k L1=0.01). E2 tetap optimum.

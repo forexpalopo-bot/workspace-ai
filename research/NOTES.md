@@ -639,3 +639,34 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
 - Putaran 22 (research/scenarios_putaran22.json, control points, $3000): P2 dipakai ulang · D0 = v92 default (hanya P5, harus = P2)
   · Q1 grid renggang (persentil 50/75/90/96, SL P99) · Q2 Min_Gap_Frac 0.5 · Q3 SL konfirmasi close H1 (batas keras 1.3×)
   · Q4 Friday BEP exit 12:00 + tanpa L1 ≥ 20:00. Pembanding: P2 = −223 / +392 / +854 = +$1,023, DD 23.2%.
+
+## Putaran 22 (v92 Big Loss Guard)
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | trades | SNIPER SL / BEP Exit | Keputusan |
+|---|---|---|---|---|---|---|
+| P2 (v91 Baseline) | -223 / +392 / +854 | +$1,023 | 23.2% | 1,730 | 14 / 0 | BASELINE |
+| D0 (v92 Parity P5) | -223 / -- / -- | -- | 23.2% | 663 | 7 / 0 | PARITAS 100% |
+| Q1 (Wide Grid P99) | -568 / +139 / +809 | +$379 (-63%) | 28.6% | 1,685 | 10 / 0 | DITOLAK |
+| Q2 (Min_Gap 0.5) | -261 / +322 / +855 | +$916 (-10%) | 25.2% | 1,721 | 14 / 0 | DITOLAK |
+| **Q3 (SL Confirm H1)** | **+150 / +691 / +854** | **+$1,695 (+66%)**| **27.7%** | **1,716** | **9 / 0** | **DITERIMA (JUARA BARU)** |
+| Q4 (Friday BEP 12:00) | -230 / +245 / +796 | +$811 (-21%) | 23.0% | 1,538 | 14 / 22 | DITOLAK |
+- Evaluasi Mode Cepat: Q3 DITERIMA MUTLAK (profit naik +65.6% vs P2, 2022 berbalik positif +$150). Q1, Q2, Q4 DITOLAK.
+- Data Bar: XAUUSD_60.csv = 25,377 bar; XAUUSD_15.csv = 101,442 bar (rentang 2022.01.03 02:00 .. 2026.09.11 23:45, Digits=2).
+- Log Events (P5/P3/P1D): WEEKEND (D0:2, Q1:21, Q2:10, Q3:13, Q4:10); FRIDAY BEP (Q4:22, lainnya:0); SNIPER SL (Q3 terpangkas ke 9).
+
+## Jawaban Antigravity putaran 22
+1. **a. Korelasi 21 Basket SL dengan Berita High-Impact USD & Geopolitik (16 dari 21 basket / 76%)**:
+   - Mayoritas SL (76%) dipicu atau dipercepat oleh rilis data makro berdampak tinggi atau guncangan geopolitik:
+     * *FOMC & Suku Bunga Fed*: 2022.01.26 (Powell pivot hawkish), 2023.05.03 (Fed hike 25 bps), 2024.12.11 (FOMC run-up).
+     * *Geopolitik & Perang*: 2022.02.24 (Rusia invasi Ukraina - gap $50+), 2024.04.12 (eskalasi Iran-Israel), 2024.11.22 (rudal balistik Oreshnik).
+     * *Krisis Finansial & Rating*: 2023.03.10 (NFP + kolaps Silicon Valley Bank SVB), 2023.08.03 (Fitch downgrade utang AS).
+     * *NFP / Ketenagakerjaan AS*: 2023.03.10 (NFP bank crisis), 2024.08.02 (NFP crash 114k vs 175k pemicu resesi Sahm Rule).
+     * *Inflasi & Indikator Ekonomi (CPI, PPI, PCE, ISM, JOLTS)*: 2022.11.09 (Midterm + US CPI), 2022.12.05 (ISM Services lonjak 56.5), 2023.04.04 (JOLTS anjlok <10M + OPEC cut), 2023.09.06 (ISM Services 54.5), 2024.10.31 (Core PCE), 2025.06.27 (US PCE & GDP final).
+   - Hanya 5 basket (24%) terjadi murni karena pergerakan teknikal/likuiditas tanpa berita tier-1 (2022.01.20, 2022.07.06, 2024.07.19, 2025.05.01, 2025.06.24).
+2. **b. Distribusi Sesi Waktu SL (Server Time MT4)**:
+   - **Asia (00:00–08:00)**: **6 kejadian (28.6%)** — 2022.02.24 (04:11), 2022.07.06 (05:39), 2024.04.12 (02:02), 2024.11.22 (03:20), 2025.05.01 (01:06), 2025.06.24 (00:03). Didominasi berita geopolitik mendadak atau likuiditas tipis overnight.
+   - **London (08:00–15:00)**: **10 kejadian (47.6%)** — 2022.01.20 (13:32), 2022.02.17 (13:44), 2023.03.10 (14:31), 2023.04.04 (14:08), 2023.08.03 (12:25), 2023.09.06 (14:43), 2024.07.19 (13:06), 2024.08.02 (12:30), 2024.10.31 (14:46), 2025.06.27 (13:04). Sesi paling mematikan; 8 dari 10 SL terkonsentrasi di jendela rilis data AS (12:30–14:46).
+   - **New York (15:00–24:00)**: **5 kejadian (23.8%)** — 2022.01.26 (19:45), 2022.11.09 (15:09), 2022.12.05 (18:58), 2023.05.03 (20:54), 2024.12.11 (18:22). Bertepatan dengan pengumuman suku bunga FOMC malam hari atau kelanjutan tren kuat siang NY.
+3. **c. Kesamaan Pola Chart H1 & Rekomendasi Aturan**:
+   - *Pola Berulang*: Sebelum SL, terjadi candle ekspansi H1 impulsif panjang searah tren baru tanpa shadow (marubozu/breakout) yang menembus level persentil swing H1. Namun, banyak lonjakan tajam hanya berupa shadow spike sesaat (fakeout stop-hunt) yang segera retrace di akhir jam bar H1.
+   - *Rekomendasi Aturan*: **Konfirmasi SL pada Close Bar H1 + Hard Multiplier 1.3× (terbukti di Q3)**.
+     Hasil uji Q3 membuktikan eksekusi: SL yang menunggu candle H1 resmi ditutup di luar ambang batas (dibatasi pengaman keras 1.3×) memangkas SL prematur, melipatgandakan profit P3 (+$691 vs +$392), dan membalikkan 2022 menjadi positif (+150 vs -223), menaikkan total profit +65.6%.

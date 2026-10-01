@@ -588,3 +588,54 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
 2. **Pertanyaan Desain 2 (Recovery Debt Half-Life)**: Pengurangan `Recovery_Debt_Share = 0.5` terbukti sangat efektif mencegah lonjakan lot saat terjadi SL beruntun. Apakah perlu ditambahkan mekanisme *debt decay* (utang berkurang otomatis 50% setelah 5 hari jika tren masih berlawanan)?
 3. **Rekomendasi Forward Test**: Mengingat v91 P2 secara matematis dan empiris (5 tahun Every Tick) mengalahkan E2 Final di profit dan keamanan DD, disarankan mengadopsi setting P2 ke EA forward test demo `ea/BioOnePro_E2_Final.mq4`.
 
+
+## Analisis Claude Code atas putaran 20–21 + rencana putaran 22 (fokus order rugi besar)
+- Putaran 20 (v90): semua ditolak, setuju. Menahan basket melewati weekend membuat DD 80%; filter L1 v238Z memangkas trade ~85%.
+- Putaran 21 (v91, inisiatif Antigravity): diterima. Kode v91 hanya menambah Friday_L1_Cutoff_Hour (diff sudah dicek), angka Every Tick
+  5 tahun cocok dengan laporan (V2: −244 / +735 / +434 / +1,143 / +832 = **+$2,899**). v91 P2 resmi jadi juara baru.
+  Membuat EA baru sebagai file terpisah tidak masalah; file yang sudah ada tetap jangan diubah.
+- Jawaban pertanyaan Antigravity:
+  1. Friday cutoff: dipermanenkan (v92 default = 0). Versi adaptif ATR belum perlu, risiko overfit.
+  2. Debt decay: prioritas rendah. Bagian rugi SL akibat lot L1 di atas normal (recovery) hanya ~−$559 dari −$4,900 (11%).
+  3. Forward test: setuju pakai v91 + preset P2. Default v92 sudah identik dengan preset P2 (dicek per parameter).
+- **Bedah rugi 5 tahun v91 P2 (Every Tick, V2_*)**: total rugi basket −$6,987.
+  * 21 SL Sniper = **−$4,900 (70%)**, rata-rata −$233 per kejadian (≈ 8% balance, sesuai anggaran risiko).
+  * 23 close paksa Jumat 19:00 = **−$1,773 (25%)**, kebanyakan basket dibuka Kamis. Di P1D semua rugi = L1 tunggal
+    yang tidak pernah mendapat L2 (anggaran risiko habis karena lot minimum), ditahan 2–4 hari, lalu ditutup Jumat (−$82 s/d −$108).
+  * Sisanya (SL order / close lain) hanya −$314.
+  * Pola utama pada basket yang kena SL: **jarak L3–L5 menumpuk di $5.0–6.0** (= Sniper_Min_Step_Pips), contoh jarak
+    [10.1, 6.0, 5.2, 5.0] dan [7.5, 5.0, 5.0, 5.5]. Persentil P70/P85/P93 swing H1 berdekatan, jadi lot terkumpul di zona sempit,
+    lalu SL di P98 hanya sedikit lebih jauh. Grid yang lebih RAPAT dan SL lebih ketat sudah pernah diuji dan kalah;
+    grid yang lebih RENGGANG belum pernah diuji.
+  * Jam buka L1 16:00–24:00 server: total −$315 dalam 5 tahun (tidak konsisten per tahun, kandidat lemah).
+- 21 basket SL Sniper (Every Tick v91 P2):
+
+| L1 buka | SL | Arah | Layer | Rugi $ | Jarak L1→SL $ |
+|---|---|---|---|---|---|
+| 2022.01.19 04:54 | 2022.01.20 13:32 | SELL | 4 | −161 | 34.2 |
+| 2022.01.25 19:54 | 2022.01.26 19:45 | BUY | 3 | −242 | 33.3 |
+| 2022.02.16 15:11 | 2022.02.17 13:44 | SELL | 5 | −227 | 35.4 |
+| 2022.02.23 14:19 | 2022.02.24 04:11 | SELL | 3 | −207 | 34.5 |
+| 2022.07.05 06:48 | 2022.07.06 05:39 | BUY | 4 | −229 | 45.2 |
+| 2022.11.08 11:36 | 2022.11.09 15:09 | SELL | 4 | −200 | 45.0 |
+| 2022.12.05 04:54 | 2022.12.05 18:58 | BUY | 3 | −245 | 43.1 |
+| 2023.03.09 03:08 | 2023.03.10 14:31 | SELL | 5 | −234 | 37.4 |
+| 2023.04.03 04:11 | 2023.04.04 14:08 | SELL | 5 | −220 | 59.1 |
+| 2023.05.02 10:07 | 2023.05.03 20:54 | SELL | 4 | −268 | 55.0 |
+| 2023.07.31 22:40 | 2023.08.03 12:25 | BUY | 5 | −314 | 36.0 |
+| 2023.09.04 07:04 | 2023.09.06 14:43 | BUY | 5 | −294 | 29.6 |
+| 2024.04.11 15:20 | 2024.04.12 02:02 | SELL | 3 | −117 | 51.1 |
+| 2024.07.18 18:28 | 2024.07.19 13:06 | BUY | 5 | −130 | 52.8 |
+| 2024.07.30 17:22 | 2024.08.02 12:30 | SELL | 4 | −288 | 63.8 |
+| 2024.10.30 18:31 | 2024.10.31 14:46 | BUY | 3 | −228 | 49.1 |
+| 2024.11.20 10:42 | 2024.11.22 03:20 | SELL | 5 | −296 | 66.1 |
+| 2024.12.09 07:19 | 2024.12.11 18:22 | SELL | 5 | −249 | 76.8 |
+| 2025.04.30 20:09 | 2025.05.01 01:06 | BUY | 2 | −200 | 59.1 |
+| 2025.06.23 16:31 | 2025.06.24 00:03 | BUY | 3 | −248 | 59.2 |
+| 2025.06.26 22:25 | 2025.06.27 13:04 | BUY | 3 | −300 | 59.1 |
+
+- v92 (ea/BioOnePro_v92_BigLossGuard.mq4) = v91 P2 + 4 fitur (default mati): Sniper_Min_Gap_Frac, Sniper_SL_Confirm_TF
+  (+ Sniper_SL_Hard_Mult), Friday_BEP_Exit_Hour, L1_Last_Entry_Hour.
+- Putaran 22 (research/scenarios_putaran22.json, control points, $3000): P2 dipakai ulang · D0 = v92 default (hanya P5, harus = P2)
+  · Q1 grid renggang (persentil 50/75/90/96, SL P99) · Q2 Min_Gap_Frac 0.5 · Q3 SL konfirmasi close H1 (batas keras 1.3×)
+  · Q4 Friday BEP exit 12:00 + tanpa L1 ≥ 20:00. Pembanding: P2 = −223 / +392 / +854 = +$1,023, DD 23.2%.

@@ -1,0 +1,92 @@
+{
+  "ea_source": "ea/BioOnePro_v92_BigLossGuard.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "P2",
+      "desc": "Putaran 22: v91 P2 juara (laporan putaran 21 dipakai ulang, TIDAK dijalankan lagi)",
+      "params": {},
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "D0",
+      "desc": "v92 default (harus identik dengan P2): cek kesetaraan kode + ekstraksi log SNIPER",
+      "params": {},
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Q1",
+      "desc": "v92: grid Sniper lebih renggang (persentil L2-L5 50/75/90/96, SL P99)",
+      "params": {
+        "Sniper_L3_Percentile": 75,
+        "Sniper_L4_Percentile": 90,
+        "Sniper_L5_Percentile": 96,
+        "Sniper_SL_Percentile": 99
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Q2",
+      "desc": "v92: jarak L3+ minimal 0.5 x jarak L2 (layer tidak menumpuk di $5)",
+      "params": {
+        "Sniper_Min_Gap_Frac": 0.5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Q3",
+      "desc": "v92: SL Sniper hanya bila candle H1 close melewati SL, batas keras 1.3 x SL",
+      "params": {
+        "Sniper_SL_Confirm_TF": 60,
+        "Sniper_SL_Hard_Mult": 1.3
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "Q4",
+      "desc": "v92: Jumat >= 12:00 tutup basket begitu net >= $0.5 x lot + tanpa L1 baru >= 20:00",
+      "params": {
+        "Friday_BEP_Exit_Hour": 12,
+        "L1_Last_Entry_Hour": 20
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

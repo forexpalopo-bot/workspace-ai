@@ -441,3 +441,19 @@ Total 5 tahun (2022–2026, $3000 per tahun), DD maks, dan jumlah tahun rugi:
   dengan batas filter dilonggarkan (H7 $0.35, H8 $0.50).
 - Putaran 17 = uji ketahanan E2: apakah hasilnya stabil bila parameter digeser sedikit (risiko 7/9%, belajar 30/50 hari,
   BEP 0.7/0.9)? Setting yang bagus seharusnya berada di "dataran", bukan puncak sempit. Plus uji biaya spread $0.35/$0.50.
+
+## MODE CEPAT (berlaku mulai putaran 17)
+Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, hemat token.
+- Maksimal **4 skenario per putaran**, termasuk 1 baseline. Setiap skenario adalah **paket perubahan besar**, bukan geser 1 parameter.
+- **3 periode penyaring**: 2022 (terlemah), 2024 (tren kuat), P1D (terbaru). Total 12 run per putaran.
+- Model tester **control points (TestModel=1)**, jauh lebih cepat dari every tick. Baseline dijalankan dengan model yang sama,
+  jadi perbandingannya tetap adil.
+- **Aturan keputusan**: paket diterima bila total 3 periode ≥ baseline +10% **atau** DD maks turun ≥ 3 poin tanpa profit turun
+  > 10%. Selain itu ditolak, tanpa variasi lanjutan.
+- Pemenang baru divalidasi **sekali** dengan every tick di 5 periode sebelum menjadi preset.
+- Putaran 17 lama (uji sensitivitas H1–H8) dibatalkan dan diganti putaran 17 cepat (EA v87).
+
+## Rencana putaran 17 cepat (EA v87)
+- K1: perlindungan rezim (blokir L1 saat ATR H1 ≥ 1.8× normal + batas rugi harian 4%), menyerang kerugian 2022.
+- K2: partial TP L1 (tutup 50% di 1× ATR M15, sisa SL ke BEP), untuk kurva lebih halus.
+- K3: K1 + K2 + sesi London–NY saja.

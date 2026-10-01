@@ -1,9 +1,9 @@
 {
-  "ea_source": "ea/BioOnePro_Optimized_v86_Signal_Guard.mq4",
+  "ea_source": "ea/BioOnePro_Optimized_v87_Fast_Regime.mq4",
   "test": {
     "symbol": "XAUUSD",
     "period": "M1",
-    "model": 0,
+    "model": 1,
     "spread": 20
   },
   "periods": [
@@ -11,25 +11,13 @@
       "id": "P5",
       "from": "2022.01.03",
       "to": "2022.12.30",
-      "desc": "2022"
-    },
-    {
-      "id": "P4",
-      "from": "2023.01.02",
-      "to": "2023.12.29",
-      "desc": "2023"
+      "desc": "2022 (tahun terlemah)"
     },
     {
       "id": "P3",
       "from": "2024.01.02",
       "to": "2024.12.31",
-      "desc": "2024"
-    },
-    {
-      "id": "P2",
-      "from": "2025.01.02",
-      "to": "2025.09.26",
-      "desc": "Jan-Sep 2025"
+      "desc": "2024 (tren kuat)"
     },
     {
       "id": "P1D",
@@ -40,57 +28,13 @@
   ],
   "scenarios": [
     {
-      "id": "H1",
-      "desc": "Putaran 17: E2 risiko 7%",
+      "id": "K0",
+      "desc": "Putaran 17 cepat: E2 baseline (model control points)",
       "params": {
         "Commission_Per_Lot_RoundTurn": 7.0,
         "Min_L1_Lock_Pips": 10,
         "Use_Adaptive_Sniper": true,
         "Sniper_Learn_Days": 40,
-        "Sniper_BEP_Fraction": 0.8,
-        "Sniper_Use_Vol_Scaling": true,
-        "Sniper_Max_Basket_Risk_Pct": 7,
-        "Use_Loss_Recovery": true,
-        "Recovery_Max_Lot_Mult": 2.0,
-        "Recovery_Debt_Share": 1.0,
-        "Recovery_Same_Direction": true,
-        "Recovery_Max_Attempts": 3,
-        "Recovery_Max_Debt_Pct": 15
-      },
-      "test": {
-        "deposit": 3000
-      }
-    },
-    {
-      "id": "H2",
-      "desc": "Putaran 17: E2 risiko 9%",
-      "params": {
-        "Commission_Per_Lot_RoundTurn": 7.0,
-        "Min_L1_Lock_Pips": 10,
-        "Use_Adaptive_Sniper": true,
-        "Sniper_Learn_Days": 40,
-        "Sniper_BEP_Fraction": 0.8,
-        "Sniper_Use_Vol_Scaling": true,
-        "Sniper_Max_Basket_Risk_Pct": 9,
-        "Use_Loss_Recovery": true,
-        "Recovery_Max_Lot_Mult": 2.0,
-        "Recovery_Debt_Share": 1.0,
-        "Recovery_Same_Direction": true,
-        "Recovery_Max_Attempts": 3,
-        "Recovery_Max_Debt_Pct": 15
-      },
-      "test": {
-        "deposit": 3000
-      }
-    },
-    {
-      "id": "H3",
-      "desc": "Putaran 17: E2 belajar 30 hari",
-      "params": {
-        "Commission_Per_Lot_RoundTurn": 7.0,
-        "Min_L1_Lock_Pips": 10,
-        "Use_Adaptive_Sniper": true,
-        "Sniper_Learn_Days": 30,
         "Sniper_BEP_Fraction": 0.8,
         "Sniper_Use_Vol_Scaling": true,
         "Sniper_Max_Basket_Risk_Pct": 8,
@@ -106,74 +50,8 @@
       }
     },
     {
-      "id": "H4",
-      "desc": "Putaran 17: E2 belajar 50 hari",
-      "params": {
-        "Commission_Per_Lot_RoundTurn": 7.0,
-        "Min_L1_Lock_Pips": 10,
-        "Use_Adaptive_Sniper": true,
-        "Sniper_Learn_Days": 50,
-        "Sniper_BEP_Fraction": 0.8,
-        "Sniper_Use_Vol_Scaling": true,
-        "Sniper_Max_Basket_Risk_Pct": 8,
-        "Use_Loss_Recovery": true,
-        "Recovery_Max_Lot_Mult": 2.0,
-        "Recovery_Debt_Share": 1.0,
-        "Recovery_Same_Direction": true,
-        "Recovery_Max_Attempts": 3,
-        "Recovery_Max_Debt_Pct": 15
-      },
-      "test": {
-        "deposit": 3000
-      }
-    },
-    {
-      "id": "H5",
-      "desc": "Putaran 17: E2 target BEP 0.7",
-      "params": {
-        "Commission_Per_Lot_RoundTurn": 7.0,
-        "Min_L1_Lock_Pips": 10,
-        "Use_Adaptive_Sniper": true,
-        "Sniper_Learn_Days": 40,
-        "Sniper_BEP_Fraction": 0.7,
-        "Sniper_Use_Vol_Scaling": true,
-        "Sniper_Max_Basket_Risk_Pct": 8,
-        "Use_Loss_Recovery": true,
-        "Recovery_Max_Lot_Mult": 2.0,
-        "Recovery_Debt_Share": 1.0,
-        "Recovery_Same_Direction": true,
-        "Recovery_Max_Attempts": 3,
-        "Recovery_Max_Debt_Pct": 15
-      },
-      "test": {
-        "deposit": 3000
-      }
-    },
-    {
-      "id": "H6",
-      "desc": "Putaran 17: E2 target BEP 0.9",
-      "params": {
-        "Commission_Per_Lot_RoundTurn": 7.0,
-        "Min_L1_Lock_Pips": 10,
-        "Use_Adaptive_Sniper": true,
-        "Sniper_Learn_Days": 40,
-        "Sniper_BEP_Fraction": 0.9,
-        "Sniper_Use_Vol_Scaling": true,
-        "Sniper_Max_Basket_Risk_Pct": 8,
-        "Use_Loss_Recovery": true,
-        "Recovery_Max_Lot_Mult": 2.0,
-        "Recovery_Debt_Share": 1.0,
-        "Recovery_Same_Direction": true,
-        "Recovery_Max_Attempts": 3,
-        "Recovery_Max_Debt_Pct": 15
-      },
-      "test": {
-        "deposit": 3000
-      }
-    },
-    {
-      "id": "H7",
-      "desc": "Putaran 17: E2 uji biaya: spread $0.35 (batas filter spread dilonggarkan)",
+      "id": "K1",
+      "desc": "Putaran 17 cepat: E2 + perlindungan rezim: filter volatilitas + batas rugi harian 4%",
       "params": {
         "Commission_Per_Lot_RoundTurn": 7.0,
         "Min_L1_Lock_Pips": 10,
@@ -188,16 +66,18 @@
         "Recovery_Same_Direction": true,
         "Recovery_Max_Attempts": 3,
         "Recovery_Max_Debt_Pct": 15,
-        "Base_Max_Spread_Pips": 45
+        "Use_Vol_Regime_Filter": true,
+        "VolRegime_Max_Ratio": 1.8,
+        "Use_Daily_Loss_Limit": true,
+        "Daily_Loss_Limit_Pct": 4
       },
       "test": {
-        "deposit": 3000,
-        "spread": 35
+        "deposit": 3000
       }
     },
     {
-      "id": "H8",
-      "desc": "Putaran 17: E2 uji biaya: spread $0.50 (batas filter spread dilonggarkan)",
+      "id": "K2",
+      "desc": "Putaran 17 cepat: E2 + partial TP L1 50% di 1x ATR M15, sisa ke BEP",
       "params": {
         "Commission_Per_Lot_RoundTurn": 7.0,
         "Min_L1_Lock_Pips": 10,
@@ -212,12 +92,44 @@
         "Recovery_Same_Direction": true,
         "Recovery_Max_Attempts": 3,
         "Recovery_Max_Debt_Pct": 15,
-        "Base_Max_Spread_Pips": 60,
-        "Absolute_Max_Spread_Pips": 70
+        "Use_L1_Partial_TP": true,
+        "L1_Partial_ATR_Mult": 1.0,
+        "L1_Partial_Close_Pct": 50
       },
       "test": {
-        "deposit": 3000,
-        "spread": 50
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "K3",
+      "desc": "Putaran 17 cepat: E2 + K1 + K2 + sesi London-NY (jam 9-23 broker)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Vol_Regime_Filter": true,
+        "VolRegime_Max_Ratio": 1.8,
+        "Use_Daily_Loss_Limit": true,
+        "Daily_Loss_Limit_Pct": 4,
+        "Use_L1_Partial_TP": true,
+        "L1_Partial_ATR_Mult": 1.0,
+        "L1_Partial_Close_Pct": 50,
+        "Time_Filter": true,
+        "Jam_Mulai": 9,
+        "Jam_Akhir": 23
+      },
+      "test": {
+        "deposit": 3000
       }
     }
   ]

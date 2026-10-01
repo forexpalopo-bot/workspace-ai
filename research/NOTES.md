@@ -537,3 +537,14 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
 - Putaran 20 (research/scenarios_putaran20.json): K0 & L0 dipakai ulang · N0 v90 L20 + weekend hold + lot+1/4 layer ·
   N1 N0 + filter v238Z · N2 N0 + entry penuh v238Z · N3 E2 + filter v238Z (kode lain identik dengan E2).
 - Diterima bila total 3 periode > +$798 dan DD maks tidak lebih buruk dari E2 + 3 poin.
+
+## Putaran 20 (v90 L20 + entry L1 v238Z)
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | win_rate | trades | layer_maks | cut_loss/MC | Keputusan |
+|---|---|---|---|---|---|---|---|---|
+| K0 (E2 Baseline) | -334 / +249 / +883 | +$798 | 25.8% | 78.5% / 77.6% / 94.7% | 1,917 | 5 | Tidak | BASELINE |
+| L0 (v89 L20 Default) | -931 / -23 / +1202 | +$248 | 34.8% | 74.8% / 77.3% / 91.5% | 1,987 | 8 | Tidak | DITOLAK |
+| N0 (v90 L20 + WkHold) | -1578 / -1965 / +737 | -$2,806 | 79.7% | 75.0% / 76.4% / 91.1% | 1,921 | 12 | Tidak | DITOLAK |
+| N1 (N0 + Filter v238) | -542 / -1031 / +118 | -$1,455 | 47.7% | 74.8% / 72.0% / 95.7% | 301 | 12 | Tidak | DITOLAK |
+| N2 (N0 + Entry v238) | -1518 / +762 / -8 | -$764 | 58.2% | 75.0% / 78.9% / 90.0% | 1,804 | 12 | Tidak | DITOLAK |
+| N3 (E2 + Filter v238) | -271 / -343 / +118 | -$497 | 17.7% | 78.4% / 73.7% / 95.7% | 266 | 5 | Tidak | DITOLAK |
+- Evaluasi Mode Cepat: Semua DITOLAK. Weekend hold (N0) membuat DD meledak ke 79.7% (layer 12). Filter v238Z (N1, N3) pangkas trade ~85% dan bunuh profit tahun tren. E2 tetap tak tertandingi.

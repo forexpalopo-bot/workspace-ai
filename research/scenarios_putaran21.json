@@ -1,0 +1,90 @@
+{
+  "ea_source": "ea/BioOnePro_v91_E2_LossGuard.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "K0",
+      "desc": "Putaran 21: E2 baseline (laporan lama dipakai ulang, TIDAK dijalankan lagi)",
+      "params": {
+        "Friday_L1_Cutoff_Hour": 12,
+        "Recovery_Debt_Share": 1.0,
+        "Sniper_Max_Basket_Risk_Pct": 8.0,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Use_Loss_Recovery": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "P1",
+      "desc": "v91 E2 + Blokir L1 hari Jumat penuh (Friday_L1_Cutoff_Hour = 0)",
+      "params": {
+        "Friday_L1_Cutoff_Hour": 0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "P2",
+      "desc": "P1 + Recovery Debt Share 0.5 (pemulihan bertahap tanpa lonjakan lot L1)",
+      "params": {
+        "Friday_L1_Cutoff_Hour": 0,
+        "Recovery_Debt_Share": 0.5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "P3",
+      "desc": "P2 + Sniper Max Basket Risk 6% + Rec Max Lot 1.5x (pertahanan komprehensif)",
+      "params": {
+        "Friday_L1_Cutoff_Hour": 0,
+        "Recovery_Debt_Share": 0.5,
+        "Sniper_Max_Basket_Risk_Pct": 6.0,
+        "Recovery_Max_Lot_Mult": 1.5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "P4",
+      "desc": "P1 + Recovery OFF (uji kontribusi murni E2 tanpa peningkatan lot recovery)",
+      "params": {
+        "Friday_L1_Cutoff_Hour": 0,
+        "Use_Loss_Recovery": false
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

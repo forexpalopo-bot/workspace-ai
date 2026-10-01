@@ -1,0 +1,64 @@
+{
+  "ea_source": "ea/BioOnePro_v91_E2_LossGuard.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P4",
+      "from": "2023.01.02",
+      "to": "2023.12.29",
+      "desc": "2023"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.12.30",
+      "desc": "2025"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V2",
+      "desc": "Validasi Every Tick: v91 P2 (Friday Cutoff 0 + Recovery Debt Share 0.5)",
+      "params": {
+        "Friday_L1_Cutoff_Hour": 0,
+        "Recovery_Debt_Share": 0.5,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8.0,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

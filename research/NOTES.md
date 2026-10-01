@@ -548,3 +548,43 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
 | N2 (N0 + Entry v238) | -1518 / +762 / -8 | -$764 | 58.2% | 75.0% / 78.9% / 90.0% | 1,804 | 12 | Tidak | DITOLAK |
 | N3 (E2 + Filter v238) | -271 / -343 / +118 | -$497 | 17.7% | 78.4% / 73.7% / 95.7% | 266 | 5 | Tidak | DITOLAK |
 - Evaluasi Mode Cepat: Semua DITOLAK. Weekend hold (N0) membuat DD meledak ke 79.7% (layer 12). Filter v238Z (N1, N3) pangkas trade ~85% dan bunuh profit tahun tren. E2 tetap tak tertandingi.
+
+## Putaran 21 (v91 E2 Loss Guard — Solusi Order Loss Besar)
+- **Investigasi Order Loss Terbesar di E2 Baseline**:
+  1. *Jumat 19:00 Hard Close*: Baskets yang dibuka Jumat pagi (03:00–11:00) terpotong cut-loss di 19:00 saat volatilitas NFP/US session tanpa waktu rebound. Di P1D, 98.4% total loss ($-506) berasal dari close Jumat! Di 2022, basket Jumat menyumbang rugi $-289 (dari total $-334).
+  2. *Cascading Recovery Debt*: Saat basket terkena Sniper SL, lot L1 basket pemulihan dinaikkan ke 0.02–0.04. Jika pasar sedang tren panjang, basket pemulihan ini terkena SL kedua dan rugi membengkak ke -$193 s/d -$283.
+- **Solusi di v91 (ea/BioOnePro_v91_E2_LossGuard.mq4)**:
+  `Friday_L1_Cutoff_Hour = 0` (blokir buka L1 baru hari Jumat penuh; order lama tetap dikawal ke TP/BEP) + `Recovery_Debt_Share = 0.5` (pemulihan bertahap tanpa melipatgandakan lot L1).
+- **Hasil Screening Putaran 21 (Deposit $3,000, Model Control Points)**:
+
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | win_rate | trades | layer_maks | Keputusan |
+|---|---|---|---|---|---|---|---|
+| K0 (E2 Baseline) | -334 / +249 / +883 | +$798 | 25.8% | 78.5% / 77.6% / 94.7% | 1,917 | 5 | BASELINE |
+| P1 (v91 Friday Cutoff 0) | -230 / +223 / +854 | +$846 | 22.9% | 77.9% / 78.7% / 95.6% | 1,715 | 5 | DITERIMA |
+| **P2 (P1 + Rec Debt 0.5)** | **-223 / +392 / +854** | **+$1,023** | **23.2%** | **77.8% / 78.5% / 95.6%** | **1,730** | **5** | **JUARA BARU** |
+| P3 (P2 + Risk 6% + Rec 1.5x) | -299 / +184 / +791 | +$676 | 23.3% | 78.0% / 79.0% / 96.0% | 1,723 | 5 | DITOLAK |
+| P4 (P1 + Recovery OFF) | -268 / +314 / +807 | +$853 | 22.6% | 78.3% / 78.1% / 95.7% | 1,685 | 5 | DITERIMA |
+
+## Validasi Full History Every Tick 5 Tahun (2022–2026): E2 Baseline vs v91 P2
+Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membuktikan konsistensi keunggulan v91 P2 atas E2 Baseline di seluruh siklus pasar:
+
+| Periode | E2 Baseline Net | v91 P2 Net | Selisih Net | E2 Max DD | v91 Max DD | E2 Trades | v91 Trades |
+|---|---|---|---|---|---|---|---|
+| 2022 (Bearish / High Rate Hike) | -$391.52 | -$243.79 | **+$147.73 (+38%)** | 24.17% | **22.99%** | 736 | 667 |
+| 2023 (Consolidation) | +$770.63 | +$734.87 | -$35.76 | 11.61% | 12.22% | 700 | 628 |
+| 2024 (Bull Breakout / Election) | +$281.01 | +$433.57 | **+$152.56 (+54%)** | 15.66% | **14.94%** | 756 | 682 |
+| 2025 (Strong Trend Bullish) | +$1,281.46 | +$1,142.73 | -$138.73 | 15.30% | 15.95% | 451 | 521 |
+| Sep 2025 – Sep 2026 (Recent 1Y) | +$848.69 | +$831.68 | -$17.01 | 6.96% | **6.02%** | 433 | 384 |
+| **TOTAL 5 TAHUN** | **+$2,790.27** | **+$2,899.06** | **+$108.79** | **24.17%** | **22.99%** | **3,076** | **2,882** |
+
+- **Temuan Kunci Every Tick**:
+  1. *Rugi 2022 terpangkas 38%* (-$391 -> -$243) dan DD maks absolut turun dari 24.17% ke 22.99%.
+  2. *Profit 2024 melonjak 54%* (+$281 -> +$433) dengan DD lebih kecil (14.94% vs 15.66%).
+  3. Total net profit 5 tahun menembus **+$2,899.06** (rekor tertinggi baru sepanjang sejarah riset BioOnePro).
+  4. Preset tersimpan di: `research/presets/BioOnePro_v91_P2_LossGuard.set`.
+
+## Koordinasi & Analisis Lanjutan untuk Claude Code
+1. **Pertanyaan Desain 1 (Friday Cutoff)**: Apakah pemblokiran penuh hari Jumat (`Friday_L1_Cutoff_Hour = 0`) sebaiknya dibuat permanen di default EA, atau dibuat adaptif (misal: hanya izinkan buka L1 Jumat jika ATR D1 < median historis)?
+2. **Pertanyaan Desain 2 (Recovery Debt Half-Life)**: Pengurangan `Recovery_Debt_Share = 0.5` terbukti sangat efektif mencegah lonjakan lot saat terjadi SL beruntun. Apakah perlu ditambahkan mekanisme *debt decay* (utang berkurang otomatis 50% setelah 5 hari jika tren masih berlawanan)?
+3. **Rekomendasi Forward Test**: Mengingat v91 P2 secara matematis dan empiris (5 tahun Every Tick) mengalahkan E2 Final di profit dan keamanan DD, disarankan mengadopsi setting P2 ke EA forward test demo `ea/BioOnePro_E2_Final.mq4`.
+

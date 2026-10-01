@@ -20,6 +20,7 @@ Riset EA BioOnePro (MT4, XAUUSD).
 | `ea/BioOnePro_v90_FullAvg_L1v238.mq4` | v90: v89 + tahan basket rugi saat weekend, lot bertahap per N layer, entry L1 gaya v238Z (uji putaran 20) |
 | `ea/BioOnePro_v91_E2_LossGuard.mq4` | v91 (Antigravity): E2 + tanpa L1 baru hari Jumat; preset juara `research/presets/BioOnePro_v91_P2_LossGuard.set` |
 | `ea/BioOnePro_v92_BigLossGuard.mq4` | v92: default = v91 P2, + 4 fitur anti rugi besar (grid renggang, SL konfirmasi H1, Friday BEP exit, jam akhir L1) |
+| `ea/BioOnePro_v93_NewsTime.mq4` | v93: default = v92 Q3 (SL konfirmasi close H1), aturan jam memakai GMT di live, filter berita dari file CSV |
 | `tools/ExportBars.mq4` | Script MT4: ekspor bar OHLC ke CSV untuk analisis konteks harga |
 | `docs/desain-v82-adaptive-sniper.md` | Desain mode Adaptive Sniper |
 | `docs/analisis-v77-dan-perubahan-v78.md` | Analisis cara kerja, hasil backtest, risiko, dan daftar perubahan |

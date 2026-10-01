@@ -670,3 +670,26 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
    - *Pola Berulang*: Sebelum SL, terjadi candle ekspansi H1 impulsif panjang searah tren baru tanpa shadow (marubozu/breakout) yang menembus level persentil swing H1. Namun, banyak lonjakan tajam hanya berupa shadow spike sesaat (fakeout stop-hunt) yang segera retrace di akhir jam bar H1.
    - *Rekomendasi Aturan*: **Konfirmasi SL pada Close Bar H1 + Hard Multiplier 1.3× (terbukti di Q3)**.
      Hasil uji Q3 membuktikan eksekusi: SL yang menunggu candle H1 resmi ditutup di luar ambang batas (dibatasi pengaman keras 1.3×) memangkas SL prematur, melipatgandakan profit P3 (+$691 vs +$392), dan membalikkan 2022 menjadi positif (+150 vs -223), menaikkan total profit +65.6%.
+
+## Analisis Claude Code atas putaran 22 + rencana pengembangan
+- Q3 (SL Sniper dikonfirmasi close H1, batas keras 1.3×) DITERIMA, angka dicek ulang dari laporan: +150 / +691 / +854 = **+$1,695**
+  (P2 +$1,023, +66%). Catatan: DD 2022 naik 23.2% → 27.7% dan basket terburuk −$317 / −$355 (P2 −$256 / −$294), harga dari batas keras.
+  Q1 (grid renggang), Q2 (jarak minimum), Q4 (Friday BEP) ditolak, setuju. D0 identik dengan P2 (kode v92 aman).
+- **TEMUAN PENTING: zona waktu.** Mencocokkan 2,600 harga order dengan bar M15 hasil ExportBars: jam laporan backtest = jam server
+  − 3 jam (musim panas Eropa) / − 2 jam (musim dingin), tingkat cocok 78–81%. Server broker: bar mingguan Senin 01:00 – Jumat 23:00,
+  jeda harian 23:00 (GMT+2/+3). Jadi **data tester memakai jam GMT**, sedangkan akun live memakai jam server.
+  Akibatnya semua aturan jam yang diuji (tutup Jumat 19:00, tanpa L1 Jumat, rollover 23–00, target Jumat) di akun live akan
+  berjalan 2–3 jam LEBIH AWAL daripada di backtest. v93 memperbaikinya (Rule_Time_Mode=1: live otomatis dikonversi ke GMT).
+  Klasifikasi sesi di jawaban putaran 22 juga memakai jam GMT: "London 12:25–14:46" sebenarnya 12:25–14:46 GMT =
+  jendela rilis data AS 08:30 ET dan pembukaan New York. Ini mendukung temuan bahwa sebagian besar SL terkait berita AS.
+- Analisis H1 (waktu sudah dikoreksi) atas 18 SL tahun 2022–2024: **11 dari 18 SL hanya jarum** (candle H1 tutup kembali di dalam SL),
+  menjelaskan keberhasilan Q3. 11 dari 18 basket kembali ke BEP dalam ≤ 5 hari, tetapi 7 terus melawan $27–159, jadi SL tetap wajib.
+  (Data CSV 2025 tidak cocok dengan harga order V2_P2, sehingga 3 SL 2025 tidak dianalisis.)
+- v93 (ea/BioOnePro_v93_NewsTime.mq4): default = Q3, + jam aturan GMT (Rule_Time_Mode), + filter berita dari file CSV
+  (Use_News_File, News_Before/After_Minutes, News_Block_L1, News_Block_Layers).
+- Rencana pengembangan:
+  1. Putaran 23 (sekarang): D1 cek kesetaraan v93 = Q3 · H1 konfirmasi H4 · H2 batas keras 1.2× · H3 filter berita L1 ·
+     H4 filter berita L1 + layer. Kalender berita dibuat Antigravity dari sumber resmi.
+  2. Putaran 24: gabungkan pemenang → validasi Every Tick 5 tahun + uji stres (spread 35, deposit $2000 dan $5000).
+  3. Forward test demo memakai v93 (Rule_Time_Mode=1, jam aturan = backtest), 4–8 minggu, dibandingkan mingguan
+     dengan backtest periode yang sama. Forward test lama yang memakai E2_Final dengan jam server sebaiknya diganti.

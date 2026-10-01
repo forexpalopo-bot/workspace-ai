@@ -1,0 +1,91 @@
+{
+  "ea_source": "ea/BioOnePro_v93_NewsTime.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "Q3",
+      "desc": "Putaran 23: v92 Q3 juara (laporan putaran 22 dipakai ulang, TIDAK dijalankan lagi)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 60,
+        "Sniper_SL_Hard_Mult": 1.3
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "D1",
+      "desc": "v93 default (harus identik dengan Q3): cek kesetaraan kode, hanya P5",
+      "params": {},
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "H1",
+      "desc": "v93: SL dikonfirmasi close H4 (bukan H1), batas keras 1.3x",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "H2",
+      "desc": "v93: SL konfirmasi H1, batas keras 1.2x (rugi maksimum lebih kecil)",
+      "params": {
+        "Sniper_SL_Hard_Mult": 1.2
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "H3",
+      "desc": "v93: filter berita, tanpa L1 baru 60 menit sebelum s/d 60 menit sesudah event USD",
+      "params": {
+        "Use_News_File": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "H4",
+      "desc": "v93: filter berita L1 + layer averaging ditunda di jendela berita",
+      "params": {
+        "Use_News_File": true,
+        "News_Block_Layers": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

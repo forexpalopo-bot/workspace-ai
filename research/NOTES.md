@@ -466,3 +466,13 @@ Permintaan pengguna: lebih sedikit backtest, perubahan lebih besar per putaran, 
 | K2 (Partial TP L1) | -440 / +142 / +878 | +$581 | 24.1% | 84.4% / 83.8% / 94.7% | 0 / 469 | DITOLAK |
 | K3 (K1+K2+Jam London-NY) | -362 / -121 / +508 | +$24 | 24.2% | 81.3% / 82.5% / 95.0% | 41 / 231 | DITOLAK |
 - Aturan Mode Cepat: Semua paket DITOLAK. K1-K3 memotong profit (-27% s/d -98%) tanpa perbaikan DD signifikan. Hal aneh: DLL (50x) & filter jam justru menghambat recovery basket.
+
+## Analisis Claude Code atas putaran 17 (mode cepat)
+- Total 3 periode (2022 / 2024 / P1D): **K0 E2 +$798** (−$334 / +$249 / +$883, DD maks 25.9%) ·
+  K2 partial TP +$581 · K3 gabungan +$24 · K1 filter rezim + batas rugi harian +$13. **Ketiga paket DITOLAK.**
+- Pola yang konsisten sejak putaran 3: **memblokir entry (filter) dan menutup profit lebih awal menurunkan profit.**
+  Mesin profit EA ini adalah L1 yang menang searah tren H1, jadi perbaikan harus memperbesar kemenangan itu.
+- Putaran 18 cepat (EA v88), 9 run baru (baseline K0 dipakai ulang):
+  M1 = L1 runner (trailing ATR lebar, trailing ketat Stochastic dimatikan, fitur lama),
+  M2 = trend pyramid (posisi tambahan searah saat L1 sudah profit 1× ATR, SL di BEP L1, trailing ATR),
+  M3 = M1 + M2 + risiko 10%.

@@ -1,0 +1,133 @@
+{
+  "ea_source": "ea/BioOnePro_Optimized_v88_Trend_Pyramid.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "K0",
+      "desc": "Putaran 18 cepat: E2 baseline (laporan putaran 17 dipakai ulang, tidak dijalankan lagi)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "M1",
+      "desc": "Putaran 18 cepat: E2 + L1 runner: trailing ATR lebar, tanpa trailing ketat Stochastic",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Stoch_Trailing_L1": false,
+        "Use_Adaptive_Trailing": true
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "M2",
+      "desc": "Putaran 18 cepat: E2 + trend pyramid (maks 2 tambahan, tiap 1x ATR M15)",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 8,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Trend_Pyramid": true,
+        "Pyr_Max_Adds": 2,
+        "Pyr_Trigger_ATR": 1.0,
+        "Pyr_Lot_Factor": 1.0,
+        "Pyr_Trail_ATR": 1.5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "M3",
+      "desc": "Putaran 18 cepat: E2 + M1 + M2 + risiko 10%",
+      "params": {
+        "Commission_Per_Lot_RoundTurn": 7.0,
+        "Min_L1_Lock_Pips": 10,
+        "Use_Adaptive_Sniper": true,
+        "Sniper_Learn_Days": 40,
+        "Sniper_BEP_Fraction": 0.8,
+        "Sniper_Use_Vol_Scaling": true,
+        "Sniper_Max_Basket_Risk_Pct": 10,
+        "Use_Loss_Recovery": true,
+        "Recovery_Max_Lot_Mult": 2.0,
+        "Recovery_Debt_Share": 1.0,
+        "Recovery_Same_Direction": true,
+        "Recovery_Max_Attempts": 3,
+        "Recovery_Max_Debt_Pct": 15,
+        "Use_Stoch_Trailing_L1": false,
+        "Use_Adaptive_Trailing": true,
+        "Use_Trend_Pyramid": true,
+        "Pyr_Max_Adds": 2,
+        "Pyr_Trigger_ATR": 1.0,
+        "Pyr_Lot_Factor": 1.0,
+        "Pyr_Trail_ATR": 1.5
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

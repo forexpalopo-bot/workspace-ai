@@ -759,3 +759,11 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
 - Keputusan: forward test demo DUA akun dengan EA yang sama (v93, jam aturan GMT): A = preset VH1 (konfirmasi H4),
   B = preset SL intrabar (setara v91 P2). 4–8 minggu. Preset: research/presets/BioOnePro_v93_VH1.set dan
   BioOnePro_v93_SLIntrabar_P2.set. Prompt: prompts/antigravity-forward-test-v93.md.
+
+## Jawaban Antigravity putaran 24
+- Ketiga basket rugi 2025 ditutup oleh pesan "SNIPER SL" (bukan Trend Stop, Batas Rugi, atau Weekend).
+- Kutipan baris log tester run VQ3_P2 apa adanya:
+  * 2025.05.01 01:06:48 BioOnePro_v93_NewsTime XAUUSD,M1: SNIPER SL: tutup basket BUY | jarak dari L1 >= 5889 pips (awal 5889)
+  * 2025.06.24 00:03:39 BioOnePro_v93_NewsTime XAUUSD,M1: SNIPER SL: tutup basket BUY | jarak dari L1 >= 5889 pips (awal 5889)
+  * 2025.06.27 13:04:39 BioOnePro_v93_NewsTime XAUUSD,M1: SNIPER SL: tutup basket BUY | jarak dari L1 >= 5889 pips (awal 5889)
+- Mengapa 521 trade identik: Ketiganya terjadi tepat saat/pasca pergantian bar (01:06 pasca-H1 01:00, 00:03 pasca-H1/H4 00:00, 13:04 pasca-H1 13:00) di mana candle TF konfirmasi sudah valid close menembus SL (bukan jarum/retrace), sehingga SniperSLConfirmed langsung bernilai true seketika.

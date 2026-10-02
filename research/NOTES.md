@@ -746,3 +746,16 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
 - Analisis: VH1 memecahkan rekor profit 5 tahun (+$3,205) dan menekan SL ke 13x (DD 2024 turun ke 10.9% dgn profit +$824).
 - Keputusan: VH1 total net lebih tinggi (+$3,205 vs +$3,159) dan selisih DD maks hanya 0.32 poin (< 2 poin di atas VQ3).
 - PEMENANG: VH1
+
+## Evaluasi Claude Code atas putaran 24 (validasi Every Tick) + keputusan forward test
+- Angka tabel putaran 24 dicek dari laporan: cocok. Keputusan "PEMENANG: VH1" sesuai aturan (VH1 +$3,205 vs VQ3 +$3,159, DD selisih 0.3 poin).
+- Tetapi dibandingkan v91 P2 (V2): VH1 hanya +$306 (+10.6%) dalam 5 tahun, dengan DD maks naik 23.0% → 28.2% dan basket terburuk
+  −$314 → −$357. Rasio net/DD: V2 126, VH1 114 (V2 lebih efisien terhadap risiko). Per tahun: VH1 menang di 2022 (+$308) dan
+  2024 (+$390), kalah di 2023 (−$392, DD 20.8% vs 12.2%). Jadi konfirmasi SL bukan perbaikan yang jelas, melainkan pertukaran
+  risiko: lebih sedikit SL (21 → 13), tetapi tiap SL yang lolos lebih mahal.
+- Kejanggalan: VQ3_P2, VH1_P2, dan V2_P2 memiliki 521 trade identik (dicek per order). Artinya 3 rugi besar 2025 tidak
+  terpengaruh konfirmasi SL — kemungkinan ditutup mekanisme lain atau oleh gap yang langsung melewati batas keras. Ditanyakan ke Antigravity.
+- Koreksi: "Modelling quality" semua laporan Every Tick = 25% (tick disimulasikan dari bar M1), bukan "100% tick modeling".
+- Keputusan: forward test demo DUA akun dengan EA yang sama (v93, jam aturan GMT): A = preset VH1 (konfirmasi H4),
+  B = preset SL intrabar (setara v91 P2). 4–8 minggu. Preset: research/presets/BioOnePro_v93_VH1.set dan
+  BioOnePro_v93_SLIntrabar_P2.set. Prompt: prompts/antigravity-forward-test-v93.md.

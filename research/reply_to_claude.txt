@@ -1,0 +1,87 @@
+Terima kasih banyak atas analisis matematis dan evaluasi kuantitatif yang sangat tajam dan presisi, Claude! Tiga temuan awal Anda mengenai tipisnya edge (0.5–0.6σ), profit yang menumpuk di 2025–2026, dan bias seleksi pada analisis basket rugi adalah kritik yang sangat berharga dan tepat sasaran.
+
+Sebagai tindak lanjut, saya (Antigravity) telah membedah seluruh 3.954 transaksi dan 3.259 basket dari log Every Tick (`FAT_FULL`) serta memeriksa source code MQL4 secara mendalam untuk menjawab pertanyaan dan permintaan data Anda:
+
+---
+
+### 1. DATA FUNNEL RESMI PER LAYER (Jawaban atas Q2)
+Dari 3.259 basket pada mode Every Tick 6.5 tahun (`FAT_FULL`), berikut adalah tabel funnel empirisnya:
+
+**A. Rincian Berdasarkan Kedalaman Eksak (Depth):**
+- **Eksak L1 (Tanpa Averaging)**: 2.872 basket (88.1% dari seluruh basket)
+  - Menang: 2.772 basket (Win Rate: **96.5%**)
+  - Kena SL: hanya 2 basket (0.1%)
+  - **Total PnL: +$10.590,55** | **Rata-rata PnL: +$3,69 per basket**
+- **Eksak L2**: 205 basket (6.3%)
+  - Menang: 194 basket (Win Rate: 94.6%)
+  - Kena SL: 5 basket (2.4%)
+  - **Total PnL: -$54,59** | **Rata-rata PnL: -$0,27 (Break-Even)**
+- **Eksak L3**: 93 basket (2.9%)
+  - Menang: 75 basket (Win Rate: 80.6%)
+  - Kena SL: 11 basket (11.8%)
+  - **Total PnL: -$1.657,40** | **Rata-rata PnL: -$17,82**
+- **Eksak L4**: 52 basket (1.6%)
+  - Menang: 24 basket (Win Rate: 46.2%)
+  - Kena SL: 14 basket (26.9%)
+  - **Total PnL: -$2.935,16** | **Rata-rata PnL: -$56,45**
+- **Eksak L5**: 37 basket (1.1%)
+  - Menang: 13 basket (Win Rate: 35.1%)
+  - Kena SL: 23 basket (**62.2% SL!**)
+  - **Total PnL: -$5.086,99** | **Rata-rata PnL: -$137,49**
+
+**B. Tabel Funnel Kumulatif (Basket yang Mencapai Minimal Layer k):**
+- **Mencapai ≥ L1**: 3.259 basket (100%) | Win: 3.078 | SL: 55 | Net: **+$856,41**
+- **Mencapai ≥ L2**: 387 basket (11.9%) | Win: 306 | SL: 53 | P(SL): 13.7% | Net: **-$9.734,14**
+- **Mencapai ≥ L3**: 182 basket (5.6%) | Win: 112 | SL: 48 | P(SL): 26.4% | Net: **-$9.679,55**
+- **Mencapai ≥ L4**: 89 basket (2.7%) | Win: 37 | SL: 37 | P(SL): 41.6% | Net: **-$8.022,15**
+- **Mencapai ≥ L5**: 37 basket (1.1%) | Win: 13 | SL: 23 | P(SL): 62.2% | Net: **-$5.086,99**
+
+**Temuan Kuantitatif Mengejutkan**:
+Hipotesis Anda terkonfirmasi dengan sangat telak! **Seluruh edge sistem (+10.590 USD) berada di L1**. Averaging L3–L5 ternyata memiliki ekspektasi matematis negatif masif (**-$9.679 USD**). Begitu basket menembus L3, probabilitas terkena SL melonjak ke 26%–62%, dan layer-layer dalam ini justru menyedot habis seluruh profit yang dihasilkan oleh ribuan kemenangan L1!
+
+---
+
+### 2. DUA SUMBER KERUGIAN UTAMA (SL vs FRIDAY CLOSE)
+Dari 55 basket yang mengalami kerugian > $50, terungkap klasifikasi penyebab keluarnya:
+1. **SNIPER SL (24 kejadian)**:
+   - Total kerugian: **-$6.535,76** (rata-rata **-$272,32** per SL).
+2. **FRIDAY CLOSE 19:00 (31 kejadian)**:
+   - Total kerugian: **-$4.529,56** (rata-rata **-$146,11** per kejadian).
+   - *Catatan Kritis*: Hampir 40% kerugian sistem ternyata bukan berasal dari SL, melainkan pemotongan paksa hari Jumat jam 19:00 pada basket yang sedang floating minus!
+
+**Struktur PnL Global Riil:**
+- Keuntungan Kotor (3.078 basket menang): **+$12.307,03** (rata-rata **+$4,00 per win**, bukan $2.58).
+- Kerugian Kotor SL (24 basket): **-$6.535,76**
+- Kerugian Kotor Friday Close (31 basket): **-$4.529,56**
+- Kerugian Goresan Lainnya (126 basket kecil): **-$385,43**
+- **Total Net Profit**: **+$856,28**
+
+---
+
+### 3. VERIFIKASI SOURCE CODE MQL4
+1. **Mengapa Rata-rata Win adalah $4.00 (bukan $6–$15)?**
+   - Target nominal memang disetel di `Basket_Target_L2_Net=6.00`, `L3=9.00`, `L4Plus=15.00`.
+   - Namun di source code, ada fitur aktif: `Use_Stoch_Trailing_Basket=true` dengan `Stoch_Basket_Lock_Dollar=1.0` dan trailing step $0.50. Begitu net basket mencapai $1.0, jika Stochastic M5 mencapai overbought/oversold dan berbalik, basket langsung ditutup seketika untuk mengunci profit. Inilah sebabnya rata-rata take-profit terealisasi di angka ~$4.00.
+2. **Formula Lot L1 dan Masalah Slip Anggaran:**
+   - Di fungsi `GetSniperL1Lot()`, lot dihitung dari `budget / lossPerLot`. Namun fungsi `SniperPlanLossPerL1Lot()` menghitung potensi loss pada **SL nominal 1.0x** (jarak P98).
+   - Rumus tersebut **TIDAK memperhitungkan multiplier 1.3x** (`Sniper_SL_Hard_Mult`) maupun **slip konfirmasi H4**. Oleh karena itu, saat candle H4 selesai tutup di atas SL atau menyentuh 1.3x, realisasi loss membengkak 30%–50% di atas anggaran 8% ($240), menjadi $310–$400!
+   - Di samping itu, fitur `Use_Loss_Recovery=true` melipatgandakan lot L1 hingga 2.0x (`Recovery_Max_Lot_Mult=2.0`) jika ada sisa "utang" dari kerugian sebelumnya. Ini menjelaskan mengapa pada saat tren buruk beruntun, L1 dibuka dengan lot 0.03–0.04 dan memperparah kehancuran akun.
+
+---
+
+### 4. ARAH TINDAK LANJUT & PERTANYAAN STRATEGIS UNTUK CLAUDE (v94)
+
+Mengingat temuan funnel di atas bahwa L1 menghasilkan +$10.590 sementara L2–L5 merugi -$9.734, serta temuan bahwa Friday Close menyumbang -$4.529:
+
+1. **Jumlah Layer Maksimal (Max Layers)**:
+   Apakah langkah paling rasional untuk v94 adalah membatasi grid averaging menjadi **maksimal 2 layer (L1 + L2)** atau **maksimal 3 layer**, dan mematikan L4/L5 sepenuhnya? Jika L4 dan L5 dimatikan, kita langsung mengeliminasi potensi loss -$8.022!
+2. **Penanganan Kerugian Friday Close (-$4.529)**:
+   Bagaimana rekomendasi Claude untuk menangani 31 basket yang terpotong di hari Jumat 19:00?
+   - Opsi A: Matikan entry L1 lebih awal (misal sejak Kamis sore/malam) agar tidak ada basket baru yang tersangkut di hari Jumat?
+   - Opsi B: Gunakan *Friday Hold* bersyarat (hanya tahan basket jika floating loss < threshold tertentu, dan pasang SL ketat)?
+3. **Loss Recovery (Penggandaan Lot 2x)**:
+   Apakah fitur `Use_Loss_Recovery` sebaiknya dimatikan (`false`) agar lot L1 murni selalu konsisten dengan anggaran risiko dan tidak membesar saat drawdown terjadi?
+4. **Kalibrasi Anggaran SL (1.3x Hard Mult & H4 Confirmation)**:
+   Sesuai saran Claude, bagaimana formula penyesuaian yang paling elegan di MQL4 agar anggaran risiko 8% balance memperhitungkan hard multiplier 1.3x dan buffer konfirmasi H4 secara *fail-closed*?
+
+Mohon arahan dan formula usulan Anda untuk kita implementasikan ke dalam pengujian Putaran 25 (v94)!

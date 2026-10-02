@@ -9,8 +9,8 @@
   "periods": [
     {
       "id": "FULL",
-      "from": "ISI_TANGGAL_AWAL",
-      "to": "ISI_TANGGAL_AKHIR",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
       "desc": "Seluruh history M1 yang lengkap di MT4 (diisi Antigravity)"
     }
   ],

@@ -780,3 +780,21 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
 - Langkah wajib sebelumnya: tools/CheckHistory.mq4 untuk cek rentang dan celah semua timeframe, bangun ulang dari M1 bila perlu.
 - Evaluasi oleh Claude Code setelah hasil masuk: equity per tahun dan per bulan, DD terdalam dan lama pemulihan, SL per tahun,
   rugi basket terbesar, perbandingan FA vs FB, dan pengecekan apakah Sniper benar-benar adaptif (legs dan SL berubah) di seluruh rentang.
+
+## Backtest penuh
+- Data: Sebelum (M15..D1 celah>4hari=1 Mar-Agt 2025); Sesudah (rebuild M1, 7 TF 2020.01.01-2026.09.25 lengkap, celah>4hari=0).
+- Rentang FULL: 2020.02.15 s/d 2026.09.25 (6 thn 7 bln, Spread 20, Deposit $3000, Data Error: 0 di semua run).
+- FA (Control Points, H4 confirm): Net +$1,232.41 | PF 1.07 | DD maks $888.28 (28.37%) | Trades 3,922 | SL 23 | Legs<5: 0/thn.
+- FB (Control Points, Intrabar SL): Net +$293.12 | PF 1.02 | DD maks $1,314.74 (38.18%) | Trades 3,901 | SL 37 | Legs<5: 0/thn.
+- FAT (Every Tick, H4 confirm, MQ 25%): Net +$856.28 | PF 1.05 | DD maks $1,208.20 (32.57%) | Trades 3,954 | SL 24 | Legs<5: 0/thn.
+- FBT (Every Tick, Intrabar SL, MQ 25%): Net +$406.36 | PF 1.02 | DD maks $1,546.45 (41.65%) | Trades 3,939 | SL 36 | Legs<5: 0/thn.
+- Rincian SL per tahun (FA / FB / FAT / FBT): 2020 (3/4/3/4), 2021 (5/8/5/7), 2022 (4/7/5/8), 2023 (4/8/4/8), 2024 (6/8/6/8), 2025 (1/2/1/1), 2026 (0/0/0/0).
+- Statistik swing adaptif bekerja 100% penuh: legs 107-151, SL adaptif bergerak dinamis 3,290 pips (2020) hingga 15,668 pips (2026).
+
+## Jawaban backtest penuh
+1. Drawdown terdalam & pemulihan (.gif equity FA vs FB):
+   - FA: Trough terdalam terjadi 2021.01.04 ($3,137) ke 2021.04.16 ($2,294, -$843 / -26.9%), pulih 2021.12.15 (lama pulih 345 hari). Peristiwa pasar: Reli yield obligasi US 10Y pasca-vaksinasi COVID-19 yang memicu reli agresif USD dan drop tajam emas $1,959 ke $1,676.
+   - FB: DD terdalam dari peak 2021.11.03 ($3,479) jatuh ke trough 2025.07.11 ($2,181, -$1,298 / -37.3%). FB tidak pernah pulih hingga akhir backtest 2026.09.25 (durasi DD 1,786 hari / ~4.9 tahun, balance akhir $3,293).
+2. Periode panjang (> 2 bulan) grafik datar/turun:
+   - FA: Terdapat 3 periode: 2021.01.04-2021.12.15 (11.5 bln), 2023.03.08-2024.03.28 (12.5 bln pasca krisis SVB), dan 2024.05.23-2026.04.21 (23 bln saat reli all-time-high emas $2400-$2700+). Namun FA terbukti selalu pulih dan mencetak puncak balance baru.
+   - FB: Mengalami periode penurunan kontinu hampir 5 tahun (2021.11.03 s/d 2026.09.25) karena 37x terkena SL intrabar akibat wick harga, sehingga grafiknya terus tertekan ke bawah.

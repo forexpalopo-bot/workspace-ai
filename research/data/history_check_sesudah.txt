@@ -1,0 +1,8 @@
+Simbol=XAUUSD Digits=2 Server=ICMarketsSC-Live04
+TF 1: bars=2352835 dari 2020.01.01 23:00 s/d 2026.09.25 20:59 | celah>4hari=0
+TF 5: bars=470690 dari 2020.01.01 23:00 s/d 2026.09.25 20:55 | celah>4hari=0
+TF 15: bars=157300 dari 2020.01.01 23:00 s/d 2026.10.02 05:15 | celah>4hari=0
+TF 30: bars=78457 dari 2020.01.01 23:00 s/d 2026.09.25 20:30 | celah>4hari=0
+TF 60: bars=39244 dari 2020.01.01 23:00 s/d 2026.09.25 20:00 | celah>4hari=0
+TF 240: bars=10430 dari 2020.01.01 20:00 s/d 2026.09.25 20:00 | celah>4hari=0
+TF 1440: bars=1748 dari 2020.01.01 00:00 s/d 2026.09.25 00:00 | celah>4hari=0

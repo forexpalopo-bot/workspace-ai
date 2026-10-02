@@ -767,3 +767,16 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
   * 2025.06.24 00:03:39 BioOnePro_v93_NewsTime XAUUSD,M1: SNIPER SL: tutup basket BUY | jarak dari L1 >= 5889 pips (awal 5889)
   * 2025.06.27 13:04:39 BioOnePro_v93_NewsTime XAUUSD,M1: SNIPER SL: tutup basket BUY | jarak dari L1 >= 5889 pips (awal 5889)
 - Mengapa 521 trade identik: Ketiganya terjadi tepat saat/pasca pergantian bar (01:06 pasca-H1 01:00, 00:03 pasca-H1/H4 00:00, 13:04 pasca-H1 13:00) di mana candle TF konfirmasi sudah valid close menembus SL (bukan jarum/retrace), sehingga SniperSLConfirmed langsung bernilai true seketika.
+
+## Rencana backtest penuh (seluruh history MT4)
+- Evaluasi jawaban putaran 24: ketiga rugi 2025 memang "SNIPER SL", tetapi SL-nya sama persis (5889 pips) pada tiga basket yang
+  berjarak 2 bulan, dan V2 (tanpa konfirmasi) menutup di detik yang sama dengan VQ3/VH1. Itu tidak mungkin bila konfirmasi
+  close H1/H4 benar-benar bekerja (V2 seharusnya menutup lebih awal). Dugaan kuat: **history H1/H4 di tester untuk 2025–2026 kosong
+  atau tidak lengkap**, sehingga iClose(H1/H4) = 0 → SniperSLConfirmed() langsung true, dan statistik swing H1 Sniper membeku
+  (SL tidak berubah berbulan-bulan). Ini juga menjelaskan kenapa hasil P2 dan P1D identik di semua versi.
+  Konsekuensi: hasil 2025–2026 selama ini kemungkinan BUKAN hasil Sniper adaptif. Harus dicek sebelum keputusan final.
+- Backtest penuh (research/scenarios_full.json): satu run kontinu dari awal history yang lengkap sampai data terakhir,
+  deposit $3000, FA = v93 VH1, FB = v93 SL intrabar; control points dulu (FA/FB), lalu Every Tick (FAT/FBT).
+- Langkah wajib sebelumnya: tools/CheckHistory.mq4 untuk cek rentang dan celah semua timeframe, bangun ulang dari M1 bila perlu.
+- Evaluasi oleh Claude Code setelah hasil masuk: equity per tahun dan per bulan, DD terdalam dan lama pemulihan, SL per tahun,
+  rugi basket terbesar, perbandingan FA vs FB, dan pengecekan apakah Sniper benar-benar adaptif (legs dan SL berubah) di seluruh rentang.

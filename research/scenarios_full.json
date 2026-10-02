@@ -1,0 +1,61 @@
+{
+  "ea_source": "ea/BioOnePro_v93_NewsTime.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "ISI_TANGGAL_AWAL",
+      "to": "ISI_TANGGAL_AKHIR",
+      "desc": "Seluruh history M1 yang lengkap di MT4 (diisi Antigravity)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "FA",
+      "desc": "Backtest penuh: v93 preset VH1 (SL dikonfirmasi close H4)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "FB",
+      "desc": "Backtest penuh: v93 preset SL intrabar (setara v91 P2)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "FAT",
+      "desc": "Backtest penuh Every Tick: v93 preset VH1",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 0
+      }
+    },
+    {
+      "id": "FBT",
+      "desc": "Backtest penuh Every Tick: v93 preset SL intrabar",
+      "params": {
+        "Sniper_SL_Confirm_TF": 0
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 0
+      }
+    }
+  ]
+}

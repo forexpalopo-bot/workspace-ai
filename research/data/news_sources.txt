@@ -1,0 +1,40 @@
+KALENDER BERITA USD HIGH IMPACT (2022.01.01 - 2026.09.30)
+============================================================
+Total event: 497
+
+Rincian per tahun:
+- 2022: 109 event
+- 2023: 108 event
+- 2024: 108 event
+- 2025: 94 event
+- 2026: 78 event
+
+Daftar Sumber Resmi & Terverifikasi:
+1. Federal Reserve Board (FOMC Meetings, Statements, & Press Conferences):
+   URL: https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm
+   Event: FOMC rate decision (14:00 ET), FOMC press conference (14:30 ET)
+
+2. U.S. Bureau of Labor Statistics (BLS):
+   URL: https://www.bls.gov/schedule/news_release/
+   Event: Nonfarm Payrolls (Employment Situation, 08:30 ET), Consumer Price Index (CPI, 08:30 ET), Producer Price Index (PPI, 08:30 ET)
+
+3. U.S. Bureau of Economic Analysis (BEA):
+   URL: https://www.bea.gov/news/schedule
+   Event: Advance Gross Domestic Product (GDP, 08:30 ET), Core Personal Consumption Expenditures (Core PCE, 08:30 ET)
+
+4. U.S. Census Bureau:
+   URL: https://www.census.gov/economic-indicators/
+   Event: Advance Monthly Sales for Retail and Food Services (Retail Sales, 08:30 ET)
+
+5. Institute for Supply Management (ISM):
+   URL: https://www.ismworld.org/supply-management-news-and-reports/reports/ism-pmi/
+   Event: ISM Manufacturing PMI (10:00 ET, hari kerja ke-1), ISM Services PMI (10:00 ET, hari kerja ke-3)
+
+6. Forex Factory Historical Economic Calendar Dataset (2007-2025):
+   URL: https://huggingface.co/datasets/jomee123456/Forex_Factory_Calendar
+   Dipakai untuk memvalidasi tanggal historis dari 2022.01.01 sampai 2025.04.07.
+
+Catatan Metodologi & Penyesuaian:
+- Seluruh jam rilis AS dikonversi ke GMT (UTC) secara presisi menggunakan aturan US Daylight Saving Time (DST) via zoneinfo America/New_York (EDT = GMT-4, EST = GMT-5).
+- Pada kuartal akhir 2025, jadwal beberapa rilis pemerintah AS mengalami penundaan/penggabungan (appropriations lapse/shutdown); jadwal di atas menggunakan tanggal rilis aktual yang direvisi oleh BLS, BEA, dan Census.
+- Event yang tanggal pastinya belum ditetapkan oleh instansi resmi dilewati sesuai instruksi agar tidak mengarang data.

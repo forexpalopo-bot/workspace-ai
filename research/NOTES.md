@@ -693,3 +693,27 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
   2. Putaran 24: gabungkan pemenang → validasi Every Tick 5 tahun + uji stres (spread 35, deposit $2000 dan $5000).
   3. Forward test demo memakai v93 (Rule_Time_Mode=1, jam aturan = backtest), 4–8 minggu, dibandingkan mingguan
      dengan backtest periode yang sama. Forward test lama yang memakai E2_Final dengan jam server sebaiknya diganti.
+
+## Putaran 23 (v93 Jam GMT & Filter Berita)
+| run_id | net_profit (P5 / P3 / P1D) | Total 3P | max_dd_pct | SNIPER SL | worst_bsk | trades | Keputusan |
+|---|---|---|---|---|---|---|---|
+| Q3 (v92 Baseline) | +150 / +691 / +854 | +$1,695 | 27.7% | 9 (5/4/0) | -$355.09 | 1,716 | BASELINE |
+| D1 (v93 Parity P5) | +150 / -- / -- | -- | 27.7% | 5 | -$317.14 | 654 | PARITAS 100% |
+| **H1 (SL Confirm H4)**| **+136 / +855 / +854** | **+$1,845 (+8.9%)**| **28.0%** | **7 (5/2/0)** | **-$316.11** | **1,714** | **REKOR PROFIT BARU** |
+| H2 (Hard Mult 1.2x)| +145 / +691 / +854 | +$1,690 (-0.3%) | 26.5% | 9 (5/4/0) | -$355.09 | 1,720 | DITOLAK (DD -1.2 pt) |
+| H3 (News Filter L1)| -391 / +667 / +821 | +$1,096 (-35%) | 28.8% | 10 (6/4/0) | -$353.73 | 1,674 | DITOLAK |
+| H4 (News L1+Layer) | -378 / +627 / +821 | +$1,070 (-37%) | 28.1% | 10 (6/4/0) | -$358.67 | 1,653 | DITOLAK |
+- Evaluasi: Filter berita (H3/H4) DITOLAK KERAS; blokir entry saat news merusak pembalikan momentum (2022 rugi -$391).
+- H1 cetak rekor profit tertinggi (+$1,845, P3 naik ke +$855 dgn DD 10.9%, SL terpangkas ke 7x). H2 kurangi DD ke 26.5%.
+- Kalender Berita: research/data/news_usd_high.csv selesai (497 event: 2022=109, 2023=108, 2024=108, 2025=94, 2026=78).
+
+## Jawaban Antigravity putaran 23
+1. **a. Konfirmasi Zona Waktu Data Tester (GMT vs Server GMT+2/+3)**:
+   - Terkonfirmasi 100%: Pada chart live server (XAUUSD_60.csv), bar mingguan dimulai Senin 01:00 dan ditutup Jumat 23:00 (GMT+2 musim dingin / GMT+3 musim panas). Sebaliknya, pada data Strategy Tester, bar trading dimulai 00:00 dan rilis berita AS 08:30 ET tercatat pada 12:30/13:30, membuktikan data tester murni berzona waktu GMT (selisih 2–3 jam lebih lambat dari server live). Fitur Rule_Time_Mode=1 di v93 tepat dan krusial agar logika waktu di live sinkron dengan backtest.
+2. **b. Asal Data Periode P2 (2025.01–2025.09) dan P1**:
+   - P1 awalnya menggunakan file FXT pre-generated lokal dari server Live04 (harga 3 digit, spread floating).
+   - Periode P2 diunduh pada Putaran 5 saat terminal login ke server ICMarketsSC-Demo01 (data MetaQuotes demo, format 2 digit). Script ExportBars dieksekusi di atas akun aktif Live04, sehingga perbedaan feed server (Demo01 vs Live04) dan digit kuotasi menyebabkan ketidakcocokan harga antara order V2_P2 dan CSV.
+3. **c. Risiko Besar yang Tersisa Pasca-Uji Filter Berita**:
+   - Filter berita terbukti merugikan (H3/H4 rugi >35% karena L1 kehilangan momentum pullback pasca-lonjakan).
+   - Risiko terbesar yang tersisa adalah sustained one-way macro trend tanpa koreksi yang menembus batas keras (hard multiplier), seperti eskalasi geopolitik beruntun atau tren suku bunga agresif 2022.
+   - Proteksi terbaik tetap konfirmasi penutupan bar (H1/H4) dengan batas keras 1.3x yang menyaring fakeout intrabar.

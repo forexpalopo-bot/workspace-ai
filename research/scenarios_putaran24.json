@@ -1,0 +1,61 @@
+{
+  "ea_source": "ea/BioOnePro_v93_NewsTime.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P5",
+      "from": "2022.01.03",
+      "to": "2022.12.30",
+      "desc": "2022"
+    },
+    {
+      "id": "P4",
+      "from": "2023.01.02",
+      "to": "2023.12.29",
+      "desc": "2023"
+    },
+    {
+      "id": "P3",
+      "from": "2024.01.02",
+      "to": "2024.12.31",
+      "desc": "2024"
+    },
+    {
+      "id": "P2",
+      "from": "2025.01.02",
+      "to": "2025.12.30",
+      "desc": "2025"
+    },
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Sep 2025 - Sep 2026"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "VQ3",
+      "desc": "Validasi Every Tick 5 tahun: v93 default (= Q3, SL konfirmasi close H1)",
+      "params": {},
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "VH1",
+      "desc": "Validasi Every Tick 5 tahun: v93 + SL konfirmasi close H4 (H1 putaran 23)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

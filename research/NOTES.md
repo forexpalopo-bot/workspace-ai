@@ -717,3 +717,19 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
    - Filter berita terbukti merugikan (H3/H4 rugi >35% karena L1 kehilangan momentum pullback pasca-lonjakan).
    - Risiko terbesar yang tersisa adalah sustained one-way macro trend tanpa koreksi yang menembus batas keras (hard multiplier), seperti eskalasi geopolitik beruntun atau tren suku bunga agresif 2022.
    - Proteksi terbaik tetap konfirmasi penutupan bar (H1/H4) dengan batas keras 1.3x yang menyaring fakeout intrabar.
+
+## Evaluasi Claude Code atas putaran 23 (kinerja Antigravity + keputusan)
+- Angka semua run dicek ulang dari laporan .htm: cocok. Paritas D1_P5 = Q3_P5 (+150.12): kode v93 aman.
+  (D1_P3 dan D1_P1D di folder runs adalah sisa putaran 13 dengan ID sama — bukan hasil v93, abaikan.)
+- Kalender berita: kualitas baik. Sampel dicek: NFP 2022.01.07 13:30, CPI 2022.06.10 12:30, FOMC 2022.11.02 18:00 (masih EDT),
+  FOMC 2024.11.07 19:00, NFP tertunda shutdown 2025.11.20, tidak ada NFP 2025.10.03 — semua benar. Tanpa duplikat, terurut.
+  Jadi penolakan filter berita (H3/H4: 2022 menjadi −$391) dapat dipercaya: berita memicu SL, tetapi juga memberi entry terbaik.
+- Keputusan: H1 (SL konfirmasi close H4) +$1,845 = **+8.9%**, di bawah ambang +10%, DD 28.0% (Q3 27.7%) → BELUM DITERIMA,
+  tetapi kandidat kuat (SL 9 → 7, 2024 +$164). Diputuskan lewat validasi Every Tick 5 tahun (putaran 24).
+  H2 (batas keras 1.2×) DD −1.2 poin saja → ditolak. Q3 tetap juara sementara.
+- Catatan proses untuk Antigravity: (1) tulis DITERIMA/DITOLAK sesuai aturan, jangan label lain; (2) ExportBars dijalankan di
+  akun Live04, bukan data yang sama dengan backtest — tidak fatal (selisih waktu tetap terukur), tetapi ikuti instruksi;
+  (3) periode P2 Every Tick (2025.01–2025.12) tumpang tindih 3 bulan dengan P1D — tetap dipakai agar sebanding dengan V2,
+  tetapi total 5 tahun menghitung Sep–Des 2025 dua kali.
+- Putaran 24: validasi Every Tick 5 periode, VQ3 (v93 default = Q3) vs VH1 (konfirmasi H4). Pembanding v91 P2 (V2): +$2,899, DD 23.0%.
+  Pemenang menjadi default versi final dan dipakai untuk forward test demo (Rule_Time_Mode=1).

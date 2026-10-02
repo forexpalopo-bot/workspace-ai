@@ -1,0 +1,452 @@
+Model verification
+
+Free plan
+Upgrade
+Claude finished the response
+
+Use the up and down arrow keys to move between messages.
+
+You said: cek model?
+
+cek model?
+
+4 minutes ago
+
+
+
+Claude responded: Saya Claude Sonnet 5.5, dibuat oleh Anthropic.
+
+Saya Claude Sonnet 5.5, dibuat oleh Anthropic. Kamu bisa mengganti model di tengah percakapan, jadi kalau tadi sempat ganti, jawaban ini sesuai model yang aktif sekarang.
+
+
+
+
+
+
+4 minutes ago
+You said: KOLABORASI RISET INSTITUSIONAL BIOONEPRO (v93 -> v94)
+
+# KOLABORASI RISET INSTITUSIONAL BIOONEPRO (v93 -> v94)
+**Topik**: Analisis Kuantitatif Bedah Kerugian Backtest 6.5 Tahun (Every Tick) & Arsitektur Big Loss Guard
+**Pair**: XAUUSD (Gold) M1 | **Broker**: IC Markets Raw Spread | **Deposit**: $3,000.00
+**Disiapkan oleh**: Antigravity Assistant & Developer (Branch: claude/cek-xb7zbt)
+
+Halo Claude! Kami sedang melanjutkan penelitian optimasi EA institusional **BioOnePro** di MetaTrader 4. Tolong berikan analisis matematis, statistik, dan rekomendasi teknis terdalam Anda (menggunakan mode Sonnet 5.5 High / Extra Depth) atas laporan komprehensif berikut:
+
+---
+
+## 1. LATAR BELAKANG & TUJUAN PENELITIAN
+Penelitian ini bertujuan mengembangkan EA trading otomatis untuk XAUUSD berbasis kombinasi strategi:
+1. **Entry L1**: Trend-following pullback berbasis Support/Resistance, Bollinger Bands, MACD, dan ADX.
+2. **Manajemen Layer (L2–L5)**: Dynamic Adaptive Averaging ("Sniper"), di mana jarak layer dihitung secara dinamis dari persentil swing H1 (*learning lookback* 40 hari, L2=P50, L3=P70, L4=P85, L5=P93, SL=P98).
+3. **Exit Basket**: Target net profit dollar ($6–$15) + Stochastic M5 / ATR Trailing Stop basket.
+4. **Proteksi Kerugian**:
+   - Anggaran risiko basket (*risk budget* 8% balance).
+   - *Friday Cutoff* (tidak ada L1 hari Jumat) & *Friday 19:00 Close*.
+   - *H4 Close Confirmation* dengan *Hard Multiplier 1.3x* untuk SL (v93 VH1).
+   - Jam aturan GMT (*Rule_Time_Mode=1*) sinkron dengan Strategy Tester MT4.
+
+---
+
+## 2. HASIL BACKTEST PENUH SELURUH HISTORY (6 TAHUN 7 BULAN)
+**Rentang**: 15 Februari 2020 s/d 25 September 2026 (Rentang kontinu penuh)  
+**Deposit Awal**: $3,000.00 | **Spread**: 20 points ($0.20 XAUUSD, 2-digit feed) | **Error Data**: 0
+
+| Metrik Kinerja | FA (Control Points, H4 Confirm) | FB (Control Points, Intrabar SL) | FAT (Every Tick, H4 Confirm) | FBT (Every Tick, Intrabar SL) |
+|---|---|---|---|---|
+| **Total Net Profit** | **+$1,232.41 (+41.1%)** | +$293.12 (+9.8%) | **+$856.28 (+28.5%)** | +$406.36 (+13.5%) |
+| **Profit Factor** | **1.07** | 1.02 | **1.05** | 1.02 |
+| **Maximal Drawdown ($)** | **$888.28** | $1,314.74 | **$1,208.20** | $1,546.45 |
+| **Maximal Drawdown (%)** | **28.37%** | 38.18% | **32.57%** | 41.65% |
+| **Total Closed Orders** | 3,922 | 3,901 | 3,954 | 3,939 |
+| **Total Baskets** | 3,247 | 3,256 | 3,259 | 3,273 |
+| **Jumlah Kejadian SL** | **23 kali** | 37 kali | **24 kali** | 36 kali |
+| **Modelling Quality** | N/A (Model 1) | N/A (Model 1) | 25.00% (313.8M ticks) | 25.00% (313.8M ticks) |
+
+### Rincian Profit & Frekuensi SL per Tahun (FAT Every Tick):
+- **2020**: Profit +$161.62 | SL: 3 kali
+- **2021**: Profit +$4.82 | SL: 5 kali *(Reli yield US 10Y, emas jatuh $1959 -> $1676)*
+- **2022**: Profit +$45.63 | SL: 5 kali *(Siklus agresif kenaikan suku bunga Fed)*
+- **2023**: Profit +$31.32 | SL: 4 kali *(Krisis SVB Maret & lonjakan OPEC+ April)*
+- **2024**: Profit **-$338.99** | SL: 6 kali *(Reli All-Time-High emas dari $2050 ke $2700+)*
+- **2025**: Profit +$158.69 | SL: 1 kali
+- **2026 (s/d Sep)**: Profit +$793.32 | SL: 0 kali
+- **TOTAL**: **Net +$856.28 | SL: 24 kali**
+
+---
+
+## 3. BEDAH EMPIRIS FUNNEL PER LAYER (DARI 3.259 BASKET FAT_FULL)
+
+Kami telah membedah seluruh 3.954 transaksi dan 3.259 basket dari log Every Tick (FAT_FULL):
+
+**A. Rincian Berdasarkan Kedalaman Eksak (Depth):**
+- **Eksak L1 (Tanpa Averaging)**: 2.872 basket (88.1% dari seluruh basket)
+  - Menang: 2.772 basket (Win Rate: **96.5%**)
+  - Kena SL: hanya 2 basket (0.1%)
+  - **Total PnL: +$10.590,55** | **Rata-rata PnL: +$3,69 per basket**
+- **Eksak L2**: 205 basket (6.3%)
+  - Menang: 194 basket (Win Rate: 94.6%)
+  - Kena SL: 5 basket (2.4%)
+  - **Total PnL: -$54,59** | **Rata-rata PnL: -$0,27 (Break-Even)**
+- **Eksak L3**: 93 basket (2.9%)
+  - Menang: 75 basket (Win Rate: 80.6%)
+  - Kena SL: 11 basket (11.8%)
+  - **Total PnL: -$1.657,40** | **Rata-rata PnL: -$17,82**
+- **Eksak L4**: 52 basket (1.6%)
+  - Menang: 24 basket (Win Rate: 46.2%)
+  - Kena SL: 14 basket (26.9%)
+  - **Total PnL: -$2.935,16** | **Rata-rata PnL: -$56,45**
+- **Eksak L5**: 37 basket (1.1%)
+  - Menang: 13 basket (Win Rate: 35.1%)
+  - Kena SL: 23 basket (**62.2% SL!**)
+  - **Total PnL: -$5.086,99** | **Rata-rata PnL: -$137,49**
+
+**B. Tabel Funnel Kumulatif (Basket yang Mencapai Minimal Layer k):**
+- **Mencapai ≥ L1**: 3.259 basket (100%) | Win: 3.078 | SL: 55 | Net: **+$856,41**
+- **Mencapai ≥ L2**: 387 basket (11.9%) | Win: 306 | SL: 53 | P(SL): 13.7% | Net: **-$9.734,14**
+- **Mencapai ≥ L3**: 182 basket (5.6%) | Win: 112 | SL: 48 | P(SL): 26.4% | Net: **-$9.679,55**
+- **Mencapai ≥ L4**: 89 basket (2.7%) | Win: 37 | SL: 37 | P(SL): 41.6% | Net: **-$8.022,15**
+- **Mencapai ≥ L5**: 37 basket (1.1%) | Win: 13 | SL: 23 | P(SL): 62.2% | Net: **-$5.086,99**
+
+**Temuan Kuantitatif Utama**:
+**Seluruh edge sistem (+10.590 USD) berada di L1**. Averaging L3–L5 ternyata memiliki ekspektasi matematis negatif masif (**-$9.679 USD**). Begitu basket menembus L3, probabilitas terkena SL melonjak ke 26%–62%, dan layer-layer dalam ini menyedot habis seluruh profit yang dihasilkan oleh ribuan kemenangan L1!
+
+---
+
+## 4. DUA SUMBER KERUGIAN UTAMA (SL vs FRIDAY CLOSE)
+Dari 55 basket yang mengalami kerugian > $50, terungkap klasifikasi penyebab keluarnya:
+1. **SNIPER SL (24 kejadian)**:
+   - Total kerugian: **-$6.535,76** (rata-rata **-$272,32** per SL).
+2. **FRIDAY CLOSE 19:00 (31 kejadian)**:
+   - Total kerugian: **-$4.529,56** (rata-rata **-$146,11** per kejadian).
+   - Hampir 40% kerugian sistem ternyata bukan berasal dari SL, melainkan pemotongan paksa hari Jumat jam 19:00 pada basket yang sedang floating minus!
+
+**Struktur PnL Global Riil:**
+- Keuntungan Kotor (3.078 basket menang): **+$12.307,03** (rata-rata **+$4,00 per win**).
+- Kerugian Kotor SL (24 basket): **-$6.535,76**
+- Kerugian Kotor Friday Close (31 basket): **-$4.529,56**
+- Kerugian Goresan Lainnya (126 basket kecil): **-$385,43**
+- **Total Net Profit**: **+$856,28**
+
+---
+
+## 5. VERIFIKASI SOURCE CODE MQL4
+1. **Rata-rata Win adalah $4.00 (bukan $6–$15)**:
+   - Di source code, ada fitur aktif: Use_Stoch_Trailing_Basket=true dengan Stoch_Basket_Lock_Dollar=1.0 dan trailing step $0.50. Begitu net basket mencapai $1.0, jika Stochastic M5 mencapai overbought/oversold dan berbalik, basket langsung ditutup seketika untuk mengunci profit. Inilah sebabnya rata-rata take-profit terealisasi di angka ~$4.00.
+2. **Formula Lot L1 dan Masalah Slip Anggaran**:
+   - Di fungsi GetSniperL1Lot(), lot dihitung dari budget / lossPerLot. Namun fungsi SniperPlanLossPerL1Lot() menghitung potensi loss pada **SL nominal 1.0x** (jarak P98).
+   - Rumus tersebut **TIDAK memperhitungkan multiplier 1.3x** (Sniper_SL_Hard_Mult) maupun **slip konfirmasi H4**. Oleh karena itu, saat candle H4 selesai tutup di atas SL atau menyentuh 1.3x, realisasi loss membengkak 30%–50% di atas anggaran 8% ($240), menjadi $310–$400!
+   - Di samping itu, fitur Use_Loss_Recovery=true melipatgandakan lot L1 hingga 2.0x (Recovery_Max_Lot_Mult=2.0) jika ada sisa "utang" dari kerugian sebelumnya. Ini menjelaskan mengapa pada saat tren buruk beruntun, L1 dibuka dengan lot 0.03–0.04 dan memperparah kehancuran akun.
+
+---
+
+## 6. PERTANYAAN STRATEGIS UNTUK CLAUDE (v94)
+
+Mengingat temuan funnel bahwa L1 menghasilkan +$10.590 sementara L2–L5 merugi -$9.734, serta temuan bahwa Friday Close menyumbang -$4.529:
+
+**Jumlah Layer Maksimal (Max Layers)**: Apakah langkah paling rasional untuk v94 adalah membatasi grid averaging menjadi **maksimal 2 layer (L1 + L2)** atau **maksimal 3 layer**, dan mematikan L4/L5 sepenuhnya? Jika L4 dan L5 dimatikan, kita langsung mengeliminasi potensi loss -$8.022!
+**Penanganan Kerugian Friday Close (-$4.529)**: Bagaimana rekomendasi Claude untuk menangani 31 basket yang terpotong di hari Jumat 19:00?
+Opsi A: Matikan entry L1 lebih awal (misal sejak Kamis sore/malam) agar tidak ada basket baru yang tersangkut di hari Jumat?
+Opsi B: Gunakan *Friday Hold* bersyarat (hanya tahan basket jika floating loss < threshold tertentu, dan pasang SL ketat)?
+**Loss Recovery (Penggandaan Lot 2x)**: Apakah fitur Use_Loss_Recovery sebaiknya dimatikan (false) agar lot L1 murni selalu konsisten dengan anggaran risiko dan tidak membesar saat drawdown terjadi?
+**Kalibrasi Anggaran SL (1.3x Hard Mult & H4 Confirmation)**: Bagaimana formula penyesuaian yang paling elegan di MQL4 agar anggaran risiko 8% balance memperhitungkan hard multiplier 1.3x dan buffer konfirmasi H4 secara *fail-closed*?
+
+Mohon arahan kuantitatif dan formula usulan Anda untuk kita implementasikan ke dalam pengujian v94!
+
+Message collapsed
+Show more
+3 minutes ago
+
+
+
+Claude responded: Ada empat hal yang mengubah cara membaca laporan ini sebelum masuk ke empat pertanyaan Anda.
+Updated 2 memories, read memory, and 2 more tools
+
+Updated 2 memories, read memory, and 2 more tools
+
+Ada empat hal yang mengubah cara membaca laporan ini sebelum masuk ke empat pertanyaan Anda.
+
+0. Koreksi pembacaan data
+
+Angka konsisten, tetapi label "SL" di funnel ganda. 3.078 win + 24 SL + 31 Friday Close + 126 loss kecil = 3.259 basket, dan gross-nya menutup di +$856,28. Namun kolom "SL: 55" di funnel adalah 24 SL Sniper ditambah 31 Friday Close. Jadi "P(SL) 62,2% di L5" sebenarnya P(loss besar). Pisahkan per tipe exit × depth sebelum mengambil keputusan.
+
+Edge-nya sangat tipis dan belum signifikan secara statistik.
+
+Rata-rata loss: $11.450,75 / 181 = $63,26. Rata-rata win: $4,00.
+WR break-even = 63,26 / (63,26 + 4,00) ≈ 94,05%. WR aktual 3.078 / 3.259 = 94,45%, jadi margin hanya sekitar 0,4 poin persen (≈13 basket).
+Ekspektasi ≈ $0,26 per basket. Dengan simpangan baku basket yang saya perkirakan kasar ±$30 (hitung ulang dari log), standard error rata-rata ≈ $0,5, sehingga t ≈ 0,5.
+Profit tahunan praktis hanya fungsi jumlah SL: 0 SL → +$793, 1 → +$159, 3–5 → +$5 sampai +$162, 6 → -$339. Satu SL setara 68 win. Jadi +$793 di 2026 belum membuktikan perbaikan.
+
+Modelling quality 25% adalah risiko terbesar. Itu berarti tick diinterpolasi dari M1. Strategi Anda sangat bergantung pada path (lock $1, Stoch trailing, konfirmasi H4, gap Jumat). FA vs FAT berbeda $376 pada logika yang sama, itu bukti sensitivitasnya. Jalankan ulang dengan tick riil seperti setup R76–R78 Anda.
+
+Pastikan komisi ikut terhitung. Akun Raw biasanya sekitar $7 per lot round-turn. Dengan rata-rata lot 0,02 dan 3.954 order, itu ≈ $550, atau sekitar 65% dari net profit. Kalau tester belum memasukkannya, edge-nya bisa hilang.
+
+1. Max layers: jangan baca funnel sebagai "buang L2–L5, simpan L1"
+
+Ada dua alasan angka -$8.022 tidak bisa dianggap otomatis hilang.
+
+Kedalaman adalah hasil dari jalur harga. Basket yang berhenti di L1 adalah yang kebetulan tidak pernah melawan sampai P50. Tanpa L2+, 387 basket yang sampai L2 tidak lenyap. Mereka menjadi L1 yang menggantung dengan adverse excursion besar, lalu kena SL atau pulih lebih lama. L2–L5 juga yang menghasilkan 306 win di kelompok itu.
+Sizing mengikat loss per event. lot = budget / lossPerLot, jadi kalau layer dikurangi, lossPerLot turun dan lot L1 naik. Loss per SL tetap ≈ 8% ($240). Memangkas layer tidak mengecilkan ekor per event. Yang melakukannya hanya risk %.
+
+Ada satu petunjuk menarik. Jika jarak layer benar-benar persentil yang stasioner, P(capai SL | sampai L5) ≈ 2/7 ≈ 29%, sedangkan observasinya 62%. Pola serupa muncul di L4 (13% vs 41,6%) dan L3 (6,7% vs 26,4%). Angka observasi masih tercampur Friday Close, tapi indikasi awalnya: persentil 40 hari meremehkan ekor saat rezim tren.
+
+Rekomendasi: jalankan ablation MaxLayers ∈ {2,3,4,5} dalam dua mode: (a) lot L1 dikunci sama dengan baseline, untuk mengisolasi efek struktur, dan (b) budget konstan, untuk efek riil. Nilai pakai expectancy dalam satuan R (R = budget saat entry), WR, rata-rata win/loss, dan maxDD, bukan net profit mentah. Prior saya: L2 mendekati netral (-$0,27 per basket), jadi kandidat utama adalah max 3 dan pembandingnya max 2. L4–L5 duduk dekat SL (P85/P93 vs P98), sehingga lot tambahan masuk di titik yang sudah mahal.
+
+Tambahkan log per basket: waktu open, lot L1, MAE dan MFE dari harga L1, depth maksimum, exit reason, dan arah. Dengan itu counterfactual "L1-only" bisa disimulasikan dari data yang sama.
+
+2. Friday Close: baru "bocor" kalau hold terbukti lebih baik
+
+Friday Close hanya merealisasikan floating. Hold lebih baik hanya jika peluang basket pulih cukup tinggi:
+
+p* = (−146 − (−272)) / (4 − (−272)) = 126 / 276 ≈ 46%
+
+Ini mengasumsikan hasil hold hanya +$4 atau SL -$272, dan belum menghitung gap weekend. Jadi p* sebenarnya sedikit lebih tinggi.
+
+Diagnostik dulu pada 31 basket itu: depth saat ditutup, umur basket, dan jam L1 dibuka. Kalau mayoritas L1 lahir Kamis atau Jumat pagi, Opsi A efektif. Kalau mayoritas sudah L3+ dan terbawa dari hari sebelumnya, Opsi A tidak menolong. Masalahnya ada di layer dan rezim.
+
+Saran saya hibrida:
+
+Time-decay target: mulai Kamis sore sampai Jumat 19:00, turunkan target basket secara linear ke breakeven + biaya. Basket yang hampir flat keluar di ~0, bukan dipotong -$146.
+Stop L2+ baru setelah titik waktu tertentu di hari Jumat, karena menambah lot menjelang weekend menambah eksposur gap.
+Entry L1: uji cutoff Kamis 12:00 vs 18:00 GMT.
+Opsi B (SL ketat): tidak saya sarankan, karena SL ketat di basket minus hanya memaksa realisasi rugi dan tidak melindungi dari gap. Kalau mau menahan basket, batasi pada depth ≤ L2 dan floating lebih baik dari sekitar -25% budget (≈ -$60).
+3. Loss Recovery: ya, matikan untuk baseline v94
+Kerugian mengelompok dalam rezim tren (5, 5, 4, 6 SL per tahun di 2021–2024), jadi ×2 lot jatuh persis saat P(SL) sedang naik.
+Dengan edge ≈ 0, recovery menaikkan varians tanpa menaikkan ekspektasi.
+Tanpa plafon, SL di lot 2× berarti loss ≈ 16%, melanggar anggaran 8%.
+Matikan juga mengembalikan sistem ke prinsip zero-martingale yang Anda pegang di seri R76–R78.
+
+Kalau tetap ingin recovery, pakai base 4% dengan plafon mutlak 8%, dan tambahkan circuit breaker: setelah 2 loss besar beruntun, jeda entry 24 jam.
+
+Satu hal perlu dicek. Rata-rata SL -$272 adalah 1,13× budget, jadi klaim slip 30–50% ($310–$400) tidak bisa berlaku untuk semua event. Berikan distribusi rasio loss / budget saat entry untuk 24 SL itu sebelum menyetel buffer.
+
+4. Formula anggaran fail-closed
+
+Loss terburuk per 1,00 lot L1:
+
+W = Σᵢ mᵢ · (1,3·D − dᵢ + G + s) · V + (Σᵢ mᵢ) · C
+
+D = jarak L1→SL nominal (P98), dᵢ = jarak layer i dari L1, mᵢ = multiplier lot layer i.
+V = TICKVALUE / TICKSIZE, G = buffer gap, s = spread, C = komisi round-turn per lot.
+Lot L1 = floor_step( min(Risk%, Cap%) · min(balance, equity) / W ). Jika hasilnya < minLot, tidak entry. Jangan dipaksa ke minLot.
+
+Poin penting:
+
+Loss tidak naik sekadar 1,3×. Untuk layer i, rasionya (1,3D − dᵢ)/(D − dᵢ). Contoh dᵢ = 0,5D menghasilkan 1,6×, dan layer yang dekat SL bisa 2× atau lebih. Ini menjelaskan overshoot besar di basket L4–L5, dan kenapa SniperPlanLossPerL1Lot() yang memakai SL 1,0× meleset.
+Jangan menambah buffer terpisah untuk H4. Konfirmasi H4 hanya menunda exit antara 1,0× dan 1,3×. Batas atasnya sudah dikunci hard level 1,3×, jadi G hanya untuk gap atau slip di luar hard level. Mulai dari $1,00 lalu kalibrasi dari persentil 95 selisih exit aktual terhadap level hard.
+Pasang SL server-side di level hard + G. SL virtual tidak melindungi saat VPS atau koneksi putus.
+
+Implementasi MQL4 lengkapnya (sizing, recovery berplafon, circuit breaker) ada di file yang saya lampirkan. Kode itu belum dikompilasi atau diuji, jadi cek MODE_TICKVALUE untuk XAUUSD di broker Anda dan sesuaikan nama variabel ke kode v93.
+
+Urutan eksperimen yang saya usulkan
+Kontrol: v93 dengan tick riil + komisi + logging tambahan.
+Recovery OFF + sizing fail-closed.
+Grid MaxLayers (mode a dan b).
+Varian Friday: time-decay, stop L2+, cutoff L1.
+
+Satu catatan metodologi: Anda hanya punya 24–55 event loss, jadi daya statistiknya rendah. Utamakan perubahan yang punya dasar struktural (sizing, recovery, plafon) daripada ambang yang di-tune, dan pakai walk-forward (misalnya dev 2020–2023, hold-out 2024–2026). Kalau mau, kirim hasil diagnostik 31 basket Friday Close dan distribusi 24 SL, lalu kita pertajam angkanya.
+
+
+Bioonepro v94 riskbudget
+MQH 
+Download
+
+
+
+
+
+just now
+
+Write a message…
+
+
+
+
+
+
+
+Claude is AI and can make mistakes.
+Sonnet 5.5
+ 
+High
+Bioonepro v94 riskbudget · MQH
+Copy
+
+
+
+1
+//+------------------------------------------------------------------+
+2
+//| BioOnePro v94 - Fail-closed risk budget (include / snippet)       |
+3
+//| Prinsip: loss terburuk basket (bukan loss nominal) <= anggaran    |
+4
+//+------------------------------------------------------------------+
+5
+#property strict
+6
+ 
+7
+input double Risk_Base_Pct         = 4.0;   // risiko dasar per basket (% dari min(balance,equity))
+8
+input double Risk_Hard_Cap_Pct     = 8.0;   // plafon MUTLAK per basket, tidak boleh dilewati recovery
+9
+input double Sniper_SL_Hard_Mult   = 1.3;   // sama dengan v93
+10
+input double Gap_Buffer_Price      = 1.00;  // buffer gap/slip di luar hard level (satuan HARGA, USD/oz)
+11
+input double Commission_Per_Lot_RT = 7.00;  // USD round-turn per lot (verifikasi di akun IC Markets Raw)
+12
+input bool   Use_Loss_Recovery     = false; // baseline v94: OFF
+13
+input double Recovery_Max_Lot_Mult = 2.0;
+14
+ 
+15
+input int    Max_Consec_Losses     = 2;     // circuit breaker: SL/Friday-close beruntun
+16
+input int    Cooldown_Hours        = 24;    // jeda entry L1 setelah breaker aktif
+17
+ 
+18
+datetime g_pauseUntil = 0;
+19
+int      g_consecLoss = 0;
+20
+ 
+21
+//--- m[i] = multiplier lot layer i relatif L1 (m[0]=1.0)
+22
+//--- d[i] = jarak layer i dari harga L1, satuan harga (d[0]=0)
+23
+//--- slDist = jarak L1 -> SL nominal (P98), satuan harga
+24
+//--- return: loss terburuk (USD) per 1.00 lot L1; <=0 berarti GAGAL (fail-closed)
+25
+double WorstCaseLossPerL1Lot(const double &m[], const double &d[], int nLayers, double slDist)
+26
+{
+27
+   double tickSize  = MarketInfo(Symbol(), MODE_TICKSIZE);
+28
+   double tickValue = MarketInfo(Symbol(), MODE_TICKVALUE);
+29
+   if(tickSize <= 0 || tickValue <= 0 || nLayers <= 0 || slDist <= 0) return(-1.0);
+30
+ 
+31
+   double valuePerPriceLot = tickValue / tickSize;               // USD per 1.00 harga per 1 lot
+32
+   double dWorst = slDist * Sniper_SL_Hard_Mult + Gap_Buffer_Price; // titik keluar terburuk dari L1
+33
+   double spread = MarketInfo(Symbol(), MODE_SPREAD) * Point;
+34
+ 
+35
+   double loss = 0.0, lots = 0.0;
+36
+   for(int i = 0; i < nLayers; i++)
+37
+   {
+38
+      double adverse = dWorst - d[i] + spread;                   // layer dalam punya jarak rugi lebih kecil
+39
+      if(adverse < 0.0) adverse = 0.0;
+40
+      loss += m[i] * adverse * valuePerPriceLot;
+41
+      lots += m[i];
+42
+   }
+43
+   loss += lots * Commission_Per_Lot_RT;
+44
+   return(loss);
+45
+}
+46
+ 
+47
+//--- lot L1 final: dibulatkan KE BAWAH; jika < minLot -> 0.0 (tidak entry), bukan dipaksa ke minLot
+48
+double GetSniperL1Lot_V94(const double &m[], const double &d[], int nLayers, double slDist, bool hasRecoveryDebt)
+49
+{
+50
+   if(TimeCurrent() < g_pauseUntil) return(0.0);
+51
+ 
+52
+   double lossPerLot = WorstCaseLossPerL1Lot(m, d, nLayers, slDist);
+53
+   if(lossPerLot <= 0.0) return(0.0);
+54
+ 
+55
+   double step   = MarketInfo(Symbol(), MODE_LOTSTEP);
+56
+   double minLot = MarketInfo(Symbol(), MODE_MINLOT);
+57
+   double maxLot = MarketInfo(Symbol(), MODE_MAXLOT);
+58
+   if(step <= 0.0 || minLot <= 0.0) return(0.0);
+59
+ 
+60
+   double eq     = MathMin(AccountBalance(), AccountEquity());
+61
+   double capLot = (eq * Risk_Hard_Cap_Pct / 100.0) / lossPerLot;
+62
+   double lot    = (eq * Risk_Base_Pct     / 100.0) / lossPerLot;
+63
+ 
+64
+   if(Use_Loss_Recovery && hasRecoveryDebt)
+65
+      lot *= Recovery_Max_Lot_Mult;
+66
+   lot = MathMin(lot, capLot);                                   // recovery TIDAK boleh menembus plafon
+67
+ 
+68
+   lot = MathFloor(lot / step + 1e-9) * step;
+69
+   if(lot < minLot) return(0.0);
+70
+   return(MathMin(lot, maxLot));
+71
+}
+72
+ 
+73
+//--- panggil setiap basket tertutup: pnl <= -ambang_loss_besar dianggap loss besar (SL / Friday close)
+74
+void OnBasketClosed_V94(double pnl, double bigLossThreshold)
+75
+{
+76
+   if(pnl <= -MathAbs(bigLossThreshold)) g_consecLoss++;
+77
+   else                                  g_consecLoss = 0;
+78
+ 
+79
+   if(g_consecLoss >= Max_Consec_Losses)
+80
+   {
+81
+      g_pauseUntil = TimeCurrent() + Cooldown_Hours * 3600;
+82
+      g_consecLoss = 0;
+83
+   }
+84
+}
+85
+ 
+86
+//--- CATATAN: pasang SL server-side di level hard (slDist*Mult + Gap_Buffer) pada setiap posisi basket
+87
+//--- sebagai pengaman bila EA/VPS terputus; SL virtual tidak melindungi saat koneksi mati.
+88
+ 

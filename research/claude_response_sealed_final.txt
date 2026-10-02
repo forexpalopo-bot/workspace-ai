@@ -1,0 +1,62 @@
+Two-tier freeze protocol phase 0 official sealing
+
+Share
+Claude finished the response
+
+Use the up and down arrow keys to move between messages.
+
+You said: Konfirmasi Penyegelan Resmi Dokumen Protokol Dua Tingkat Fase 0
+
+Konfirmasi Penyegelan Resmi Dokumen Protokol Dua Tingkat Fase 0
+
+Halo Claude! Naskah redaksi pengganti resmi dari Anda telah kami adopsi 100% tanpa perubahan satu kata pun ke dalam dokumen resmi:
+research/PROTOKOL_FASE_0_TWO_TIER_FREEZE.md
+
+Seluruh artefak pendukung telah kami buat dan segel dengan hash kriptografi SHA-256:
+- Dokumen Protokol: 00eae84db6c9ae0d6e376943dbfc058d6dd45fa68a07f3176e6680396596aa1e
+- EA Source (BioOnePro_v94_FailClosed.mq4): d55e3c725c4f27a5b1c40d84cd83e82a8472f4572d32dd399b284412d003f41a
+- EA Executable (BioOnePro_v94_FailClosed.ex4): 8698f37adf10395486a06a3e21fe6e876550832f9d361d7f424999eb4e323846
+- Parameter Preset (BioOnePro_v94_Phase0_Demo.set): 22a85552eb28fbcbacb549f9256a771fa35fcab9b19167d7b6d1741338c7e4e0
+- Replay Reference (V94_10K_RISK1PCT_FULL.htm): 8ff72d9ccfa2beeba9f5c772b2d88dd3ad075e0c36057a152eebde42a9cbaa9d
+
+Dengan ini, Two-Tier Freeze Protocol Fase 0 (Demo Replay Fidelity) resmi DISEGEL dan DIBEKUKAN. Terima kasih banyak atas kepemimpinan dan integritas kuantitatif yang luar biasa selama proses riset ini!
+
+Message collapsed
+Show more
+just now
+
+
+
+Claude responded: Terima kasih atas konfirmasinya.
+Read and updated memory
+
+Read and updated memory
+
+Terima kasih atas konfirmasinya. Fase 0 Two-Tier Freeze sekarang tercatat disegel dan dibekukan, dengan lima artefak dan hash SHA-256 yang Anda sebutkan.
+
+Saya tidak bisa membuka file di repo Anda atau menghitung ulang hash dari sini, jadi lima hash itu saya terima sebagai yang Anda laporkan. Beberapa hal praktis agar segel ini bisa dipertanggungjawabkan nanti:
+
+Manifest dan tag. Simpan kelima hash dalam satu file SHA256SUMS yang ikut di-commit, lalu beri git tag bertanda tangan pada commit segel. Verifikasi sekali lagi dengan sha256sum -c dari checkout bersih, bukan dari working directory yang sama.
+Biner .ex4. Hash .ex4 mengunci biner spesifik itu. Compile ulang dari .mq4 yang sama kemungkinan besar menghasilkan hash berbeda, jadi arsipkan biner aslinya dan catat build MetaEditor yang dipakai. Sumber yang identik belum tentu berarti biner yang identik.
+Perubahan setelah segel. Edit apa pun pada .mq4, .ex4, atau .set (termasuk Rule_Time_Mode = 0, Risk_Base_Pct, Risk_Hard_Cap_Pct, dan Max_Basket_Layers) harus masuk register deviasi bertanggal, bukan perbaikan diam-diam. Untuk Tier 2 yang masih provisional (review hard-stop di DD > 5,5% dan jeda 24 jam setelah 3 basket rugi beruntun), sebaiknya ada prosedur amandemen tertulis yang tidak menyentuh Tier 1.
+Pra-registrasi demo. Sebelum demo mulai, catat tanggal mulai, nomor akun, dan konfirmasi bahwa waktu server broker sama dengan basis yang dipakai di replay. Kriteria kecukupan sampel (≥ 4 minggu penuh, ≥ 25 basket, ≥ 3 penutupan Jumat 19:00, ≥ 3 veto sinyal) paling kuat kalau dihitung dari titik awal yang sudah dikunci.
+
+Selamat atas milestone ini. Kalau mau, saya bisa bantu menyusun template register deviasi atau skrip verifikasi hash untuk CI.
+
+
+
+
+
+
+just now
+
+Write a message…
+
+
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Sonnet 5.5 Extra

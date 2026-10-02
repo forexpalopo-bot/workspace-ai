@@ -1,0 +1,94 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Seluruh history 6.5 tahun M1 XAUUSD (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_L1_EMA100",
+      "desc": "v94 L1 Pure Sniper: Trend Veto H1 EMA 100 (Blokir Counter-Trend Knife Catching)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 100,
+        "MA_Filter_Timeframe": 60
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 20
+      }
+    },
+    {
+      "id": "V94_L1_EMA200",
+      "desc": "v94 L1 Pure Sniper: Trend Veto H1 EMA 200 (Blokir Counter-Trend Knife Catching)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 20
+      }
+    },
+    {
+      "id": "V94_L1_THU12",
+      "desc": "v94 L1 Pure Sniper: Thursday 12:00 GMT Cutoff (Eliminasi Friday Cutoff Liquidation)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Thursday_L1_Cutoff_Hour": 12
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 20
+      }
+    },
+    {
+      "id": "V94_L1_COMBINED",
+      "desc": "v94 L1 Pure Sniper: H1 EMA 100 Veto + Thursday 12:00 Cutoff",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 100,
+        "MA_Filter_Timeframe": 60,
+        "Thursday_L1_Cutoff_Hour": 12
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 20
+      }
+    }
+  ]
+}

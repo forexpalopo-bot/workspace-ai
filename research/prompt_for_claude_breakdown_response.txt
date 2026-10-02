@@ -1,0 +1,46 @@
+# TANGGAPAN KUANTITATIF & TABEL PERBANDINGAN TAHUN-PER-TAHUN (TIERED GATE vs L1-ONLY) 6.5 TAHUN
+
+Yth. Rekan Peneliti Claude,
+
+Terima kasih atas kritik yang sangat tajam, skeptis, dan berbobot institusional. Kritik Anda 100% tepat: kita tidak boleh terjebak dalam *narrative bias* atau *survivorship of a single year*.
+
+Sesuai permintaan Anda, berikut adalah data empiris rincian tahun-per-tahun yang diekstrak langsung dari laporan backtest resmi (`V94_TIER_M1_FULL.htm` vs `V94_L1_ONLY_FULL.htm`), mencakup distribusi layer L1/L2/L3, win rate, rata-rata menang/kalah, dan kerugian terburuk:
+
+---
+
+### 1. Tabel Perbandingan Head-to-Head Tahunan (2020 – 2026)
+
+| Tahun | Metrik | Tiered Gate (3->2->1) | L1-Only (Sniper) | Delta (Tiered - L1) | Karakteristik Perilaku |
+|---|---|---|---|---|---|
+| **2020** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **-$16.24**<br>446 (92.6%)<br>510 (403/22/21)<br>+$2.32 / -$29.54<br>-$194.03 | **-$25.99**<br>418 (89.0%)<br>418 (418/0/0)<br>+$3.47 / -$28.62<br>-$155.68 | **+$9.75**<br>+28 baskets<br>+92 orders<br>-<br>-$38.35 | Hampir identik; pasar sideways berombak normal. |
+| **2021** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **+$271.97**<br>215 (80.9%)<br>272 (181/11/23)<br>+$5.04 / -$14.78<br>-$133.45 | **-$125.03**<br>184 (74.5%)<br>184 (184/0/0)<br>+$8.99 / -$28.86<br>-$152.13 | **+$397.00**<br>+31 baskets<br>+88 orders<br>-<br>+$18.68 | **Averaging menolong signifikan!** L1 terseret rugi, sedangkan Tiered Gate pulih via L2/L3. |
+| **2022** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **-$377.53**<br>355 (85.9%)<br>496 (263/43/49)<br>+$5.05 / -$38.35<br>-$151.41 | **-$524.97**<br>312 (77.9%)<br>312 (312/0/0)<br>+$7.56 / -$34.22<br>-$121.47 | **+$147.44**<br>+43 baskets<br>+184 orders<br>-<br>-$29.94 | **Averaging menolong $147.** Pasar bear agresif, averaging menolong BEP lebih sering. |
+| **2023** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **-$31.59**<br>378 (87.0%)<br>485 (308/33/37)<br>+$4.96 / -$33.91<br>-$186.69 | **+$548.68**<br>346 (83.5%)<br>346 (346/0/0)<br>+$8.38 / -$32.84<br>-$101.35 | **-$580.27**<br>+32 baskets<br>+139 orders<br>-<br>-$85.34 | **Anomali polar!** L1 menghasilkan gross win masif ($2,420 vs $1,630) karena retrace tajam menghantam L3 di Tiered. |
+| **2024** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **-$314.79**<br>351 (85.2%)<br>445 (277/54/20)<br>+$4.78 / -$33.54<br>-$160.49 | **-$300.38**<br>319 (80.9%)<br>319 (319/0/0)<br>+$5.30 / -$27.36<br>-$113.61 | **-$14.41**<br>+32 baskets<br>+126 orders<br>-<br>-$46.88 | Hampir seimbang saat awal breakout ATH emas. |
+| **2025** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **+$313.75**<br>350 (93.4%)<br>366 (337/10/3)<br>+$4.44 / -$49.55<br>-$168.38 | **+$333.57**<br>335 (92.2%)<br>335 (335/0/0)<br>+$4.17 / -$36.69<br>-$168.38 | **-$19.82**<br>+15 baskets<br>+31 orders<br>-<br>+$0.00 | Tiered Gate didominasi Tier 1 (337 dari 350 basket adalah L1 murni). Hasil nyaris kembar. |
+| **2026** | Net Profit<br>Baskets (WR)<br>Orders (L1/L2/L3)<br>Avg Win / Avg Loss<br>Worst Basket | **+$266.11**<br>92 (96.7%)<br>92 (92/0/0)<br>+$4.49 / -$44.62<br>-$74.29 | **+$266.11**<br>92 (96.7%)<br>92 (92/0/0)<br>+$4.49 / -$44.62<br>-$74.29 | **+$0.00**<br>0 baskets<br>0 orders<br>-<br>+$0.00 | **100% Identik!** Gate mendegradasi 100% ke Tier 1 (92 basket, 0 averaging). |
+| **TOTAL** | Net Profit | **+$111.68** | **+$171.99** | **-$60.31** | *(Selisih total kumulatif 6.5 tahun)* |
+
+---
+
+### 2. Temuan Kunci dari Data Empiris:
+
+1. **Hipotesis Trade-off Anda Terkonfirmasi Penuh**:
+   - Di luar tahun 2023, Tiered Gate mengungguli L1-only sebesar **+$519.96** (+ $143.27 vs -$376.69). Averaging L2/L3 terbukti sangat menolong di 2021 (+$397) dan 2022 (+$147).
+   - Namun di 2023, terjadi pembalikan ekstrem (-$580.27). Di 2023, L1 menangkap retrace cepat dengan profit rata-rata tinggi (+$8.38), sedangkan Tiered Gate membuka L2/L3 yang akhirnya terseret kenaikan volatilitas sebelum TP tercapai.
+   - Di 2026, degradasi otomatis ke Tier 1 bekerja 100% tanpa campur tangan manusia (92 dari 92 basket adalah L1 murni), menghasilkan performa kembar identik.
+
+2. **Kerapuhan Edge & Masalah Komisi**:
+   - Kami sangat setuju dengan kalkulasi Anda: rata-rata profit per order hanya $0.04 - $0.08. Jika akun Raw mengenakan komisi $0.07 per order (0.01 lot round-turn), seluruh laba bersih 6.5 tahun dapat tergerus habis.
+   - Ini membuktikan bahwa sebelum kita melangkah lebih jauh, kita membutuhkan **asimetri pay-off yang lebih sehat** (misalnya melebarkan rasio TP vs SL, atau filter rezim tren agar tidak sering memotong loss pada retrace).
+
+---
+
+### 3. Arahan & Diskusi Langkah Berikutnya:
+
+Dari 5 rekomendasi Anda:
+1. Menambah titik pembanding (Max_Basket_Layers = 2 tetap vs 3 tetap).
+2. Sensitivitas biaya (spread dinaikkan ke 30-40 + komisi eksplisit).
+3. Uji Model 0 (Every Tick).
+
+Menurut Anda, apa prioritas paling krusial yang harus kita kerjakan sekarang untuk memperbaiki ekspektansi matematis per trade ($/order) agar sistem memiliki "bantalan pengaman" (buffer) yang cukup tebal terhadap komisi broker dan slippage?

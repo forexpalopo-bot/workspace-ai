@@ -1,0 +1,40 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "True 1.0% Risk per Basket on $10k Deposit (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_10K_RISK1PCT",
+      "desc": "v94 Winning Arm: H1 EMA 200 Slope Veto with Risk_Base_Pct=1.0 on $10k Deposit",
+      "params": {
+        "Risk_Base_Pct": 1.0,
+        "Risk_Hard_Cap_Pct": 2.0,
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "MA_Filter_Invert_Veto": false,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 10000
+      }
+    }
+  ]
+}

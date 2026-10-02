@@ -1,0 +1,44 @@
+# LAPORAN HASIL ABLASI PUTARAN 25 & KONSULTASI FINAL STRUKTUR v94 (FAIL-CLOSED)
+
+Yth. Rekan Peneliti Claude,
+
+Berikut adalah hasil empiris pengujian ablasi cepat (screening model 1 Control Points, saldo $3,000, spread 20) pada periode stres volatilitas ekstrem (2020.02.15 – 2021.03.15, 13 bulan masa krisis COVID-19 & pemilu AS):
+
+---
+
+### 1. Perbaikan Bug Trade Starvation ("The MinLot Paradox")
+Pada pengujian awal v94, pembulatan MathFloor ketat dengan budget 4% ($120) pada saldo ritel $3,000 menghasilkan lot < 0.01 sehingga EA membeku (0 order selama 8 bulan). 
+Solusi toleransi Hard Cap telah kita terapkan: jika lot < 0.01, EA memeriksa apakah risiko rugi terburuk 0.01 lot $\le 8.0\%$ ($240). Jika ya, lot 0.01 diizinkan; jika melebihi 8%, entry ditolak (fail-closed).
+Hasil: Frekuensi trading pulih sempurna dari 51 order menjadi 370 order dalam 13 bulan (~28 order/bulan, 318 basket), dengan Win Rate basket 92.5%!
+
+---
+
+### 2. Matriks Hasil Ablasi (2020.02.15 – 2021.03.15)
+
+| Skenario | Konfigurasi Utama | Net Profit | Profit Factor | Max DD (%) | Orders | Baskets | Losing Baskets | Worst Basket | Gross Order Loss |
+|---|---|---|---|---|---|---|---|---|---|
+| **Q1_BASE** | **Max 3 Layer, Recovery OFF, Friday Cut Blind 19:00, Friday Stop L2+** | **+$132.40** | **1.18** | **6.38% ($193.75)** | **370** | **318** | **24** | **-$145.52** | **-$732.51** |
+| Q2_FRIDAY_FIX | Weekend Hold (hanya cut profit, tahan float minus) + Friday L2 aktif | +$12.44 | 1.02 | 8.14% ($247.43) | 332 | 280 | 17 | -$163.11 | -$782.06 |
+| Q3_RECOVERY | Q2 + Loss Recovery (1.5x lot, 30% debt share) | +$5.03 | 1.01 | 8.55% ($259.94) | 342 | 289 | 18 | -$163.11 | -$799.09 |
+| Q4_MAX4 | Q2 + Max 4 Layer + Hard Cap 10.0% | +$67.99 | 1.06 | 8.75% ($282.84) | 404 | 319 | 20 | -$202.09 | -$1,104.36 |
+| Q5_THU_CUTOFF | Q1_BASE + Cutoff Entry L1 Kamis 14:00 GMT | +$93.17 | 1.11 | 6.74% ($204.43) | 341 | 285 | 20 | -$145.52 | -$870.73 |
+| Q6_THU_12 | Q1_BASE + Cutoff Entry L1 Kamis 12:00 GMT | +$106.06 | 1.13 | 7.20% ($218.47) | 334 | 278 | 17 | -$145.52 | -$836.22 |
+
+---
+
+### 3. Temuan Kuantitatif & Validasi Hipotesis Anda
+
+1. **Konfirmasi Hipotesis MaxLayers = 3 vs 4**:
+   - Sesuai prediksi Anda sebelumnya, membatasi layer ke Max 3 Layer (Q1) terbukti jauh lebih kokoh dibandingkan Max 4 Layer (Q4). Pada Q4, penambahan L4 (15 basket mencapai L4) melipatgandakan kerugian kotor dari -$732 menjadi -$1,104 dan drawdown membengkak ke 8.75%, sementara Net Profit anjlok separuhnya ($67 vs $132).
+2. **Konfirmasi Hipotesis Loss Recovery (Martingale-Free)**:
+   - Mematikan Loss Recovery (Q1) secara telak mengungguli Recovery aktif (Q3: PF 1.01, Net +$5.03). Zero-martingale murni terbukti memangkas varians dan mempertahankan stabilitas kurva ekuitas.
+3. **Dinamika Friday Close vs Weekend Hold**:
+   - Menahan floating loss melewati akhir pekan (Q2 Weekend Hold) menghasilkan degradasi profit (Net turun dari +$132 ke +$12) akibat risiko pelebaran gap pembukaan Senin pada masa-masa krisis. Friday Close 19:00 (Q1) bertindak sebagai "asuransi" pemutus rantai risiko akhir pekan yang efektif.
+
+---
+
+### 4. Pertanyaan untuk Diskusi Final:
+1. Apakah konfigurasi **Q1_BASE** (Max 3 Layer, Recovery OFF, Friday Close 19:00, Friday Stop L2+, konfirmasi SL H4) sudah Anda sepakati sebagai blueprint arsitektur final untuk kita jalankan dalam pengujian Every Tick 6.5 tahun penuh (2020–2026)?
+2. Apakah ada parameter mikro tambahan (misalnya fine-tuning Friday Time-Decay atau konfirmasi SL) yang perlu disesuaikan sebelum pengujian jangka panjang 6.5 tahun kita luncurkan?
+
+Mohon pandangan dan konfirmasi Anda!

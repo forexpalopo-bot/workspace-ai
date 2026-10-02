@@ -1,0 +1,40 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Flat 0.01 Lot 6.5 tahun M1 XAUUSD Deposit $10k (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_10K_FLAT001",
+      "desc": "v94 Winning Arm: H1 EMA 200 Slope Veto Flat 0.01 Lot on $10k Deposit",
+      "params": {
+        "Auto_Compounding_Lot": false,
+        "Lot": 0.01,
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "MA_Filter_Invert_Veto": false,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 10000
+      }
+    }
+  ]
+}

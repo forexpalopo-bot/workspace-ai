@@ -1,0 +1,55 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "T2020",
+      "from": "2020.02.15",
+      "to": "2021.03.15",
+      "desc": "Screening Cepat Periode Volatilitas Ekstrem 2020-2021"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "Q5_THU_CUTOFF",
+      "desc": "v94 Baseline + Thursday 14:00 GMT Cutoff (Mencegah Trade Kamis Sore ke Jumat)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Weekend_Close_Only_Profit": false,
+        "Friday_L1_Cutoff_Hour": 0,
+        "Thursday_L1_Cutoff_Hour": 14
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1
+      }
+    },
+    {
+      "id": "Q6_THU_12",
+      "desc": "v94 Baseline + Thursday 12:00 GMT Cutoff",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Weekend_Close_Only_Profit": false,
+        "Friday_L1_Cutoff_Hour": 0,
+        "Thursday_L1_Cutoff_Hour": 12
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1
+      }
+    }
+  ]
+}

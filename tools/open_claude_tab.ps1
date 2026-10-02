@@ -1,0 +1,7 @@
+$url = "https://claude.ai/chat/b87a9d83-732b-424b-80ff-d27c8fc2ecc3"
+$target = Invoke-RestMethod -Method Put -Uri "http://127.0.0.1:9222/json/new?$url"
+Write-Host "Opened new tab:"
+Write-Host "Id: $($target.id)"
+Write-Host "Title: $($target.title)"
+Write-Host "URL: $($target.url)"
+Write-Host "WebSocket: $($target.webSocketDebuggerUrl)"

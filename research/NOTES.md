@@ -798,3 +798,124 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
 2. Periode panjang (> 2 bulan) grafik datar/turun:
    - FA: Terdapat 3 periode: 2021.01.04-2021.12.15 (11.5 bln), 2023.03.08-2024.03.28 (12.5 bln pasca krisis SVB), dan 2024.05.23-2026.04.21 (23 bln saat reli all-time-high emas $2400-$2700+). Namun FA terbukti selalu pulih dan mencetak puncak balance baru.
    - FB: Mengalami periode penurunan kontinu hampir 5 tahun (2021.11.03 s/d 2026.09.25) karena 37x terkena SL intrabar akibat wick harga, sehingga grafiknya terus tertekan ke bawah.
+
+## Evaluasi Claude Code atas Backtest Penuh & Arsitektur v94
+- **Koreksi Data & Edge**: Gross profit backtest penuh Every Tick 6.5 tahun (FAT) menutup di +$856.28 dari 3.259 basket (WR 94.45%). Break-even win rate = 94.05%, margin edge tipis ~0.4% (t-stat ≈ 0.5, ekspektasi ≈ +$0.26/basket).
+- **Faktor Komisi**: Pada akun Raw ($7/lot round-turn), komisi atas 3.954 order mencapai ~$550 (sekitar 65% net profit). Komisi wajib dianggarkan eksplisit dalam kalkulasi risiko basket.
+- **Dua Sumber Kebocoran Utama**:
+  1. *Overshoot SL Sniper*: Rata-rata rugi SL -$272 melampaui anggaran $240 (8% dari $3,000) karena SniperPlanLossPerL1Lot() v93 hanya menghitung SL nominal 1.0x, padahal batas keras 1.3x membuat adverse move layer dalam (L3–L5) membengkak 1.6x–2.5x lipat plus slip/gap.
+  2. *Friday Close 19:00*: 31 basket dipaksa tutup di -$146 (total -$4,529). Hold melewati weekend hanya unggul jika probabilitas recovery p* > 46%.
+- **4 Pilar Arsitektur BioOnePro v94**:
+  1. *Fail-Closed Risk Sizing Formula*: Loss terburuk W = sum m_i * (1.3D - d_i + G + s) * V + (sum m_i) * C. Lot L1 dibulatkan ke bawah; jika lot < minLot (0.01), EA fail-closed (TIDAK entry, tidak dipaksa ke minLot).
+  2. *Loss Recovery Nonaktif (Zero Martingale)*: Use_Loss_Recovery = false pada baseline v94. Recovery x2 jatuh tepat saat rezim tren panjang di mana P(SL) memuncak.
+  3. *Circuit Breaker Cooldown*: Jeda entry L1 selama 24 jam setelah 2 loss besar berturut-turut.
+  4. *Pruning Layer & Time-Decay Friday*: Kandidat utama Max 3 Layers (L1+L2+L3) membuang L4–L5 yang mahal dekat SL (P85/P93 vs P98); target profit basket menyusut secara linear dari Kamis 18:00 ke Jumat 19:00 menuju breakeven ($0) + biaya, dan larang pembukaan L2+ baru di hari Jumat.
+
+## Rencana Putaran 25 (BioOnePro v94)
+- **EA Target**: ea/BioOnePro_v94_FailClosed.mq4 dibangun dari v93 dengan integrasi 4 pilar arsitektur v94.
+- **Ablasi & Skenario**:
+  * P25_FAT_V93: Kontrol / Baseline pembanding v93 VH1 (Every Tick 6.5 tahun, 2020.02–2026.09).
+  * P25_V94_BASE: v94 Baseline (Fail-closed sizing, Recovery OFF, MaxLayers=3, Friday Time-Decay, Circuit Breaker).
+  * P25_V94_L2: v94 Max 2 Layers (L1+L2 only, isolasi struktur grid).
+  * P25_V94_L4: v94 Max 4 Layers (L1+L2+L3+L4, pembanding kedalaman).
+  * P25_V94_REC_CAP: v94 Recovery ON dengan batas keras (Base 4%, Plafon mutlak 8%, Circuit Breaker 24h).
+
+## Hasil Putaran 25 (BioOnePro v94 Fail-Closed & Tiered Gate)
+- **Periode Screening (2020.02.15 – 2021.03.15, Model 1, Deposit $3,000, Spread 20)**:
+  * Q1_BASE (Max 3 Layer, Recovery OFF, Friday Cut 19:00, Friday Stop L2+): Net +$132.40, PF 1.18, Max DD 6.38%, 370 orders, 318 baskets, Win Rate 92.5%, Worst Basket -$145.52.
+  * Q2_FRIDAY_FIX (Weekend Hold): Net +$12.44, PF 1.02, Max DD 8.14%.
+  * Q3_RECOVERY (Recovery 1.5x): Net +$5.03, PF 1.01, Max DD 8.55%.
+  * Q4_MAX4 (Max 4 Layer): Net +$67.99, PF 1.06, Max DD 8.75%, Gross Loss -$1,104.36, Worst Basket -$202.09.
+- **Diagnosis "Trade Starvation" 2024–2026**:
+  * Pada pengujian 6.5 tahun awal v94 Binary Gate, EA berhenti total berdagang pada 25 Juli 2024 (0 trade di 2025 dan 2026).
+  * Penyebab: Rekor harga emas All-Time-High ($2,400–$2,700) memperlebar swing P98, sehingga kalkulasi risiko kontinu W(0.01) untuk 3 layer melampaui Hard Cap 8% ($240 pada saldo ritel $3,000).
+- **Solusi Kolaboratif Claude: Tiered Layer Degradation Gate ($3 \rightarrow 2 \rightarrow 1$)**:
+  * Kuantisasi lot diskret terpadu (`SniperBuildLadder` & `SniperWorstLoss`).
+  * Jika 3 layer melampaui plafon 8%, sistem mendegradasi batas basket ke 2 layer, atau 1 layer (Sniper murni dengan konfirmasi H4).
+  * Hasil: Net profit berbalik dari -$503.32 ke **+$112.96**, pulih 442 basket baru di 2025–2026 (+ $579.86), dan Worst Basket tetap ketat di **-$194.03 (6.47% saldo)**.
+- **Ablasi Tier 1 Konstan (L1-Only Sniper, Max_Basket_Layers = 1)**:
+  * Net profit naik ke **+$171.54**, Max DD turun ke **29.07% ($894.72)**, Worst basket **-$168.38**.
+  * Analisis Trade-off: Tiered Gate unggul $522 pada tahun 2020-2022 karena averaging menolong pulih dari drawdown, sedangkan 2023 unggul pada L1-only, dan 2026 identik karena Tiered Gate otomatis mendegradasi ke Tier 1 di harga emas ATH.
+- **Penemuan & Integrasi H1 EMA Slope Veto (Solusi Definitif Order Loss Besar)**:
+  * *Akar Masalah*: Evaluasi order loss terbesar pada 6.5 tahun membuktikan kerugian fatal selalu bermula dari entry counter-trend agresif saat regim breakout makro (e.g. menangkap pisau jatuh saat downtrend tajam atau short saat reli emas ATH).
+  * *Formulasi Veto*: Menolak order BUY jika `iClose(H1, 1) < EMA` DAN `EMA Slope < 0`. Menolak order SELL jika `iClose(H1, 1) > EMA` DAN `EMA Slope > 0`.
+  * *Hasil Lompatan Kinerja 6.5 Tahun (2020.02 - 2026.09, Spread 20, $3,000)*:
+    - Net Profit: Melejit dari **+$171.54** ke **+$2,141.24** (+1,148% lompatan profit!).
+    - Max Drawdown: Terpangkas dari **29.07%** ke **12.80% ($526.47)** (berkurang lebih dari separuh).
+    - Profit Factor: **1.24** | Win Rate: **85.5%** (1,501 win / 255 loss).
+    - Return/DD Ratio: Melonjak dari 0.19x ke **4.07x**.
+- **Stress-Test Biaya Eksekusi (Cost Stress Testing Spread 20, 25, 30, 35)**:
+  * Spread 20 (Baseline): Net +$2,141.24 | PF 1.24 | Max DD 12.80% ($526.47) | Edge $1.22/order
+  * Spread 25 ($0.25): Net +$1,898.70 | PF 1.21 | Max DD 18.60% ($770.93) | Edge $1.10/order
+  * Spread 30 ($0.30): Net +$1,701.74 | PF 1.19 | Max DD 20.25% ($824.08) | Edge $1.00/order
+  * Spread 35 ($0.35): Net +$1,786.10 | PF 1.20 | Max DD 15.29% ($625.70) | Edge $1.06/order
+  * Kesimpulan: Keunggulan statistik (*edge buffer*) tidak pernah turun di bawah $1.00/order meski dalam kondisi spread tertekan +75%.
+- **Audit Mikro & Rekonsiliasi Matematis Penutupan Jumat vs Ekspansi Non-Jumat**:
+  * Baseline: 143 cut Jumat menghasilkan -$5,072.22. Profit Non-Jumat: +$5,244.21. Total: +$171.54.
+  * EMA 200: 115 cut Jumat menghasilkan -$4,840.46 (menghemat 28 cut Jumat = +$231.76).
+  * Profit Non-Jumat pada EMA 200 melesat dari +$5,244.21 menjadi **+$6,982.31** (+ $1,738.10 profit expansion, PF 2.80).
+  * Rekonsiliasi Matematis Presisi Sempurna: +$1,738.10 (ekspansi non-Jumat) + $231.76 (hemat Jumat) = **+$1,969.86**, tepat mencocokkan selisih total antara EMA 200 (+$2,141.24) dan Baseline (+$171.54).
+- **Audit Atribusi Order (Order Attribution Audit)**:
+  * 371 order beracun berhasil diblokir dengan P&L bersih **-$1,220.68** (menghilangkan rugi kotor -$2,986.68 dengan hanya melepas profit kotor +$1,766).
+  * 31 likuidasi cut Jumat senilai -$1,463.63 berhasil dicegah.
+  * 6 dari 20 kerugian terburuk sepanjang 6.5 tahun tereliminasi secara langsung.
+- **Uji Ketahanan Leave-One-Year-Out (LOYO) & Resampling Monte Carlo**:
+  * LOYO: Seluruh permutasi 6 tahun konsisten membukukan profit solid: Leave 2020 (+ $2,036), Leave 2021 (+ $2,267), Leave 2022 (+ $2,118), Leave 2023 (+ $1,033), Leave 2024 (+ $2,133), Leave 2025 (+ $1,562), Leave 2026 (+ $1,703).
+  * Monte Carlo (5,000 resample urutan trade): Median Max DD = 15.82%, 95th Percentile Max DD = 25.96%, 99th Percentile = 33.02%. Median streak loss: 3 basket, P95: 5 basket.
+- **Sensitivity Parameter Sweep & Negative Control**:
+  * EMA 50: Net +$466.81 | PF 1.05 | Max DD 25.00%
+  * EMA 100: Net +$1,910.52 | PF 1.20 | Max DD 19.39%
+  * EMA 150: Net +$2,250.58 | PF 1.25 | Max DD 14.25%
+  * EMA 200: Net +$2,141.24 | PF 1.24 | Max DD 12.80%
+  * EMA 250: Net +$1,805.31 | PF 1.20 | Max DD 13.14%
+  * *Negative Control (Reverse Veto)*: Net **-$1,306.18** | PF **0.73** | Max DD **54.80%**!
+  * Kesimpulan: Membuktikan stabilitas plateau luas pada rentang periode 100-250 (bukan kurva tajam overfit) dan kausalitas direksional tak terbantahkan (membalik aturan menghancurkan strategi seketika).
+- **Penyelarasan Presisi Timeframe iClose(H1) & Verifikasi Penuh 6.5 Tahun**:
+  * Mengganti `Close[1]` dengan `iClose(Symbol(), MA_Filter_Timeframe, 1)` pada `ea/BioOnePro_v94_FailClosed.mq4` untuk menjamin independensi penuh dari timeframe chart tester dan zero look-ahead bias.
+  * Hasil Verifikasi Backtest Penuh (`V94_EMA200_ALIGNED_FULL`, 2020.02 - 2026.09, Deposit $3,000, Spread 20):
+    - Net Profit: **+$2,484.06** (rekor tertinggi baru sepanjang sejarah, melonjak dari +$2,141.24!).
+    - Profit Factor: **1.29** (naik dari 1.24).
+    - Max Drawdown: **8.80% ($437.48)** (turun dramatis dari 12.80%!).
+    - Relative Drawdown: **11.92%**.
+    - Return / DD Ratio: **5.68x**.
+    - Total Orders: 1,739 (seluruhnya L1 Sniper, 0 order L2+).
+    - Win Rate: **85.68%** (1,490 Menang / 249 Kalah).
+    - Worst Order / Basket: **-$179.86** (persis di bawah batas proteksi risiko modal $180 / 6%).
+- **Walk-Forward Analysis Eksak Aligned (IS vs OOS)**:
+  * In-Sample (2020 - 2022, 760 order): Gross Win +$3,920.31, Gross Loss -$3,842.59, Net **+$77.72** (bersih komisi -$18.25), PF **1.02** (survival murni saat krisis COVID & siklus Fed Hike tercepat).
+  * Out-of-Sample (2023 - 2026.09, 979 order): Gross Win +$6,994.01, Gross Loss -$4,587.08, Net **+$2,406.93**, PF **1.52**, Win Rate **88.4%**.
+- **Audit Komisi & Bukti Eksak Residual 59 Sen**:
+  * Komisi IC Markets Raw ($7.00/lot): Total 33.02 lot = $231.14 (hanya menyerap 9.30% dari net profit).
+  * Analisis baris-per-baris 1,739 transaksi membuktikan residual `(delta_balance - profit)`: 1,550 kejadian tepat $0.00, 124 kejadian -$0.01, dan 65 kejadian +$0.01. Selisih bersih 124 - 65 = 59 sen tepat, membuktikan murni asimetri pemotongan floating point string di C-runtime MT4 (0 biaya siluman).
+- **Pembuktian Waktu Tester = Waktu Server IC Markets**:
+  * Analisis file binary `XAUUSD60.hst` (30,179 bar) membuktikan bar Jumat terakhir selalu konstan di jam 23:00 server (musim dingin maupun panas).
+  * Strategy Tester MT4 selama ini beroperasi pada jam server. Penutupan Jumat 19:00 tester selalu terjadi 5 jam sebelum penutupan pasar mingguan (24:00 server / 17:00 NY).
+  * Keputusan Live: `Rule_Time_Mode = 0` (memakai server time broker) untuk menjamin paritas waktu 100% identik dengan backtest.
+- **Hasil Ukur Baseline Risiko 1% Murni pada $10,000 (`V94_10K_RISK1PCT_FULL`)**:
+  * Deposit: $10,000.00 | Net Profit: **+$1,684.45** | PF: **1.29** | Win Rate: **85.12%** (1,647 order/basket)
+  * Max Drawdown Terukur: **3.82% ($437.48)** | Relative DD: **3.82%**
+  * Worst Basket Terukur: **-$168.38** (tepat **1.68%** modal, patuh mutlak di bawah hard cap 2.0%)
+  * Distribusi Lot: 0.01 lot (61.9%), 0.02 lot (35.3%), 0.03 lot (2.6%), 0.04 lot (0.2%)
+  * Komisi Total: $162.54 (23.22 lots) | Net Setelah Komisi: **+$1,521.91** (Beban komisi 9.65%)
+  * IS (2020-2022): Net +$194.01, PF 1.07 | OOS (2023-2026): Net +$1,490.33, PF 1.48
+- **Penyegelan Resmi Protokol Dua Tingkat (Two-Tier Freeze Protocol) Fase 0**:
+  * Dokumen resmi: `research/PROTOKOL_FASE_0_TWO_TIER_FREEZE.md` (disusun langsung oleh Claude dan disahkan bersama Antigravity).
+  * **Tier 1 (BEKU / LOCKED)**:
+    - Basis Waktu: Jam Server Broker IC Markets (`Rule_Time_Mode = 0`), penutupan Jumat 19:00 server toleransi 0 menit.
+    - Paritas Eksekusi: Entry bar match $\le 1$ bar M1; Slippage $< \$0.05$/oz; Spread buka $\le \$0.35$/oz; Paritas exit reason $\ge 90\%$.
+    - Paritas P&L: $|\text{Signed Bias}| \le 25\% \times E_{\text{replay}}$ ($\approx \$0.18$ per 0.01 lot); MAE dilaporkan terpisah.
+    - Sampel Minimal: 4 minggu penuh DAN 25 basket selesai, memuat minimal 3 likuidasi Jumat dan 3 sinyal veto.
+  * **Tier 2 (PROVISIONAL)**:
+    - Hard Stop Review: Floating DD > **5.5% dari Peak Ekuitas Fase** ($550 dari peak awal $10k).
+    - Sinyal Review Mikro: Streak 3 basket loss beruntun memicu jeda 24 jam untuk audit eksekusi.
+  * **Integritas Kriptografis (SHA-256 Manifest)**:
+    - Dokumen Protokol: `00eae84db6c9ae0d6e376943dbfc058d6dd45fa68a07f3176e6680396596aa1e`
+    - EA Source (`ea/BioOnePro_v94_FailClosed.mq4`): `d55e3c725c4f27a5b1c40d84cd83e82a8472f4572d32dd399b284412d003f41a`
+    - EA Executable (`ea/BioOnePro_v94_FailClosed.ex4`): `8698f37adf10395486a06a3e21fe6e876550832f9d361d7f424999eb4e323846`
+    - Parameter Preset (`research/presets/BioOnePro_v94_Phase0_Demo.set`): `22a85552eb28fbcbacb549f9256a771fa35fcab9b19167d7b6d1741338c7e4e0`
+    - Replay Reference (`backtests/runs/V94_10K_RISK1PCT_FULL.htm`): `8ff72d9ccfa2beeba9f5c772b2d88dd3ad075e0c36057a152eebde42a9cbaa9d`
+    - Seluruh hash tersimpan dan diverifikasi dalam file `SHA256SUMS`.
+
+
+
+

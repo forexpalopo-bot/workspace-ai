@@ -1,0 +1,66 @@
+Persetujuan Resmi Protokol Dua Tingkat (Two-Tier Freeze Protocol) Fase 0
+Subjek: Penguncian Tier 1 (Waktu & Paritas), Penetapan Tier 2 Provisional (Hard Stop 5.5%), Klarifikasi Ukuran Kontrak XAUUSD, dan Audit Drawdown
+
+Halo Claude! Kami menerima sepenuhnya usulan luar biasa Anda: membekukan protokol dalam Dua Tingkat (Two-Tier Freeze Protocol) dengan sikap ilmiah yang jujur dan rendah hati mengenai apa yang dapat dan tidak dapat dibuktikan oleh data historis.
+
+Berikut adalah perincian kesepakatan final yang resmi dibekukan:
+
+================================================================================
+1. KLARIFIKASI ARITMETIKA KONTRAK & AUDIT DRAWDOWN
+================================================================================
+A. Ukuran Kontrak XAUUSD (Penjelasan $100 / $8,000 = 0.0125 lot):
+- Pada akun IC Markets Raw, ukuran kontrak standar XAUUSD adalah **100 troy oz per 1.0 lot**.
+- Jarak adverse move 8,000 pips ($80.00/oz) pada 1.0 lot standar menghasilkan potensi adverse loss sebesar:
+  `100 oz × $80.00 = $8,000.00 per 1.0 lot`.
+- Maka alokasi risiko 1% ($100 pada saldo $10,000) menghasilkan:
+  `$100 / $8,000 = 0.0125 lot`, yang dibulatkan ke bawah ke **0.01 lot**. Inilah sebabnya 61.9% order beroperasi pada lot 0.01.
+
+B. Audit Peak dan Trough Drawdown:
+- Laporan closed-trade balance drawdown pada kedua run:
+  * Run $3k: Peak $4,167.00 (2023.12.28) -> Trough $3,757.37 (2024.03.01), Closed DD = $409.63.
+  * Run $10k: Peak $11,445.08 (2025.05.20) -> Trough $11,039.46 (2025.07.11), Closed DD = $405.62.
+- Floating equity drop maksimum selama simulasi tick adalah $437.48 (terjadi pada adverse intrabar tick move saat posisi 0.01 lot).
+- Kami menyetujui sepenuhnya koreksi Anda: angka ini adalah episode historis pada lot minimum, bukan batas atas teoretis.
+
+================================================================================
+2. TIER 1: PROTOKOL BEKU (LOCKED & OPERATIONAL)
+================================================================================
+Bagian ini resmi DIKUNCI sebagai acuan operasional Fase 0:
+
+1. **Referensi Waktu & Likuidasi Jumat**:
+   - Beroperasi pada **Jam Server Broker IC Markets (`Rule_Time_Mode = 0`)**.
+   - Likuidasi Jumat dieksekusi tepat pada candle **19:00 waktu server broker** (tepat 5 jam sebelum penutupan pasar mingguan 24:00 server / 17:00 New York). Toleransi deviasi waktu likuidasi = **0 menit**.
+
+2. **Kriteria Paritas Eksekusi**:
+   - **Kecocokan Bar Entri**: Live vs replay tester bertoleransi **≤ 1 bar M1**.
+   - **Slippage Fill Price**: Rata-rata slippage **< $0.05/oz** (setara < 0.5 pip pada kuotasi 2 digit).
+   - **Spread Buka**: Batas atas **≤ $0.35/oz** (spread lebih rendah dihitung sebagai keuntungan eksekusi).
+   - **Paritas Exit Reason**: Kesesuaian alasan penutupan (Take Profit vs Friday Liquidation 19:00 vs SL adaptif H4) wajib **≥ 90% identik**.
+   - **Paritas P&L (Terkait Edge)**:
+     * **Signed Mean Error (Bias)**: **|Bias| ≤ 25% dari expectancy tester** (~$0.25 per 0.01 lot), untuk memastikan slippage dan biaya tidak melenyapkan edge strategi.
+     * **Mean Absolute Error (MAE)**: Dilaporkan terpisah sebagai metrik dispersi eksekusi.
+   - **Komisi**: Biaya komisi $7.00/lot round turn dihitung eksplisit di kedua sisi (live dan replay).
+   - **Logging Veto & Blokir**: EA mencatat setiap entri yang ditolak (Filter EMA Slope vs Risk Gate Cap) untuk memverifikasi paritas filter sinyal.
+
+3. **Kecukupan Sampel Paritas**:
+   - Pengujian Fase 0 berlangsung selama **minimal 4 minggu PENUH DAN minimal 25 basket selesai**, dengan syarat wajib mencakup:
+     * Minimal **3 kejadian penutupan Jumat 19:00**, dan
+     * Minimal **3 kejadian veto sinyal (EMA Slope / Risk Gate)**.
+
+================================================================================
+3. TIER 2: PROTOKOL PROVISIONAL (UNDER LIVE CALIBRATION)
+================================================================================
+Bagian ini ditandai secara formal sebagai **PROVISIONAL** (tanpa klaim kepastian statistik):
+
+1. **Ambang Hard Stop Review**:
+   - Ditetapkan sebagai **Ambang Protektif Provisional pada DD > 5.5% dari Peak Ekuitas Fase**.
+   - Pernyataan "Ekspektasi DD normal 2.0 - 3.8%" **RESMI DIHAPUS**. Dokumen mengakui secara eksplisit bahwa DD 3.82% adalah episode historis pada lot minimum, dan live forward test dapat mengalami DD lebih tinggi jika volatilitas meningkat atau terjadi streak loss beruntun.
+2. **Sinyal Review Mikro**:
+   - Terjadinya **streak 3 basket loss beruntun** dijadikan sinyal operasional untuk jeda sementara 24 jam guna mengaudit integritas eksekusi.
+
+================================================================================
+4. KESEPAKATAN AKHIR
+================================================================================
+Dengan Dua Tingkat (Tier 1 Beku, Tier 2 Provisional) ini, seluruh kritik Anda telah diadopsi 100%. Tidak ada klaim berlebihan ("kesempurnaan"), melainkan standar pengujian paritas eksekusi yang transparan dan terukur secara institusional.
+
+Mohon konfirmasi akhir Anda atas naskah Two-Tier Freeze ini agar dokumen resmi riset BioOnePro dapat disegel. Terima kasih banyak atas kemitraan riset yang luar biasa ini!

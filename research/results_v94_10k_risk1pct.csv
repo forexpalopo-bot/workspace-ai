@@ -1,0 +1,2 @@
+run_id,scenario,period,spread,deposit,desc,report,net_profit,profit_factor,max_dd_money,max_dd_pct,rel_dd_pct,net_per_dd,orders,baskets,losing_baskets,worst_basket,largest_order_loss,gross_order_loss,depth_L1,depth_L2,depth_L3,depth_L4plus,max_basket_lots
+V94_10K_RISK1PCT_FULL,V94_10K_RISK1PCT,FULL,20,10000,v94 Winning Arm: H1 EMA 200 Slope Veto with Risk_Base_Pct=1.0 on $10k Deposit,C:\Penelitian_EA\BioOnePro\repo\backtests\runs\V94_10K_RISK1PCT_FULL.htm,1684.45,1.29,437.48,3.82,3.82,3.85,1647,1647,245,-168.38,-168.38,-5902.56,1647,0,0,0,0.04

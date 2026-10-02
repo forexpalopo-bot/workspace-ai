@@ -1,0 +1,37 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "P1D",
+      "from": "2025.09.29",
+      "to": "2026.09.25",
+      "desc": "Validasi Every Tick 1 Tahun Terakhir (Sep 2025 - Sep 2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_EMA200_TICK",
+      "desc": "v94 Winning Arm (EMA 200 Veto): Every Tick Validation (Model 0)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

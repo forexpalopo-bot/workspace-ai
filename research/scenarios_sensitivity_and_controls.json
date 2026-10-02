@@ -1,0 +1,95 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Seluruh history 6.5 tahun M1 XAUUSD (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_EMA50",
+      "desc": "Sensitivity: H1 EMA 50 Slope Veto",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 50,
+        "MA_Filter_Timeframe": 60,
+        "MA_Filter_Invert_Veto": false,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "V94_EMA150",
+      "desc": "Sensitivity: H1 EMA 150 Slope Veto",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 150,
+        "MA_Filter_Timeframe": 60,
+        "MA_Filter_Invert_Veto": false,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "V94_EMA250",
+      "desc": "Sensitivity: H1 EMA 250 Slope Veto",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 250,
+        "MA_Filter_Timeframe": 60,
+        "MA_Filter_Invert_Veto": false,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    },
+    {
+      "id": "V94_REVERSE_VETO",
+      "desc": "Negative Control: H1 EMA 200 Reverse Veto (Inverted)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "MA_Filter_Invert_Veto": true,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000
+      }
+    }
+  ]
+}

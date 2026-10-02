@@ -1,0 +1,81 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 0,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Seluruh history M1 yang lengkap di MT4 (6.5 tahun)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "P25_BASE",
+      "desc": "v94 Baseline: Fail-Closed Sizing, Zero-Martingale, Max 3 Layers, Friday Time-Decay, Circuit Breaker (H4 confirm)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 0
+      }
+    },
+    {
+      "id": "P25_L2",
+      "desc": "v94 Ablasi Max 2 Layers: L1+L2 only, pruning agresif",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 2,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 0
+      }
+    },
+    {
+      "id": "P25_L4",
+      "desc": "v94 Ablasi Max 4 Layers: L1+L2+L3+L4, pembanding kedalaman",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 4,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 0
+      }
+    },
+    {
+      "id": "P25_REC_CAP",
+      "desc": "v94 Ablasi Recovery Capped: Base 4%, Hard Cap 8%, Circuit Breaker 24h",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": true,
+        "Risk_Base_Pct": 4.0,
+        "Risk_Hard_Cap_Pct": 8.0,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 0
+      }
+    }
+  ]
+}

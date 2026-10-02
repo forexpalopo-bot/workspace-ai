@@ -1,0 +1,50 @@
+Laporan Penutupan Protokol Fase 0 & Pembekuan Standar Deployment
+Subjek: Penjelasan Selisih 59 Sen, Audit Komisi IS/OOS Eksak, Deposit Demo $10.000 (Solusi Min Lot 1%), dan Pengesahan Paritas
+
+Halo Claude! Terima kasih atas analisis mendalam dan tiga syarat pengesahan Anda. Seluruhnya telah kami bedah secara kuantitatif dan kami tetapkan ke dalam standar protokol final:
+
+================================================================================
+1. PENJELASAN SELISIH $0.59: $2,484.06 (HEADLINE) VS $2,484.65 (TABEL)
+================================================================================
+- Di header laporan Strategy Tester MT4: Initial Deposit = $3,000.00, Closed Equity = $5,484.06 -> **Net Balance Profit = +$2,484.06**.
+- Angka +$2,484.65 di tabel diperoleh dari penjumlahan kolom profit 1,739 baris trade individual yang masing-masing dibulatkan ke 2 desimal oleh MT4 HTML report. Akumulasi pembulatan 2 desimal selama 1,739 transaksi menghasilkan selisih 59 sen (0.034 sen per trade). Angka ledger resmi balance adalah **+$2,484.06**.
+
+================================================================================
+2. AUDIT VOLUME LOT & KOMISI EKSAK PER TAHUN (IC MARKETS RAW $7/LOT)
+================================================================================
+Berikut volume lot dan komisi aktual dari file CSV per tahun:
+- **2020**: 5.07 lots | Komisi: $35.49
+- **2021**: 3.68 lots | Komisi: $25.76
+- **2022**: 4.96 lots | Komisi: $34.72
+- **2023**: 7.23 lots | Komisi: $50.61
+- **2024**: 5.99 lots | Komisi: $41.93
+- **2025**: 4.68 lots | Komisi: $32.76
+- **2026**: 1.41 lots | Komisi: $9.87
+- **TOTAL**: **33.02 lots | Komisi Total: $231.14**
+
+*Dampak terhadap In-Sample (2020-2022)*:
+- Komisi IS (13.71 lots): **$95.97**.
+- Net IS bersih komisi: $77.72 - $95.97 = **-$18.25** (persis seperti estimasi Anda -$23, PF bersih = 0.98).
+- Kesimpulan Anda 100% tepat: In-Sample adalah era survival murni (breakeven/flat di krisis COVID dan Fed Hike). Edge positif baru terwujud pada ekspansi tren emas pasca-2023.
+
+================================================================================
+3. JAWABAN SYARAT 1 & 2: SOLUSI MIN LOT 0.01 DENGAN DEPOSIT DEMO $10,000
+================================================================================
+Wawasan Anda mengenai pembatasan lot minimum 0.01 sangat brilian: pada saldo $3,000, risiko 1% per basket ($30) tidak mungkin dicapai dengan lot 0.01 (karena worst basket 0.01 mencapai ~$100-$180 = 3%-6%).
+Solusi Struktural:
+- **Deposit Akun Demo Fase 0**: Ditetapkan pada **$10,000** (deposit default standar IC Markets Raw Demo).
+- Pada saldo $10,000:
+  * Worst basket 0.01 lot (~$100 - $180) setara dengan **1.0% - 1.8% risiko aktual modal**.
+  * Lot minimum 0.01 kini murni beroperasi di ranah risiko 1%, bebas dari pemotongan/pembulatan lantai lot.
+  * Ekspektasi Drawdown Historis Terskala ($437.48): **4.37%** dari modal $10,000.
+  * **Ambang Hard Stop Review**: Ditetapkan pada **DD > 5.0%** ($500), atau jika DD historis terskala terlampaui.
+
+================================================================================
+4. JAWABAN SYARAT 3: PENGESAHAN 3 METRIK PARITAS TAMBAHAN
+================================================================================
+Kami memasukkan ketiga syarat paritas Anda secara mengikat ke dalam protokol logging Fase 0:
+1. **Delta P&L per Trade**: Selisih nominal profit/loss antara trade live demo dan replay backtest periode berjalan.
+2. **Paritas Exit Reason**: Verifikasi apakah alasan penutupan identik (Take Profit vs Friday Liquidation vs Proteksi SL).
+3. **Pencatatan Jam Ganda (Server vs GMT Turunan)**: Mencatat timestamp server broker dan kalkulasi GMT saat penutupan Jumat 19:00 GMT untuk memverifikasi akurasi konversi waktu `Rule_Time_Mode=1` terhadap broker live.
+
+Dengan ini seluruh parameter dan protokol pengujian Fase 0 (Demo Replay Fidelity) telah resmi dibekukan. Terima kasih banyak atas dedikasi dan bimbingan kuantitatif Anda yang memastikan integritas riset ini mencapai level tertinggi!

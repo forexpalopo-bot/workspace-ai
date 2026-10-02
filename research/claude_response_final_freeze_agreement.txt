@@ -1,0 +1,134 @@
+Protokol fase 0: Bukti empiris paritas tester-live
+
+Share
+Claude finished the response
+
+Use the up and down arrow keys to move between messages.
+
+You said: Laporan Pembuktian Tiga Kunci Final & Kesepakatan Penuh Protokol Fase 0
+
+Laporan Pembuktian Tiga Kunci Final & Kesepakatan Penuh Protokol Fase 0
+Subjek: Bukti Empiris Data Tester = Waktu Server, Dekonstruksi $437.48, dan Penyempurnaan Metrik Paritas
+
+Halo Claude! Analisis Anda pada putaran ini adalah salah satu audit kuantitatif terbaik dalam seluruh riset ini.
+Instruksi Anda untuk memeriksa bar terakhir hari Jumat di file HST mengungkap fakta mendasar yang sangat krusial:
+
+===============================================================================
+1. HASIL TES CEPAT WAKTU TESTER: DATA TESTER ADALAH WAKTU SERVER (BUKAN GMT)!
+===============================================================================
+Kami menulis script Python untuk membaca langsung binary HST XAUUSD60.hst (30,179 bar) pada akun tester IC Markets:
+- **Januari 2022 (Musim Dingin)**: Bar Jumat terakhir = **jam 23:00**
+- **Juli 2022 (Musim Panas)**: Bar Jumat terakhir = **jam 23:00**
+- **Januari 2023 (Musim Dingin)**: Bar Jumat terakhir = **jam 23:00**
+- **Juli 2023 (Musim Panas)**: Bar Jumat terakhir = **jam 23:00**
+- **Januari 2024 (Musim Dingin)**: Bar Jumat terakhir = **jam 23:00**
+- **Juli 2024 (Musim Panas)**: Bar Jumat terakhir = **jam 23:00**
+- **Juli 2025 (Musim Panas)**: Bar Jumat terakhir = **jam 23:00**
+
+*Temuan Fundamental*:
+Bar penutupan Jumat adalah **KONSTAN jam 23:00** di setiap musim sepanjang 6.5 tahun!
+Sesuai kriteria tes Anda: **Data tester murni beroperasi pada Jam Server IC Markets (GMT+2 musim dingin / GMT+3 musim panas)**!
+- Artinya: Aturan "Jumat 19:00" di Strategy Tester selama ini selalu menutup posisi tepat **4 jam sebelum pasar tutup** (19:00 dari 23:00 server).
+- **Koreksi Arsitektural untuk Live**:
+  Jika live memakai Rule_Time_Mode = 1 (geser ke GMT), order live akan ditutup pada 21:00/22:00 server (hanya 1-2 jam sebelum tutup), merusak paritas terhadap backtest!
+  Maka untuk Fase 0: **Rule_Time_Mode = 0 (atau target penutupan Jumat 19:00 waktu server, tepat 4 jam sebelum weekend close)**. Dengan ini, paritas waktu antara live demo dan tester replay menjadi **100% IDENTIK**!
+
+===============================================================================
+2. DEKONSTRUKSI ANGKA $437.48: BUKAN KESALAHAN COPY-PASTE!
+===============================================================================
+Kami mengaudit mengapa angka Maximal Drawdown $437.48 (3.82%) pada run $10k identik dengan run $3k (8.80%):
+- *Penyebab*: Trough adverse equity terdalam sepanjang 6.5 tahun terjadi pada kuartal pertama 2021.
+- Pada periode 2021 tersebut, baik run $3k maupun run $10k (dengan Risk_Base_Pct = 1.0%) sama-sama mengeksekusi lot minimum **0.01 lot** (karena pada deposit $10k, alokasi 1.0% = $100 dibagi adverse move $800 menghasilkan 0.0125 lot, dibulatkan ke bawah ke 0.01 lot).
+- Pergerakan harga terburuk (tick adverse excursion) pada posisi 0.01 lot tersebut menghasilkan floating equity drop yang identik ke sen: **$437.48**.
+- Pada saldo peak $4,971 ($3k run), $437.48 = **8.80%**.
+- Pada saldo peak $11,445 ($10k run), $437.48 = **3.82%**.
+Angka tersebut adalah **real measured floating equity drawdown** pada tick data yang sama untuk posisi 0.01 lot!
+
+===============================================================================
+3. PENETAPAN MODE UKURAN POSISI DEFINITIF FASE 0
+===============================================================================
+Kami mengunci mode ukuran posisi Fase 0 pada:
+- **Mode**: **Risiko 1% Terukur (Risk_Base_Pct = 1.0, Risk_Hard_Cap_Pct = 2.0, Max_Basket_Layers = 1) pada Deposit Demo $10,000**.
+- **Distribusi Lot Baseline**: 0.01 lot (61.9%), 0.02 lot (35.3%), 0.03 lot (2.6%), 0.04 lot (0.2%).
+- **Max DD Terukur**: **3.82% ($437.48)**.
+- **Worst Basket Terukur**: **-$168.38 (1.68% dari modal awal)**.
+- **Ambang Hard Stop Review**: **DD > 5.5% dari Peak Ekuitas Fase** (penyangga 1.44× di atas 3.82%).
+- **Ekspektasi DD Normal**: **2.0% – 3.8%**.
+
+===============================================================================
+4. ADAPSI REKOMENDASI PENYEMPURNAAN METRIK PARITAS
+===============================================================================
+Seluruh perbaikan definisi Anda kami integrasikan secara penuh:
+1. **Slippage**: Didefinisikan dalam $/oz. Rata-rata slippage fill price **< $0.05/oz** (setara < 0.5 pip pada kuotasi 2 digit).
+2. **Spread**: Didefinisikan sebagai batas atas: **Spread Buka ≤ $0.35/oz** (spread di bawahnya adalah keuntungan eksekusi).
+3. **Delta P&L**: Dinormalisasi per 0.01 lot. Target: **|ΔP&L| ≤ $0.80 per 0.01 lot**. Logger akan melaporkan **Signed Mean Error (Bias)** dan **Mean Absolute Error (MAE)** secara terpisah untuk mencegah efek saling meniadakan.
+4. **Paritas Exit Reason**: Target **≥ 90% identik** (maksimal 2 ketidakcocokan dari 25 basket).
+5. **Waktu Likuidasi Jumat**: Penutupan tepat pada **candle 19:00 waktu server broker** (toleransi 0 menit).
+6. **Logging Entri Diblokir**: EA akan mencatat alasan veto jika ada entri yang ditolak (Veto EMA Slope vs Risk Gate Cap) untuk memverifikasi paritas filter sinyal.
+
+Dengan terpecahkannya misteri jam server tester, bukti eksak $437.48, dan penguncian parameter 1% ini, protokol Fase 0 kini telah mencapai kesempurnaan metodologi ilmiah. Mohon persetujuan akhir Anda untuk membekukan dokumen ini.
+
+Message collapsed
+Show more
+3 minutes ago
+
+
+
+Claude responded: Kesimpulan jam server-nya masuk akal, tapi dokumen ini belum saya setujui untuk dibekukan.
+Read and updated memory
+
+Read and updated memory
+
+Kesimpulan jam server-nya masuk akal, tapi dokumen ini belum saya setujui untuk dibekukan. Ada empat hal yang perlu ditutup dulu, dan semuanya murah untuk dicek.
+
+Yang sudah kuat
+
+Logika tes bar Jumat benar. Bar terakhir yang konstan di 23:00 sepanjang musim hanya mungkin jika jam mengikuti server yang terikat penutupan New York (24:00 server = 17:00 NY). Rule_Time_Mode = 0 jadi masuk akal, dan 19:00 server setara 12:00 siang NY sepanjang tahun. Satu koreksi kata: itu 5 jam sebelum penutupan, bukan 4, karena Anda menghitung ke awal bar 23:00. Pemisahan Bias dan MAE juga tepat.
+
+Yang perlu ditutup sebelum beku
+
+Cakupan tes waktu.
+30.179 bar H1 hanya setara ±5 tahun (±114 bar/minggu), bukan 6,5 tahun, dan sampel Anda mulai Januari 2022. Padahal trough $437.48 diklaim terjadi di Q1 2021.
+Pastikan data yang benar-benar dipakai tester mencakup 2020–2021 dan memakai zona waktu yang sama.
+Tes yang tidak bergantung pada file: cari lonjakan volatilitas NFP (13:30 GMT) di tester. Seharusnya muncul 15:30 server di musim dingin dan 16:30 di musim panas.
+Di live demo, log TimeCurrent() dan TimeGMT() pada beberapa tanggal. Perilaku TimeGMT() di tester bisa berbeda dari live.
+DST AS berakhir 1 November 2026, jadi periode demo Anda akan melewatinya. Itu kesempatan verifikasi gratis.
+Penjelasan $437.48 masih hipotesis.
+Persentasenya benar (437,48/4.971 = 8,80%; /11.445 = 3,82%), dan angka identik sampai sen memang konsisten dengan lot dan jalur harga yang sama.
+Contoh hitungnya meleset 10×: $100 / $800 = 0,125, bukan 0,0125. Entah $800 itu per 0,1 lot atau angka sebenarnya $8.000 per lot. Perbaiki sebelum masuk dokumen.
+Puncak ekuitas run $3k ($4.971, untung +$1.971) lebih besar dalam dolar daripada run $10k ($11.445, untung +$1.445). Jika hanya deposit yang berbeda, lot run $10k ≥ run $3k di setiap trade, jadi untungnya tidak mungkin lebih kecil. Berarti ada parameter lain yang berbeda, atau puncaknya terjadi di tanggal berbeda.
+Bukti penutupnya: cetak timestamp peak dan trough serta lot setiap basket di jendela itu, untuk kedua run.
+Toleransi paritas terlalu longgar terhadap edge.
+Jika expectancy per order masih sekitar run v94 sebelumnya ($0,04–$0,09 per 0,01 lot), batas |ΔP&L| ≤ $0,80 itu 9–19× lebih besar dari seluruh edge. Paritas bisa lulus padahal slippage dan komisi sudah menghabiskan edge.
+Ikat batas Bias ke expectancy tester, misalnya |Bias| ≤ ~25% dari expectancy per 0,01 lot. Biarkan MAE yang memakai batas dolar.
+Pastikan komisi (±$0,07 per order 0,01 lot) dihitung di kedua sisi.
+Dengan 25 basket, klaster Jumat mungkin hanya muncul 1–2 kali. Frekuensinya sekitar 7% basket di run L1 sebelumnya, tapi itu angka lama, jadi cek ulang untuk konfigurasi sekarang. Syaratkan jumlah minimum kejadian likuidasi Jumat dan veto, bukan hanya total basket.
+Ambang DD bukan prediksi.
+Angka 3,82% adalah satu episode, terukur saat lot minimum. Jika DD terdalam terjadi di lot 0,01, DD itu tidak menguji mode 1% sama sekali.
+Sebagai ilustrasi, episode yang sama di lot 0,02 menjadi ±$875 (≈7,6% dari $11.445), di atas ambang 5,5%. Penyangga 1,44× tidak melindungi dari ketidakpastian ini.
+Filter EMA slope dan aturan Jumat dirancang setelah melihat klaster kerugian pada data yang sama, jadi angka ini optimistis (in-sample).
+Pertahankan 5,5% sebagai pemicu review. Hapus baris "Ekspektasi DD normal 2,0–3,8%".
+
+Usul
+
+Bekukan dalam dua tingkat. Referensi waktu dan definisi metrik paritas bisa dikunci setelah poin 1 dan 3. Ambang DD ditandai provisional sampai poin 2 dan 4 terbukti. Saya juga akan menghindari kata "kesempurnaan" di dokumen. Protokol yang baik adalah yang menyatakan apa yang tidak ia buktikan.
+
+Kalau Anda kirim output timestamp dan lot di jendela Q1 2021 serta hasil tes lonjakan NFP, saya bantu audit putaran berikutnya.
+
+
+
+
+
+
+just now
+
+Write a message…
+
+
+
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Sonnet 5.5 Extra

@@ -1,0 +1,122 @@
+# POTONGAN KODE MQL4 SNIPER DAN KONFIRMASI MENUJU GERBANG TINGKAT (TIERED GATE)
+
+Yth. Rekan Peneliti Claude,
+
+Terima kasih atas solusi elegan Anda! Rekomendasi Anda ("Opsi 2 + degradasi layer bertingkat 3 -> 2 -> 1 layer dengan Hard Cap 8% tetap inviolable") sangat brilian, menjaga invariansi proteksi tail-risk 100% tanpa membiarkan sistem mati kelaparan saat emas menembus ATH.
+
+Berikut potongan kode MQL4 aktual dari `ea/BioOnePro_v94_FailClosed.mq4` untuk `SniperPlanLossPerL1Lot` dan `SniperLayerLot`:
+
+```mql4
+// Rugi (USD) di SL terburuk per 1.0 lot L1 (Fail-Closed Risk Formula)
+// W = sum_i m_i * (1.3*D - d_i + G + s) * V + (sum_i m_i) * C
+double SniperPlanLossPerL1Lot(double &offsets[], double slPips, double bepPips)
+{
+    double moneyPerPrice = GetMoneyPerPricePerLot();
+    if (moneyPerPrice <= 0.0 || pt <= 0.0 || bepPips <= 0.0)
+        return(0.0);
+
+    int maxLayers = SniperMaxLayers();
+    double lots[6];
+    lots[1] = 1.0;
+    double sumL = 1.0;
+    double sumLD = 0.0;
+    int usedLayers = 1;
+    for (int n = 2; n <= maxLayers; n++)
+    {
+        if (offsets[n] >= slPips)
+            break; // layer ini berada di luar SL
+        usedLayers = n;
+        double gap = offsets[n] - sumLD / sumL;
+        double need = (gap > bepPips) ? sumL * (gap - bepPips) / bepPips : lots[n - 1];
+        need = MathMax(lots[n - 1], MathMin(need, lots[n - 1] * MathMax(1.0, Sniper_Max_Lot_Mult)));
+        lots[n] = need;
+        sumL += need;
+        sumLD += need * offsets[n];
+    }
+
+    double slDistPrice = slPips * pt;
+    double dWorst = slDistPrice * MathMax(1.0, Sniper_SL_Hard_Mult) + MathMax(0.0, Gap_Buffer_Price);
+    double spreadPrice = MarketInfo(Symbol(), MODE_SPREAD) * Point;
+
+    double loss = 0.0;
+    double totalLots = 0.0;
+    for (int m = 1; m <= usedLayers; m++)
+    {
+        double layerDistPrice = offsets[m] * pt;
+        double adverse = dWorst - layerDistPrice + spreadPrice;
+        if (adverse < 0.0) adverse = 0.0;
+        loss += lots[m] * adverse * moneyPerPrice;
+        totalLots += lots[m];
+    }
+    loss += totalLots * MathMax(0.0, Commission_Per_Lot_RT);
+    return(loss);
+}
+
+// Lot layer berikutnya: BEP baru berada dalam jarak pantulan target, dibatasi anggaran risiko di SL.
+double SniperLayerLot(int side)
+{
+    if (!SniperSyncPlan(side))
+        return(0.0);
+
+    double sumL = 0.0;
+    double sumLP = 0.0;
+    double lastLot = 0.0;
+    datetime newest = 0;
+    for (int i = OrdersTotal() - 1; i >= 0; i--)
+    {
+        if (!OrderSelect(i, SELECT_BY_POS, MODE_TRADES))
+            continue;
+        if (OrderSymbol() != Symbol() || OrderMagicNumber() != Magic || OrderType() != side)
+            continue;
+        sumL += OrderLots();
+        sumLP += OrderLots() * OrderOpenPrice();
+        if (OrderOpenTime() >= newest)
+        {
+            newest = OrderOpenTime();
+            lastLot = OrderLots();
+        }
+    }
+    if (sumL <= 0.0)
+        return(0.0);
+
+    double price = (side == OP_BUY) ? Ask : Bid;
+    double avg = sumLP / sumL;
+    double gap = (side == OP_BUY) ? (avg - price) : (price - avg);
+    double bep = gSnBep[side] * pt;
+    double need = (gap > bep && bep > 0.0) ? sumL * (gap - bep) / bep : lastLot;
+    need = MathMax(lastLot, MathMin(need, lastLot * MathMax(1.0, Sniper_Max_Lot_Mult)));
+
+    // Anggaran risiko: rugi seluruh basket di harga SL tidak boleh melebihi budget.
+    double moneyPerPrice = GetMoneyPerPricePerLot();
+    if (moneyPerPrice <= 0.0)
+        return(0.0);
+    double slPrice = (side == OP_BUY) ? gSnL1Price[side] - gSnSL[side] * pt : gSnL1Price[side] + gSnSL[side] * pt;
+    double lossExisting = ((side == OP_BUY) ? (sumLP - sumL * slPrice) : (sumL * slPrice - sumLP)) * moneyPerPrice;
+    double distNew = (side == OP_BUY) ? (price - slPrice) : (slPrice - price);
+    double budget = AccountBalance() * MathMax(0.0, Risk_Hard_Cap_Pct) / 100.0;
+    if (distNew <= 0.0)
+        return(0.0);
+    double maxNew = (budget - lossExisting) / (distNew * moneyPerPrice);
+    if (need > maxNew)
+        need = maxNew;
+
+    double lotStep = MarketInfo(Symbol(), MODE_LOTSTEP);
+    double minLot = MarketInfo(Symbol(), MODE_MINLOT);
+    double maxLot = MarketInfo(Symbol(), MODE_MAXLOT);
+    if (lotStep <= 0.0)
+        return(0.0);
+    need = MathFloor(need / lotStep + 1e-8) * lotStep;
+    need = MathMin(need, maxLot);
+    if (need < minLot)
+    {
+        if (Basket_Profit_Debug)
+            Print("SNIPER: layer dilewati, anggaran risiko habis | side=", (side == OP_BUY ? "BUY" : "SELL"));
+        return(0.0);
+    }
+    return(NormalizeDouble(need, 2));
+}
+```
+
+Seperti yang Anda lihat, pembulatan di `SniperLayerLot` menggunakan `MathFloor` ke `lotStep`, dan membatasi lot baru agar `(lossExisting + lossNew) <= budget`. Jika sisa budget tidak cukup untuk 0.01 lot, fungsi mengembalikan `0.0` (layer dilewati).
+
+Mohon berikan pseudokode atau implementasi MQL4 untuk gerbang bertingkat (tiered gate) $W_n(0.01) \le \text{cap}$ (untuk $n = 3 \rightarrow 2 \rightarrow 1$), dan bagaimana `max_layers_allowed` dikomunikasikan secara per-basket agar basket yang dibuka di rezim mahal tahu batas maksimum layernya!

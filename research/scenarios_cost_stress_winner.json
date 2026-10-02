@@ -1,0 +1,79 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Seluruh history 6.5 tahun M1 XAUUSD (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_EMA200_S25",
+      "desc": "v94 Winning Arm (EMA 200 Veto): Cost Stress Spread 25 ($0.25/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 25
+      }
+    },
+    {
+      "id": "V94_EMA200_S30",
+      "desc": "v94 Winning Arm (EMA 200 Veto): Cost Stress Spread 30 ($0.30/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 30
+      }
+    },
+    {
+      "id": "V94_EMA200_S35",
+      "desc": "v94 Winning Arm (EMA 200 Veto): Cost Stress Spread 35 ($0.35/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true,
+        "Use_MA_Filter": true,
+        "MA_Filter_Period": 200,
+        "MA_Filter_Timeframe": 60,
+        "Base_Max_Spread_Pips": 50.0
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 35
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Seluruh history 6.5 tahun M1 XAUUSD (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_TIER_M1",
+      "desc": "v94 Tiered Layer Degradation Gate (3->2->1): Fail-Closed Sizing, Zero-Martingale, Friday Time-Decay, Friday Stop L2+",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1
+      }
+    },
+    {
+      "id": "V94_L1_ONLY",
+      "desc": "v94 Pure 1-Layer Sniper: Max_Basket_Layers = 1 (Ablasi Tier 1 konstan 6.5 tahun)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1
+      }
+    }
+  ]
+}

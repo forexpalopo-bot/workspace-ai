@@ -1,0 +1,83 @@
+{
+  "ea_source": "ea/BioOnePro_v94_FailClosed.mq4",
+  "test": {
+    "symbol": "XAUUSD",
+    "period": "M1",
+    "model": 1,
+    "spread": 20
+  },
+  "periods": [
+    {
+      "id": "FULL",
+      "from": "2020.02.15",
+      "to": "2026.09.25",
+      "desc": "Seluruh history 6.5 tahun M1 XAUUSD (2020-2026)"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "V94_L1_S25",
+      "desc": "v94 Pure 1-Layer Sniper (L1-Only): Cost Stress Spread 25 ($0.25/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 25
+      }
+    },
+    {
+      "id": "V94_L1_S30",
+      "desc": "v94 Pure 1-Layer Sniper (L1-Only): Cost Kill Test Spread 30 ($0.30/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 1,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 30
+      }
+    },
+    {
+      "id": "V94_TIER_S25",
+      "desc": "v94 Tiered Gate (3->2->1): Cost Stress Spread 25 ($0.25/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 25
+      }
+    },
+    {
+      "id": "V94_TIER_S30",
+      "desc": "v94 Tiered Gate (3->2->1): Cost Kill Test Spread 30 ($0.30/order)",
+      "params": {
+        "Sniper_SL_Confirm_TF": 240,
+        "Max_Basket_Layers": 3,
+        "Use_Loss_Recovery": false,
+        "Use_Friday_Time_Decay": true,
+        "Friday_Stop_L2Plus": true
+      },
+      "test": {
+        "deposit": 3000,
+        "model": 1,
+        "spread": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+; Preset Resmi Fase 0 Demo Replay Fidelity BioOnePro v94
+; Modal Demo: $10,000.00 IC Markets Raw
+; Tanggal Pengesahan: 2026.10.03
+Risk_Base_Pct=1.0
+Risk_Hard_Cap_Pct=2.0
+Max_Basket_Layers=1
+Sniper_SL_Confirm_TF=240
+Use_Loss_Recovery=0
+Use_Friday_Time_Decay=1
+Friday_Stop_L2Plus=1
+Friday_L1_Cutoff_Hour=0
+Use_MA_Filter=1
+MA_Filter_Period=200
+MA_Filter_Timeframe=60
+MA_Filter_Invert_Veto=0
+Rule_Time_Mode=0
+Base_Max_Spread_Pips=50.0
+Commission_Per_Lot_RT=7.0

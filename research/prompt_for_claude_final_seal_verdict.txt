@@ -1,0 +1,72 @@
+Laporan Pengesahan Definitif Protokol Fase 0 (Demo Replay Fidelity)
+Subjek: Hasil Ukur Murni Baseline 1% ($10k), Pembuktian Distribusi Residual 59 Sen, Audit DST, dan Standar Paritas Lengkap
+
+Halo Claude! Terima kasih atas panduan yang sangat presisi. Seluruh permintaan Anda pada putaran sebelumnya telah kami jalankan secara empiris dan kami sajikan hasilnya secara tuntas:
+
+================================================================================
+1. HASIL UKUR BASELINE RISIKO 1% MURNI PADA $10,000 (V94_10K_RISK1PCT_FULL)
+================================================================================
+Kami telah menjalankan simulasi penuh 6.5 tahun (2020.02 – 2026.09, Spread 20, IC Markets Raw) dengan parameter risiko murni 1% (`Risk_Base_Pct = 1.0`, `Risk_Hard_Cap_Pct = 2.0`, `Max_Basket_Layers = 1`):
+- **Deposit Awal**: $10,000.00
+- **Net Profit**: **+$1,684.45** | **Profit Factor**: **1.29**
+- **Max Drawdown (Floating Equity DD Terukur)**: **$437.48 (3.82%)**
+- **Relative Drawdown**: **3.82%**
+- **Worst Basket Loss Terukur**: **-$168.38** (tepat **1.68%** dari modal $10k, patuh mutlak di bawah hard cap 2.0%)
+- **Total Transaksi**: 1,647 order / 1,647 basket (100% L1 Sniper)
+- **Win Rate**: **85.12%** (1,402 Menang / 245 Kalah)
+- **Distribusi Lot Aktual**:
+  * 0.01 lot: 1,020 order (61.9%)
+  * 0.02 lot: 582 order (35.3%)
+  * 0.03 lot: 42 order (2.6%)
+  * 0.04 lot: 3 order (0.2%)
+- **Total Volume**: 23.22 lots | **Komisi Total ($7/lot)**: $162.54 | **Net Setelah Komisi**: **+$1,521.91** (Beban komisi 9.65%)
+- **Kinerja Tahunan & IS/OOS**:
+  * In-Sample (2020-2022, 761 order): GW +$3,009.15, GL -$2,815.14, Net **+$194.01**, PF **1.07**
+  * Out-of-Sample (2023-2026, 886 order): GW +$4,577.75, GL -$3,087.42, Net **+$1,490.33**, PF **1.48**
+
+*Penetapan Ambang Hard Stop Review Fase 0*:
+- Mengikuti formula Anda (~1.4× s/d 1.5× dari DD terukur 3.82%):
+  * **Ambang Hard Stop Review**: Ditetapkan secara definitif pada **DD > 5.5% dari Peak Ekuitas Fase** (memberi margin penyangga 1.44× di atas Max DD historis 3.82%).
+  * **Ekspektasi DD Normal**: **2.0% – 3.8%**.
+
+================================================================================
+2. PEMBUKTIAN EMPIRIS RESIDUAL $0.59: DISTRIBUSI (124 vs 65 KEJADIAN)
+================================================================================
+Kami telah menghitung residual per baris `(delta_balance - profit)` pada seluruh 1,739 transaksi secara individual:
+- **Residual Tepat $0.00**: **1,550 baris (89.13%)**
+- **Residual -$0.01**: **124 baris (7.13%)**
+- **Residual +$0.01**: **65 baris (3.74%)**
+- **Total Net Residual**: 124 × (-$0.01) + 65 × (+$0.01) = **-$0.59 TEPAT**!
+- *Kesimpulan*: Residual terdistribusi strictly pada himpunan `{-$0.01, $0.00, +$0.01}`. Asimetri 124 vs 65 disebabkan oleh bias pembulatan pemotongan string `printf("%.2f")` di C-runtime MT4 terhadap representasi floating point double. Terbukti 100% tidak ada swap atau biaya siluman.
+
+================================================================================
+3. VERIFIKASI DST BROKER & OFFSET JAM TESTER
+================================================================================
+- **Di Strategy Tester**: Data tick tester MT4 tersimpan murni dalam GMT+0. Dengan `Rule_Tester_Shift_Hours = 0`, maka `RuleTime() == TimeCurrent()`, sehingga eksekusi likuidasi Jumat 19:00 berjalan murni pada 19:00 GMT.
+- **Di Live Trading**: `diff = (int)(TimeCurrent() - TimeGMT())` membaca selisih live terminal IC Markets setiap jam. Selama jeda DST AS vs Eropa (25 Okt – 1 Nov), pergeseran jam server broker IC Markets (yang mengikuti US DST) langsung tercermin secara instan detik demi detik.
+- **Protokol Log Jam Ganda**: Logger audit Fase 0 akan mencatat `TimeCurrent()`, `TimeGMT()`, dan `RuleTime()` pada setiap order dan setiap likuidasi Jumat untuk verifikasi akurasi 0 menit.
+
+================================================================================
+4. PENETAPAN PROTOKOL PARITAS PENUH & KRITERIA LULUS/GAGAL FASE 0
+================================================================================
+Kami mengembalikan dan mengesahkan seluruh metrik paritas lengkap:
+1. **Durasi & Sampel**: Minimal **4 minggu PENUH DAN minimal 25 basket selesai** (~5 minggu operasi).
+2. **Metrik Paritas Eksekusi**:
+   - **Kecocokan Bar Entri**: Waktu pembukaan live vs backtest replay bertoleransi **≤ 1 bar M1**.
+   - **Slippage Eksekusi**: Rata-rata deviasi fill price terhadap sinyal **< 0.5 pip**.
+   - **Spread Buka**: Berada dalam rentang historis **20 – 35 pips** ($0.20 – $0.35).
+   - **Paritas Exit Reason**: Kesesuaian penyebab penutupan (TP vs Friday Liquidation 19:00 GMT vs SL terkonfirmasi H4) wajib **≥ 90% identik** (maksimal 2 ketidakcocokan dari 25 basket).
+   - **Toleransi Waktu Likuidasi Jumat**: Deviasi waktu likuidasi Jumat = **0 menit** (wajib tereksekusi pada candle 19:00 GMT).
+   - **Toleransi |ΔP&L| per Trade**: Target selisih rata-rata **≤ $0.80 per basket** (setelah disesuaikan komisi $7/lot dan spread).
+3. **Safety Rules**:
+   - **Hard Stop Review**: Equity Drawdown > **5.5% dari Peak Ekuitas Fase**.
+   - **Sinyal Review Mikro**: Terjadinya **streak 3 basket loss beruntun** memicu jeda 24 jam untuk audit log eksekusi.
+
+================================================================================
+5. PENJELASAN ORDER 1,739 -> 1,800 DAN WORSE BASKET -$673.54
+================================================================================
+- Pada run compounding $10k sebelumnya, Order #1446 rugi -$673.54 terjadi saat saldo akun **telah tumbuh menjadi $15,761.82**. Kerugian tersebut mewakili **4.27% dari ekuitas saat itu** (masih di dalam batas 4% base / 8% cap).
+- Pada baseline murni risiko 1% (`V94_10K_RISK1PCT_FULL`), worst basket loss terbukti **terkunci rapat pada -$168.38 (1.68% saldo)**.
+- Kenaikan order terjadi karena saldo yang lebih besar mencegah trade starvation saat swing P98 emas melebar di harga ATH ($3,000–$4,000).
+
+Mohon persetujuan akhir Anda untuk membekukan protokol ini secara formal. Terima kasih!

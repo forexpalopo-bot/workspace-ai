@@ -733,3 +733,16 @@ Validasi Every Tick penuh (`TestModel=0`, 5 periode, 100% tick modeling) membukt
   tetapi total 5 tahun menghitung Sep–Des 2025 dua kali.
 - Putaran 24: validasi Every Tick 5 periode, VQ3 (v93 default = Q3) vs VH1 (konfirmasi H4). Pembanding v91 P2 (V2): +$2,899, DD 23.0%.
   Pemenang menjadi default versi final dan dipakai untuk forward test demo (Rule_Time_Mode=1).
+
+## Putaran 24 (Validasi Every Tick 5 Tahun: V2 vs VQ3 vs VH1)
+| Periode | V2 Net / DD / SL / Worst | VQ3 Net / DD / SL / Worst | VH1 Net / DD / SL / Worst |
+|---|---|---|---|
+| 2022 (P5) | -$244 / 23.0% / 7 / -$245 | +$105 / 27.9% / 5 / -$310 | +$64 / 28.2% / 5 / -$309 |
+| 2023 (P4) | +$735 / 12.2% / 5 / -$314 | +$367 / 20.1% / 3 / -$357 | +$343 / 20.8% / 3 / -$357 |
+| 2024 (P3) | +$434 / 14.9% / 6 / -$296 | +$713 / 12.7% / 4 / -$357 | +$824 / 10.9% / 2 / -$307 |
+| 2025 (P2) | +$1,143 / 16.0% / 3 / -$300 | +$1,143 / 16.0% / 3 / -$300 | +$1,143 / 16.0% / 3 / -$300 |
+| 2025–26 (P1D) | +$832 / 6.0% / 0 / -$108 | +$832 / 6.0% / 0 / -$108 | +$832 / 6.0% / 0 / -$108 |
+| **TOTAL 5P** | **+$2,899 / 23.0% / 21 / -$314** | **+$3,159 / 27.9% / 15 / -$357** | **+$3,205 / 28.2% / 13 / -$357** |
+- Analisis: VH1 memecahkan rekor profit 5 tahun (+$3,205) dan menekan SL ke 13x (DD 2024 turun ke 10.9% dgn profit +$824).
+- Keputusan: VH1 total net lebih tinggi (+$3,205 vs +$3,159) dan selisih DD maks hanya 0.32 poin (< 2 poin di atas VQ3).
+- PEMENANG: VH1

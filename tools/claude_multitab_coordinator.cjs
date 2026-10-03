@@ -1,6 +1,7 @@
 /**
  * Multi-Tab Auto-Failover Coordinator for Claude.ai in ChromeDebug
  * Menangani pengiriman prompt ke Claude dan otomatis beralih ke tab akun lain jika akun saat ini limit kuota token AI.
+ * Sesuai SOP User: Selalu utamakan kembali ke percakapan baru (https://claude.ai/new) SEBELUM memulai dan SETELAH mengakhiri komunikasi.
  */
 const fs = require('fs');
 const path = require('path');
@@ -17,13 +18,18 @@ async function getClaudeTabs() {
   }
 }
 
-function cdpEval(wsUrl, expression) {
-  return new Promise((resolve, reject) => {
-    const ws = new WebSocket(wsUrl);
+function cdpEval(wsUrl, expression, timeoutMs = 10000) {
+  return new Promise((resolve) => {
+    let ws;
+    try {
+      ws = new WebSocket(wsUrl);
+    } catch(e) {
+      return resolve({ error: e.message });
+    }
     const timer = setTimeout(() => {
       try { ws.close(); } catch(e){}
       resolve({ error: 'CDP timeout' });
-    }, 8000);
+    }, timeoutMs);
 
     ws.onopen = () => {
       ws.send(JSON.stringify({
@@ -59,13 +65,18 @@ function cdpEval(wsUrl, expression) {
   });
 }
 
-function cdpNavigate(wsUrl, url) {
+function cdpNavigate(wsUrl, url, timeoutMs = 12000) {
   return new Promise((resolve) => {
-    const ws = new WebSocket(wsUrl);
+    let ws;
+    try {
+      ws = new WebSocket(wsUrl);
+    } catch(e) {
+      return resolve(false);
+    }
     const timer = setTimeout(() => {
       try { ws.close(); } catch(e){}
       resolve(false);
-    }, 10000);
+    }, timeoutMs);
 
     ws.onopen = () => {
       ws.send(JSON.stringify({
@@ -88,29 +99,103 @@ function cdpNavigate(wsUrl, url) {
   });
 }
 
+/**
+ * Menyiapkan tab agar 100% siap di percakapan baru (https://claude.ai/new)
+ * Membersihkan modal/pop-up dan mengosongkan editor ProseMirror.
+ */
+async function prepareFreshChat(wsUrl, maxWaitMs = 15000) {
+  const start = Date.now();
+  while (Date.now() - start < maxWaitMs) {
+    const code = `
+      (() => {
+        try {
+          // Tutup segala macam modal/banner selamat datang/promo
+          const closeSelectors = [
+            'button[aria-label="Tutup"]',
+            'button[aria-label="Close"]',
+            'button[data-testid="modal-close-button"]'
+          ];
+          closeSelectors.forEach(sel => {
+            document.querySelectorAll(sel).forEach(b => { try { b.click(); } catch(e){} });
+          });
+
+          const buttons = Array.from(document.querySelectorAll('button'));
+          const dismissBtns = buttons.filter(b => {
+            const txt = (b.innerText || '').toLowerCase();
+            return txt.includes('nanti saja') || txt.includes('dismiss') || 
+                   txt.includes('lewati') || txt.includes('got it') || 
+                   txt.includes('mengerti') || txt === 'close';
+          });
+          dismissBtns.forEach(b => { try { b.click(); } catch(e){} });
+
+          // Cari elemen editor ProseMirror
+          const editor = document.querySelector('div.ProseMirror, [contenteditable="true"]');
+          if (!editor) {
+            return { ready: false, step: 'waiting_for_editor', url: location.href };
+          }
+
+          // Bersihkan isi editor dari draft lama jika ada
+          editor.focus();
+          if (editor.innerText.trim().length > 0) {
+            document.execCommand('selectAll', false, null);
+            document.execCommand('delete', false, null);
+            editor.innerHTML = '<p></p>';
+            editor.dispatchEvent(new Event('input', { bubbles: true }));
+          }
+
+          const sendBtn = document.querySelector('button[data-testid="chat-input-send"], button[aria-label*="Send"], button[aria-label*="Kirim"]');
+
+          return {
+            ready: true,
+            url: location.href,
+            hasEditor: true,
+            hasSendBtn: !!sendBtn,
+            editorTextLen: editor.innerText.trim().length
+          };
+        } catch(e) {
+          return { ready: false, error: e.message };
+        }
+      })()
+    `;
+
+    const res = await cdpEval(wsUrl, code, 4000);
+    if (res && res.ready) {
+      return true;
+    }
+    await new Promise(r => setTimeout(r, 1000));
+  }
+  return false;
+}
+
+/**
+ * Memasukkan prompt ke dalam editor ProseMirror via native CDP
+ */
 function cdpNativeInsert(wsUrl, text) {
   return new Promise((resolve) => {
-    const ws = new WebSocket(wsUrl);
+    let ws;
+    try {
+      ws = new WebSocket(wsUrl);
+    } catch(e) {
+      return resolve(false);
+    }
     const timer = setTimeout(() => {
       try { ws.close(); } catch(e){}
       resolve(false);
     }, 15000);
 
     ws.onopen = () => {
-      // 1. Focus editor and dismiss modals
+      // 1. Fokus editor & bersihkan
       ws.send(JSON.stringify({
         id: 1,
         method: 'Runtime.evaluate',
         params: {
           returnByValue: true,
           expression: `(() => {
-            const modals = Array.from(document.querySelectorAll('button')).filter(b => 
-              b.innerText.includes('Nanti saja') || b.innerText.includes('Dismiss') || b.getAttribute('aria-label') === 'Tutup'
-            );
-            modals.forEach(m => { try { m.click(); } catch(e){} });
             const editor = document.querySelector('.ProseMirror, [contenteditable="true"]');
             if (editor) {
               editor.focus();
+              document.execCommand('selectAll', false, null);
+              document.execCommand('delete', false, null);
               editor.innerHTML = '<p></p>';
               return true;
             }
@@ -130,6 +215,24 @@ function cdpNativeInsert(wsUrl, text) {
           params: { text: text }
         }));
       } else if (msg.id === 2) {
+        // 3. Dispatch synthetic input event agar React & ProseMirror sinkron
+        ws.send(JSON.stringify({
+          id: 3,
+          method: 'Runtime.evaluate',
+          params: {
+            returnByValue: true,
+            expression: `(() => {
+              const editor = document.querySelector('.ProseMirror, [contenteditable="true"]');
+              if (editor) {
+                editor.dispatchEvent(new Event('input', { bubbles: true }));
+                editor.dispatchEvent(new Event('change', { bubbles: true }));
+                return editor.innerText.length;
+              }
+              return 0;
+            })()`
+          }
+        }));
+      } else if (msg.id === 3) {
         clearTimeout(timer);
         try { ws.close(); } catch(e){}
         resolve(true);
@@ -141,6 +244,122 @@ function cdpNativeInsert(wsUrl, text) {
       resolve(false);
     };
   });
+}
+
+/**
+ * Pemicu pengiriman handal:
+ * 1. Native CDP Mouse Click pada koordinat tombol kirim
+ * 2. Synthetic DOM click
+ * 3. Fallback: Native CDP Enter Key event jika streaming belum mulai
+ */
+async function triggerSend(wsUrl) {
+  // 1. Dapatkan koordinat tombol kirim
+  const coordCode = `
+    (() => {
+      const sendBtn = document.querySelector('button[data-testid="chat-input-send"], button[aria-label*="Send"], button[aria-label*="Kirim"]');
+      if (!sendBtn) return { found: false, error: 'Tombol send tidak ditemukan' };
+      if (sendBtn.disabled) return { found: true, disabled: true, error: 'Tombol send disabled' };
+      const r = sendBtn.getBoundingClientRect();
+      return {
+        found: true,
+        disabled: false,
+        x: r.x + r.width / 2,
+        y: r.y + r.height / 2
+      };
+    })()
+  `;
+
+  const coordRes = await cdpEval(wsUrl, coordCode, 5000);
+  if (!coordRes || !coordRes.found) {
+    return { success: false, error: coordRes?.error || 'Tombol send tidak ditemukan' };
+  }
+  if (coordRes.disabled) {
+    return { success: false, error: 'Tombol send disabled (kuota habis atau input belum terdeteksi)' };
+  }
+
+  // 2. Native CDP Mouse Click di koordinat tombol kirim
+  await new Promise((resolve) => {
+    const ws = new WebSocket(wsUrl);
+    const to = setTimeout(() => { try { ws.close(); } catch(e){} resolve(); }, 3000);
+    ws.onopen = () => {
+      ws.send(JSON.stringify({
+        id: 11,
+        method: 'Input.dispatchMouseEvent',
+        params: { type: 'mousePressed', x: coordRes.x, y: coordRes.y, button: 'left', clickCount: 1 }
+      }));
+      ws.send(JSON.stringify({
+        id: 12,
+        method: 'Input.dispatchMouseEvent',
+        params: { type: 'mouseReleased', x: coordRes.x, y: coordRes.y, button: 'left', clickCount: 1 }
+      }));
+    };
+    ws.onmessage = (e) => {
+      const d = JSON.parse(e.data);
+      if (d.id === 12) {
+        clearTimeout(to);
+        try { ws.close(); } catch(e){}
+        resolve();
+      }
+    };
+    ws.onerror = () => { clearTimeout(to); resolve(); };
+  });
+
+  // 3. Synthetic DOM click sebagai pendukung
+  const clickDomCode = `
+    (() => {
+      const sendBtn = document.querySelector('button[data-testid="chat-input-send"], button[aria-label*="Send"], button[aria-label*="Kirim"]');
+      if (sendBtn && !sendBtn.disabled) {
+        sendBtn.click();
+        return true;
+      }
+      return false;
+    })()
+  `;
+  await cdpEval(wsUrl, clickDomCode, 3000);
+
+  // 4. Jeda 1.2 detik dan periksa apakah streaming sudah mulai
+  await new Promise(r => setTimeout(r, 1200));
+
+  const checkStartedCode = `
+    (() => {
+      const stopBtn = document.querySelector('button[aria-label*="Stop"], button[data-testid*="stop"]');
+      const assts = document.querySelectorAll('div.font-claude-response, div.font-claude-message, div[data-message-author-role="assistant"]');
+      return !!stopBtn || assts.length > 0 || location.pathname.includes('/chat/');
+    })()
+  `;
+  const started = await cdpEval(wsUrl, checkStartedCode, 3000);
+
+  // 5. Fallback ke CDP Enter Key jika belum terpicu
+  if (!started) {
+    console.log('[PENGIRIMAN] Pemicu klik belum terdeteksi aktif, mengirim native Enter key via CDP...');
+    await new Promise((resolve) => {
+      const ws = new WebSocket(wsUrl);
+      const to = setTimeout(() => { try { ws.close(); } catch(e){} resolve(); }, 3000);
+      ws.onopen = () => {
+        ws.send(JSON.stringify({
+          id: 21,
+          method: 'Input.dispatchKeyEvent',
+          params: { type: 'rawKeyDown', windowsVirtualKeyCode: 13, unmodifiedText: '\r', text: '\r', key: 'Enter', code: 'Enter' }
+        }));
+        ws.send(JSON.stringify({
+          id: 22,
+          method: 'Input.dispatchKeyEvent',
+          params: { type: 'keyUp', windowsVirtualKeyCode: 13, unmodifiedText: '\r', text: '\r', key: 'Enter', code: 'Enter' }
+        }));
+      };
+      ws.onmessage = (e) => {
+        const d = JSON.parse(e.data);
+        if (d.id === 22) {
+          clearTimeout(to);
+          try { ws.close(); } catch(e){}
+          resolve();
+        }
+      };
+      ws.onerror = () => { clearTimeout(to); resolve(); };
+    });
+  }
+
+  return { success: true };
 }
 
 async function inspectTabStatus(tab) {
@@ -207,10 +426,18 @@ async function inspectTabStatus(tab) {
   return await cdpEval(tab.webSocketDebuggerUrl, code);
 }
 
+/**
+ * Mengirim prompt ke tab tertentu dengan protokol:
+ * 1. Reset ke https://claude.ai/new SEBELUM mulai
+ * 2. Ketik & Trigger Send
+ * 3. Monitor respons
+ * 4. Ekstrak jawaban
+ * 5. Reset kembali ke https://claude.ai/new SETELAH selesai (Mandat User)
+ */
 async function sendPromptToTab(tab, promptText) {
-  console.log(`[PENGIRIMAN] Mengirim prompt ke tab [${tab.id.slice(0, 8)}] (${tab.accountName || 'Claude'})...`);
+  console.log(`[PENGIRIMAN] Menyiapkan tab [${tab.id.slice(0, 8)}] (${tab.accountName || 'Claude'})...`);
 
-  // Bawa tab ke depan
+  // Bawa tab ke depan agar rendering aktif 100%
   try {
     const ws = new WebSocket(tab.webSocketDebuggerUrl);
     ws.onopen = () => {
@@ -219,43 +446,50 @@ async function sendPromptToTab(tab, promptText) {
     };
   } catch(e){}
 
+  // SOP LANGKAH 1: Utamakan kembali ke percakapan baru SEBELUM memulai
+  console.log(`[PERCAKAPAN BARU] Memastikan tab berada di https://claude.ai/new yang bersih...`);
+  await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
+  const isFresh = await prepareFreshChat(tab.webSocketDebuggerUrl, 15000);
+  if (!isFresh) {
+    console.warn(`[PERINGATAN] Tab belum siap sempurna di https://claude.ai/new, mencoba reload...`);
+    await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
+    await new Promise(r => setTimeout(r, 2000));
+    await prepareFreshChat(tab.webSocketDebuggerUrl, 10000);
+  }
+
+  // Cek apakah akun tiba-tiba limit pada halaman /new
+  const preCheck = await inspectTabStatus(tab);
+  if (preCheck.isLimited) {
+    return { success: false, reason: 'rate_limited', limitMessage: preCheck.limitMessage };
+  }
+
   // Pengetikan native CDP ke ProseMirror
+  console.log(`[PENGETIKAN] Memasukkan teks prompt (${promptText.length} karakter) via CDP...`);
   const inserted = await cdpNativeInsert(tab.webSocketDebuggerUrl, promptText);
   if (!inserted) {
     return { success: false, reason: 'insert_failed', error: 'Gagal memasukkan teks via CDP' };
   }
 
-  // Jeda 1.2 detik lalu klik tombol send
-  await new Promise(r => setTimeout(r, 1200));
+  // Jeda mikro agar editor memvalidasi input
+  await new Promise(r => setTimeout(r, 800));
 
-  const clickCode = `
-    (() => {
-      try {
-        const sendBtn = document.querySelector('button[data-testid="chat-input-send"], button[aria-label*="Send"], button[aria-label*="Kirim"]');
-        if (!sendBtn) return { success: false, error: 'Tombol send tidak ditemukan' };
-        if (sendBtn.disabled) return { success: false, error: 'Tombol send disabled (mungkin kuota habis)' };
-        sendBtn.click();
-        return { success: true };
-      } catch(e) {
-        return { success: false, error: e.message };
-      }
-    })()
-  `;
-
-  const clickResult = await cdpEval(tab.webSocketDebuggerUrl, clickCode);
-  if (!clickResult?.success) {
-    return { success: false, reason: 'click_failed', error: clickResult?.error };
+  // Pemicu pengiriman pesan yang handal
+  const sendRes = await triggerSend(tab.webSocketDebuggerUrl);
+  if (!sendRes.success) {
+    return { success: false, reason: 'send_trigger_failed', error: sendRes.error };
   }
 
-  console.log(`[PENGIRIMAN] Tombol kirim berhasil diklik. Menunggu respons Claude...`);
+  console.log(`[PENGIRIMAN] Tombol kirim terpicu. Menunggu Claude mulai merespons...`);
 
   // Tunggu hingga Claude mulai menghasilkan respons atau limit muncul
   const startWait = Date.now();
   let started = false;
-  while (Date.now() - startWait < 20000) {
+  while (Date.now() - startWait < 25000) {
     await new Promise(r => setTimeout(r, 1500));
     const st = await inspectTabStatus(tab);
     if (st.isLimited) {
+      // Reset tab ke /new sebelum beralih
+      await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
       return { success: false, reason: 'rate_limited', limitMessage: st.limitMessage };
     }
     if (st.isStreaming) {
@@ -264,11 +498,11 @@ async function sendPromptToTab(tab, promptText) {
     }
     const checkAssistantCode = `
       (() => {
-        const assts = document.querySelectorAll('div[data-message-author-role="assistant"], div.font-claude-message');
-        return assts.length > 0 && assts[assts.length - 1].innerText.trim().length > 10;
+        const assts = document.querySelectorAll('div.font-claude-response, div.font-claude-message, div[data-message-author-role="assistant"]');
+        return assts.length > 0;
       })()
     `;
-    const checkRes = await cdpEval(tab.webSocketDebuggerUrl, checkAssistantCode);
+    const checkRes = await cdpEval(tab.webSocketDebuggerUrl, checkAssistantCode, 3000);
     if (checkRes === true) {
       started = true;
       break;
@@ -276,23 +510,27 @@ async function sendPromptToTab(tab, promptText) {
   }
 
   if (!started) {
+    // Reset kembali ke /new agar bersih
+    await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
     return { success: false, reason: 'stream_never_started', error: 'Claude tidak mulai merespons setelah tombol kirim diklik' };
   }
 
-  // Pantau streaming hingga selesai (maksimal 5 menit)
+  // Pantau streaming hingga selesai (maksimal 10 menit untuk model deep thinking)
+  console.log(`[STREAMING] Claude sedang menyusun jawaban:`);
   const startTime = Date.now();
-  const maxWaitMs = 5 * 60 * 1000;
+  const maxWaitMs = 10 * 60 * 1000;
 
   while (Date.now() - startTime < maxWaitMs) {
     await new Promise(r => setTimeout(r, 2000));
     const status = await inspectTabStatus(tab);
 
     if (status.isLimited) {
+      await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
       return { success: false, reason: 'rate_limited', limitMessage: status.limitMessage };
     }
 
     if (!status.isStreaming) {
-      // Beri jeda 2 detik untuk memastikan DOM stabil
+      // Jeda 2 detik untuk memastikan rendering markdown selesai sempurna
       await new Promise(r => setTimeout(r, 2000));
       break;
     }
@@ -304,23 +542,36 @@ async function sendPromptToTab(tab, promptText) {
   const extractCode = `
     (() => {
       try {
-        const assts = document.querySelectorAll('div[data-message-author-role="assistant"], div.font-claude-message');
-        if (assts.length > 0) {
-          return { fullText: assts[assts.length - 1].innerText };
+        const responses = Array.from(document.querySelectorAll('.font-claude-response, div[data-message-author-role="assistant"], div.font-claude-message'));
+        if (responses.length > 0) {
+          const lastResp = responses[responses.length - 1];
+          const md = lastResp.querySelector('.standard-markdown, .progressive-markdown, .prose');
+          if (md && md.innerText.trim().length > 10) {
+            return { fullText: md.innerText.trim() };
+          }
+          return { fullText: lastResp.innerText.trim() };
         }
         const main = document.querySelector('main') || document.body;
-        return { fullText: main.innerText };
+        return { fullText: main.innerText.trim() };
       } catch(e) {
         return { error: e.message };
       }
     })()
   `;
 
-  const extractResult = await cdpEval(tab.webSocketDebuggerUrl, extractCode);
+  const extractResult = await cdpEval(tab.webSocketDebuggerUrl, extractCode, 5000);
   const text = extractResult?.fullText || '';
   if (text.length < 20) {
+    await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
     return { success: false, reason: 'empty_response', error: 'Respons Claude kosong atau terlalu pendek' };
   }
+
+  // SOP LANGKAH MANDAT USER: Selalu kembali ke percakapan baru SETELAH mengakhiri komunikasi
+  console.log(`[RESET PERCAKAPAN BARU] Mengembalikan tab [${tab.id.slice(0, 8)}] (${tab.accountName}) ke https://claude.ai/new setelah komunikasi selesai...`);
+  await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
+  await prepareFreshChat(tab.webSocketDebuggerUrl, 8000);
+  console.log(`[RESET SELESAI] Tab kembali bersih dan siap untuk percakapan berikutnya.`);
+
   return {
     success: true,
     fullText: text
@@ -392,23 +643,23 @@ async function coordinate(promptText, outputPath) {
   for (const tab of tabs) {
     await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
   }
-  await new Promise(r => setTimeout(r, 2500));
+  await new Promise(r => setTimeout(r, 2000));
 
   const accountStatuses = [];
   for (const tab of tabs) {
-    // Bring tab to front so Chrome does not throttle rendering
+    // Bring tab to front
     try {
       const ws = new WebSocket(tab.webSocketDebuggerUrl);
       await new Promise((resolve) => {
         ws.onopen = () => {
           ws.send(JSON.stringify({ id: 1, method: 'Page.bringToFront' }));
-          setTimeout(() => { try{ws.close();}catch(e){} resolve(); }, 800);
+          setTimeout(() => { try{ws.close();}catch(e){} resolve(); }, 600);
         };
         ws.onerror = () => resolve();
       });
     } catch(e){}
-    await new Promise(r => setTimeout(r, 1000));
 
+    await prepareFreshChat(tab.webSocketDebuggerUrl, 6000);
     const status = await inspectTabStatus(tab);
     status.webSocketDebuggerUrl = tab.webSocketDebuggerUrl;
     accountStatuses.push(status);
@@ -422,15 +673,8 @@ async function coordinate(promptText, outputPath) {
   });
   console.log('------------------------------------\n');
 
-  // Cari akun yang siap digunakan
+  // Cari akun yang siap digunakan (Logged in, bisa mengetik, dan tidak limited)
   const readyAccounts = accountStatuses.filter(st => st.isLoggedIn && st.canType && !st.isLimited);
-
-  // Prioritaskan tab yang sudah memiliki obrolan aktif (/chat/) agar riwayat konteks tersambung
-  readyAccounts.sort((a, b) => {
-    const aChat = a.url && a.url.includes('/chat/') ? 1 : 0;
-    const bChat = b.url && b.url.includes('/chat/') ? 1 : 0;
-    return bChat - aChat;
-  });
 
   if (readyAccounts.length === 0) {
     console.error('[PERINGATAN KRITIS] Tidak ada akun Claude yang memiliki kuota token aktif!');
@@ -490,8 +734,9 @@ async function runCLI() {
       for (const tab of tabs) {
         await cdpNavigate(tab.webSocketDebuggerUrl, 'https://claude.ai/new');
       }
-      await new Promise(r => setTimeout(r, 2500));
+      await new Promise(r => setTimeout(r, 2000));
       for (const tab of tabs) {
+        await prepareFreshChat(tab.webSocketDebuggerUrl, 5000);
         const st = await inspectTabStatus(tab);
         console.log(`[Tab ${st.id.slice(0, 8)}] Akun: ${st.accountName} | LoggedIn: ${st.isLoggedIn} | CanType: ${st.canType} | Limited: ${st.isLimited}`);
         if (st.isLimited) console.log(`   Peringatan: ${st.limitMessage}`);
@@ -515,4 +760,4 @@ if (require.main === module) {
   runCLI().catch(console.error);
 }
 
-module.exports = { coordinate, inspectTabStatus, getClaudeTabs };
+module.exports = { coordinate, inspectTabStatus, getClaudeTabs, prepareFreshChat, sendPromptToTab };
